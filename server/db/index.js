@@ -14,7 +14,8 @@ const syncAndSeed = async()=> {
     users: {
       moe,
       lucy,
-      larry
+      larry,
+      ethyl
     }
   };
 };

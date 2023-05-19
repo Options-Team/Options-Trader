@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { attemptLogin } from '../store';
 import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 const Login = ()=> {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [credentials, setCredentials] = useState({
     username: '',
     password: ''
@@ -16,24 +20,19 @@ const Login = ()=> {
   const login = (ev)=> {
     ev.preventDefault();
     dispatch(attemptLogin(credentials));
+    navigate('/home')
   };
   return (
     <div>
-      <h2>Login</h2>
+      <h2 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Login</h2>
       <form onSubmit={ login }>
-        <input
-          placeholder='username'
-          value = { credentials.username }
-          name = 'username'
-          onChange = { onChange }
-          />
-        <input
-          placeholder='password'
-          name = 'password'
-          value={ credentials.password }
-          onChange = { onChange }
-        />
-        <button>Login</button>
+      <TextField label="Username" name = 'username' variant="outlined" value={ credentials.username } onChange={onChange} />
+      <div style={{ marginBottom: 8 }}/>
+      <TextField label="Password" name = 'password' variant="outlined" value={ credentials.password } onChange={onChange} />
+
+      <Button onClick={ login } disabled={ !credentials }>Login</Button>
+    
+        <Link to={`/register`}>Not a Member? Register Here</Link>
       </form>
     </div>
   );

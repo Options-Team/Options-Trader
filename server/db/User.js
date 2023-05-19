@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const JWT = process.env.JWT;
 
-
+const phoneValidationRegex = /\d{3}-\d{3}-\d{4}/
 const User = conn.define('user', {
   id: {
     type: UUID,
@@ -25,7 +25,45 @@ const User = conn.define('user', {
     validate: {
       notEmpty: true
     }
-  }
+  },
+  avatar: {
+    type: TEXT,
+    get: function(){
+      const prefix = 'data:image/png;base64,';
+      const data = this.getDataValue('avatar');
+      if(!data){
+        return data;
+      }
+      if(data.startsWith(prefix)){
+        return data;
+      }
+      return `${prefix}${data}`;
+    }
+  },
+  firstName: {
+    type: STRING
+  },
+  lastName: {
+    type: STRING
+  },
+  address: {
+    type: STRING
+  },
+  email: {
+    type: STRING,
+    validate: {
+      isEmail: true,
+    }
+  },
+  phone: {
+    type: STRING,
+    validate: {
+        function(v) {
+            return phoneValidationRegex.test(v); 
+        },
+    }
+}
+  
 });
 
 User.addHook('beforeSave', async(user)=> {
