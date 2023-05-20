@@ -3,6 +3,7 @@ import Home from './Home';
 import Login from './Login';
 import Account from './Account';
 import Register from './Register';
+import Stocks from './Stocks';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginWithToken } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
@@ -25,6 +26,7 @@ const App = ()=> {
             <nav>
               <Link to='/'>Home</Link>
               <Link to='/account'>Account</Link>
+              <Link to='/stocks'>Stocks</Link>
             </nav>
             <Routes>
               <Route path='/login' element={ <Login /> } />
@@ -32,6 +34,7 @@ const App = ()=> {
               <Route path='/home' element={ <Home /> } />
               <Route path='/account' element={ <Account /> } />
               <Route path='/register' element={ <Register /> } />
+              <Route path='/stocks' element={ <Stocks /> } />
             </Routes>
           </div>
         

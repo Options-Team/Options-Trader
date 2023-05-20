@@ -15,3 +15,18 @@ nav {
   display: flex;
   justify-content: space-around;
 }
+
+.stockExchanges {
+  animation: slide 15s linear infinite;
+  display: flex;
+  justify-content: space-around;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
