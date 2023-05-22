@@ -23,7 +23,7 @@ import Typography from '@mui/material/Typography';
 
 
 const Stocks = () => {
-    const [top25Ticker, setTop25Ticker] = useState('')
+    const [top25Ticker, setTop25Ticker] = useState([])
     const [stockTicker, setStockTicker] = useState('')
     const [companyTicker, setCompanyTicker] = useState('')
     const [expDate, setExpDate] = useState('')
@@ -83,22 +83,26 @@ const Stocks = () => {
         }
       };
 
-      const getTop25Trending = async () => {
-        try {
-            const getTop25TrendingResponse = await axios.request(getTop25TrendingStocksOptions);
-            console.log(getTop25TrendingResponse.data);
-            const top25quotes = getTop25TrendingResponse.data.finance.result[0].quotes
-            let top25SymbolsAndPrices = ''
-            top25quotes.forEach(quote => {
-                top25SymbolsAndPrices += ` ${quote.symbol}: ${quote.regularMarketPrice} `
-            })
-            setTop25Ticker(top25SymbolsAndPrices)
-
-        } catch (error) {
-            console.error(error);
-        }
+      
+      const getTop25Trending = () => {
+        setTop25Ticker(['MU: 68.17', 'ROKU: 52.61','PERI: 30.63', 'EXPE: 96.63 ', 'CPT: 106.5',  'U: 29.1',  'PATH: 15.49',  'REGN: 759.05',  'NQ=F: 13841',  'BTI: 33.16',  'EURUSD=X: 0.9252', ' NG=F: 2.593',  'RTX: 96.13',  'ZIM: 17.51',  'GBPUSD=X: 0.80353',  'CL=F: 71.67',  'ES=F: 4198.25',  'XOM: 106.26',  'SCHD: 70.59',  'NU: 6.52' ])
+           // setTop25Ticker(' MU: 68.17  ROKU: 52.61  PERI: 30.63  EXPE: 96.63  CPT: 106.5  U: 29.1  PATH: 15.49  REGN: 759.05  NQ=F: 13841  BTI: 33.16  EURUSD=X: 0.9252  NG=F: 2.593  RTX: 96.13  ZIM: 17.51  GBPUSD=X: 0.80353  CL=F: 71.67  ES=F: 4198.25  XOM: 106.26  SCHD: 70.59  NU: 6.52 ')
+           console.log(top25Ticker)
+        // try {
+        //     // const getTop25TrendingResponse = await axios.request(getTop25TrendingStocksOptions);
+        //     // console.log(getTop25TrendingResponse.data);
+        //     // const top25quotes = getTop25TrendingResponse.data.finance.result[0].quotes
+        //     // let top25SymbolsAndPrices = ''
+        //     // top25quotes.forEach(quote => {
+        //     //     top25SymbolsAndPrices += ` ${quote.symbol}: ${quote.regularMarketPrice} `
+        //     // })
+        //     setTop25Ticker(['MU: 68.17', 'ROKU: 52.61','PERI: 30.63', 'EXPE: 96.63 ' ])
+        //    // setTop25Ticker(' MU: 68.17  ROKU: 52.61  PERI: 30.63  EXPE: 96.63  CPT: 106.5  U: 29.1  PATH: 15.49  REGN: 759.05  NQ=F: 13841  BTI: 33.16  EURUSD=X: 0.9252  NG=F: 2.593  RTX: 96.13  ZIM: 17.51  GBPUSD=X: 0.80353  CL=F: 71.67  ES=F: 4198.25  XOM: 106.26  SCHD: 70.59  NU: 6.52 ')
+        //    console.log(top25Ticker)
+        // } catch (error) {
+        //     console.error(error);
+        // }
       }
-
 
       
       
@@ -110,9 +114,27 @@ const Stocks = () => {
         <DatePicker label="Basic date picker" />
       </DemoContainer>
     </LocalizationProvider> */}
+        {/* <div className='ticker-tape'>
+            <div className='ticker'>
+                <div className='ticker__item'>MU: 68.17</div>
+                <div className='ticker__item'>ROKU: 52.61</div>
+                <div className='ticker__item'>{top25Ticker ?  top25Ticker[2] : ''}</div>
+                <div className='ticker__item'>{top25Ticker ?  top25Ticker[3] : ''}</div>
+            </div>
+        </div> */}
+
+        <div className='ticker-tape'>
+            <div className='ticker'>
+                { top25Ticker ? top25Ticker.map((ticker, idx) => {
+                    return (
+                        <div className='ticker__item' key={idx}>{ticker}</div>
+                    )
+                }) : ''}
+            </div>
+        </div>
         
-        
-       <h5 className='stockExchanges'>{top25Ticker ?  top25Ticker : ''}</h5>
+       {/* <h6 className='stockExchanges' width='200%'>{top25Ticker ?  top25Ticker : ''}</h6> */}
+      
        <form onSubmit={ tickerAPICall } style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>
                   <div style={{ marginBottom: 8 }}/>
                   <div style={{ display:'flex', flexDirection: 'row', justifyContent:'center' }}>           

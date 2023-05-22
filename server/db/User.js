@@ -1,5 +1,5 @@
 const conn = require('./conn');
-const { STRING, UUID, UUIDV4, TEXT, BOOLEAN } = conn.Sequelize;
+const { STRING, UUID, UUIDV4, TEXT, BOOLEAN, VIRTUAL, INTEGER, ENUM } = conn.Sequelize;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const JWT = process.env.JWT;
@@ -26,6 +26,12 @@ const User = conn.define('user', {
       notEmpty: true
     }
   },
+  email: {
+    type: STRING,
+    validate: {
+      isEmail: true,
+    }
+  },
   avatar: {
     type: TEXT,
     get: function(){
@@ -46,24 +52,97 @@ const User = conn.define('user', {
   lastName: {
     type: STRING
   },
+  phone: {
+      type: STRING,
+      validate: {
+          function(v) {
+              return phoneValidationRegex.test(v); 
+          },
+      }
+  },
+  countryOfCitizenship: {
+    type: STRING
+  },
   address: {
     type: STRING
   },
-  email: {
-    type: STRING,
+  city: {
+    type: STRING
+  },
+  state: {
+    type: STRING
+  },
+  zipCode: {
+    type: INTEGER,
     validate: {
-      isEmail: true,
+      len: 5
     }
   },
-  phone: {
-    type: STRING,
-    validate: {
-        function(v) {
-            return phoneValidationRegex.test(v); 
-        },
+  DOBDate: {
+    type: STRING
+  },
+  DOBMonth: {
+    type: STRING
+  },
+  DOBYear: {
+    type: STRING
+  },
+  DOB: {
+    type: VIRTUAL,
+    get() {
+      return `${this.DOBMonth}/${this.DOBDate}/${this.DOBYear}`;
     }
-}
-  
+  },
+  accountType: {
+    type: ENUM,
+    values: ['INDIVIDUAL', 'JOINT', 'IRA'],
+    defaultValue: 'INDIVIDUAL'
+  },
+  SSID: {
+    type: INTEGER,
+    validate: {
+      len: 9
+    }
+  },
+  employmentStatus: {
+    type: ENUM,
+    values: ['Student', 'Employed Full-Time', 'Employed Part-Time', 'Not Currently Employed', 'Self Employed'],
+  },
+  affiliations: {
+    type: BOOLEAN
+  },
+  affiliationNYSE: {
+    type: BOOLEAN
+  },
+  proSubcriber: {
+    type: BOOLEAN
+  },
+  directorOrShareholder: {
+    type: BOOLEAN
+  },
+  approximateAnnualIncome: {
+    type: ENUM,
+    values: ['25,000', '50,000', '75,000', '100,000', '150,000','200,000', '300,000'],
+  },
+  approximateTotalNetWorth: {
+    type: ENUM,
+    values: ['50,000', '100,000', '150,000','200,000', '300,000','400,000', '600,000', '1,000,000'],
+  },
+  approximateLiquidNetWorth: {
+    type: ENUM,
+    values: ['50,000', '75,000', '100,000','120,000', '150,000', '200,000', '300,000', '400,000', '600,000'],
+  },
+  sourceOfIncome: {
+    type: ENUM,
+    values: ['Employment', 'Inheritence', 'Investments', 'Crypto'],
+  },
+  accountFundingMethod: {
+    type: ENUM,
+    values: ['Checking', 'Savings', 'Crypto'],
+  },
+  tradingYearsOfExperience: {
+    type: INTEGER 
+  },
 });
 
 User.addHook('beforeSave', async(user)=> {
