@@ -5,8 +5,9 @@ import Account from './Account';
 import Employment from './Employment';
 import Register from './Register';
 import Stocks from './Stocks';
-import Financials from './Financials'
-import Finalize from './Finalize'
+import Financials from './Financials';
+import Finalize from './Finalize';
+import RiskAssessment from './RiskAssessment';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginWithToken } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
@@ -41,6 +42,7 @@ const App = ()=> {
               <Route path='/stocks' element={ <Stocks /> } />
               <Route path='/financials' element={ <Financials />} />
               <Route path='/finalize' element={ <Finalize />} />
+              <Route path='/riskAssessment/:id' element={ <RiskAssessment />} />
             </Routes>
           </div>
         

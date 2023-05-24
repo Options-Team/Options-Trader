@@ -12,6 +12,10 @@ const Home = ()=> {
         { auth.id ? <div> Welcome { auth.username }!!
         <button onClick={()=> dispatch(logout())}>Logout</button>
       </div> : <Link to='/login' style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Login</Link>}
+      <div>
+        <h1>Complete Your Risk Assessment to Being Trading Options!!</h1>
+        <Link to={`/riskAssessment/${auth.id}`}>Click Here to Complete Risk Assessment</Link>
+      </div>
     </div>
   );
 };
