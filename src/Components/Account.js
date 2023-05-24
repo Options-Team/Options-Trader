@@ -9,7 +9,346 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import {ResponsiveLine} from '@nivo/line';
 
+const dat = [
+  {
+    "id": "japan",
+    "color": "hsl(55, 70%, 50%)",
+    "data": [
+      {
+        "x": "plane",
+        "y": 257
+      },
+      {
+        "x": "helicopter",
+        "y": 248
+      },
+      {
+        "x": "boat",
+        "y": 227
+      },
+      {
+        "x": "train",
+        "y": 271
+      },
+      {
+        "x": "subway",
+        "y": 251
+      },
+      {
+        "x": "bus",
+        "y": 203
+      },
+      {
+        "x": "car",
+        "y": 242
+      },
+      {
+        "x": "moto",
+        "y": 269
+      },
+      {
+        "x": "bicycle",
+        "y": 69
+      },
+      {
+        "x": "horse",
+        "y": 204
+      },
+      {
+        "x": "skateboard",
+        "y": 282
+      },
+      {
+        "x": "others",
+        "y": 193
+      }
+    ]
+  },
+  {
+    "id": "france",
+    "color": "hsl(270, 70%, 50%)",
+    "data": [
+      {
+        "x": "plane",
+        "y": 20
+      },
+      {
+        "x": "helicopter",
+        "y": 181
+      },
+      {
+        "x": "boat",
+        "y": 286
+      },
+      {
+        "x": "train",
+        "y": 33
+      },
+      {
+        "x": "subway",
+        "y": 29
+      },
+      {
+        "x": "bus",
+        "y": 110
+      },
+      {
+        "x": "car",
+        "y": 3
+      },
+      {
+        "x": "moto",
+        "y": 291
+      },
+      {
+        "x": "bicycle",
+        "y": 117
+      },
+      {
+        "x": "horse",
+        "y": 126
+      },
+      {
+        "x": "skateboard",
+        "y": 226
+      },
+      {
+        "x": "others",
+        "y": 121
+      }
+    ]
+  },
+  {
+    "id": "us",
+    "color": "hsl(83, 70%, 50%)",
+    "data": [
+      {
+        "x": "plane",
+        "y": 67
+      },
+      {
+        "x": "helicopter",
+        "y": 239
+      },
+      {
+        "x": "boat",
+        "y": 238
+      },
+      {
+        "x": "train",
+        "y": 194
+      },
+      {
+        "x": "subway",
+        "y": 22
+      },
+      {
+        "x": "bus",
+        "y": 135
+      },
+      {
+        "x": "car",
+        "y": 185
+      },
+      {
+        "x": "moto",
+        "y": 199
+      },
+      {
+        "x": "bicycle",
+        "y": 280
+      },
+      {
+        "x": "horse",
+        "y": 71
+      },
+      {
+        "x": "skateboard",
+        "y": 143
+      },
+      {
+        "x": "others",
+        "y": 74
+      }
+    ]
+  },
+  {
+    "id": "germany",
+    "color": "hsl(62, 70%, 50%)",
+    "data": [
+      {
+        "x": "plane",
+        "y": 205
+      },
+      {
+        "x": "helicopter",
+        "y": 218
+      },
+      {
+        "x": "boat",
+        "y": 26
+      },
+      {
+        "x": "train",
+        "y": 95
+      },
+      {
+        "x": "subway",
+        "y": 285
+      },
+      {
+        "x": "bus",
+        "y": 140
+      },
+      {
+        "x": "car",
+        "y": 263
+      },
+      {
+        "x": "moto",
+        "y": 259
+      },
+      {
+        "x": "bicycle",
+        "y": 122
+      },
+      {
+        "x": "horse",
+        "y": 226
+      },
+      {
+        "x": "skateboard",
+        "y": 8
+      },
+      {
+        "x": "others",
+        "y": 130
+      }
+    ]
+  },
+  {
+    "id": "norway",
+    "color": "hsl(197, 70%, 50%)",
+    "data": [
+      {
+        "x": "plane",
+        "y": 267
+      },
+      {
+        "x": "helicopter",
+        "y": 228
+      },
+      {
+        "x": "boat",
+        "y": 192
+      },
+      {
+        "x": "train",
+        "y": 275
+      },
+      {
+        "x": "subway",
+        "y": 280
+      },
+      {
+        "x": "bus",
+        "y": 144
+      },
+      {
+        "x": "car",
+        "y": 190
+      },
+      {
+        "x": "moto",
+        "y": 196
+      },
+      {
+        "x": "bicycle",
+        "y": 206
+      },
+      {
+        "x": "horse",
+        "y": 240
+      },
+      {
+        "x": "skateboard",
+        "y": 144
+      },
+      {
+        "x": "others",
+        "y": 179
+      }
+    ]
+  }
+]
+
+const MyResponsiveLine = ({data}) => (
+  <ResponsiveLine
+      data={data}
+      margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+      xScale={{ type: 'point' }}
+      yScale={{
+          type: 'linear',
+          min: 'auto',
+          max: 'auto',
+          stacked: true,
+          reverse: false
+      }}
+      yFormat=" >-.2f"
+      axisTop={null}
+      axisRight={null}
+      axisBottom={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: 'transportation',
+          legendOffset: 36,
+          legendPosition: 'middle'
+      }}
+      axisLeft={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: 'count',
+          legendOffset: -40,
+          legendPosition: 'middle'
+      }}
+      pointSize={10}
+      pointColor={{ theme: 'background' }}
+      pointBorderWidth={2}
+      pointBorderColor={{ from: 'serieColor' }}
+      pointLabelYOffset={-12}
+      useMesh={true}
+      legends={[
+          {
+              anchor: 'bottom-right',
+              direction: 'column',
+              justify: false,
+              translateX: 100,
+              translateY: 0,
+              itemsSpacing: 0,
+              itemDirection: 'left-to-right',
+              itemWidth: 80,
+              itemHeight: 20,
+              itemOpacity: 0.75,
+              symbolSize: 12,
+              symbolShape: 'circle',
+              symbolBorderColor: 'rgba(0, 0, 0, .5)',
+              effects: [
+                  {
+                      on: 'hover',
+                      style: {
+                          itemBackground: 'rgba(0, 0, 0, .03)',
+                          itemOpacity: 1
+                      }
+                  }
+              ]
+          }
+      ]}
+  />
+)
 
 const Account = ()=> {
   const [firstName, setFirstName] = useState('');
@@ -84,7 +423,6 @@ const Account = ()=> {
                 </div>
               </div>
                 <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> Personal Information </h1>
-                
                 <div>
                     
                     <form onSubmit={ _update }>
@@ -247,6 +585,9 @@ const Account = ()=> {
                             
                     <Button onClick={ _update } >Save Profile</Button><Button onClick={ _submit } >Submit & Proceed</Button>
                     </form>
+                </div>
+                <div style={{height:500,width:1000}}>
+                  <MyResponsiveLine data={dat}></MyResponsiveLine>
                 </div>
             </div>
         
