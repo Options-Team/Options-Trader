@@ -73,9 +73,10 @@ const User = conn.define('user', {
     type: STRING
   },
   zipCode: {
-    type: INTEGER,
+    type: STRING,
     validate: {
-      len: 5
+      len: 5,
+      isNumeric: true,
     }
   },
   DOBDate: {

@@ -31,7 +31,6 @@ const Financials = ()=> {
         setSourceOfIncome(auth.sourceOfIncome ? auth.sourceOfIncome : '')
         setAccountFundingMethod(auth.accountFundingMethod ? auth.accountFundingMethod : '')
         setTradingYearsOfExperience(auth.tradingYearsOfExperience ? auth.tradingYearsOfExperience : '')
-     
     }
   }, [auth]);
 
@@ -44,13 +43,34 @@ const Financials = ()=> {
   const _submit = async(ev)=> {
     ev.preventDefault();
     dispatch(updateAuth({ approximateAnnualIncome, approximateTotalNetWorth, approximateLiquidNetWorth, sourceOfIncome, accountFundingMethod, tradingYearsOfExperience }));
-    navigate('/summary')
+    navigate('/finalize')
   };
   return (
     <div>
       {
         auth.id ? (
             <div>
+                <div className="progress">
+                <div className="circle done">
+                  <span className="label">1</span>
+                  <span className="title">Personal</span>
+                </div>
+                <span className="bar done"></span>
+                <div className="circle done">
+                  <span className="label">2</span>
+                  <span className="title">Work</span>
+                </div>
+                <span className="bar done"></span>
+                <div className="circle active">
+                  <span className="label">3</span>
+                  <span className="title">Financial</span>
+                </div>
+                <span className="bar"></span>
+                <div className="circle">
+                  <span className="label">4</span>
+                  <span className="title">Finalize</span>
+                </div>
+              </div>
                 <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> Financials & Trading Experience </h1>
                 <h5 >Financials</h5>
                 <hr />
@@ -157,9 +177,51 @@ const Financials = ()=> {
                     <h5 >Trading Experience</h5>
                     <hr />
                     <div style={{ marginBottom: 8 }}/>
-                    <div sx={{ minWidth: 100 }}>
+                    {/* <div sx={{ minWidth: 100 }}>
                     <TextField label="Years of Experience" variant="outlined" value={ tradingYearsOfExperience } onChange={ev => setTradingYearsOfExperience(ev.target.value)} />
-                   </div>
+                   </div> */}
+                    <Box sx={{ minWidth: 200 }}>
+                        <FormControl sx={{ minWidth: 200 }} >
+                            <InputLabel id="demo-simple-select-label">Years of Experience</InputLabel>
+                            <Select
+                            value={tradingYearsOfExperience}
+                            label="Years of Experience"
+                            onChange={(ev) => setTradingYearsOfExperience(ev.target.value)}
+                            >
+                            <MenuItem value={1}>1</MenuItem>
+                            <MenuItem value={2}>2</MenuItem>
+                            <MenuItem value={3}>3</MenuItem>
+                            <MenuItem value={4}>4</MenuItem>
+                            <MenuItem value={5}>5</MenuItem>
+                            <MenuItem value={6}>6</MenuItem>
+                            <MenuItem value={7}>7</MenuItem>
+                            <MenuItem value={8}>8</MenuItem>
+                            <MenuItem value={9}>9</MenuItem>
+                            <MenuItem value={10}>10</MenuItem>
+                            <MenuItem value={11}>11</MenuItem>
+                            <MenuItem value={12}>12</MenuItem>
+                            <MenuItem value={13}>13</MenuItem>
+                            <MenuItem value={14}>14</MenuItem>
+                            <MenuItem value={15}>15</MenuItem>
+                            <MenuItem value={16}>16</MenuItem>
+                            <MenuItem value={17}>17</MenuItem>
+                            <MenuItem value={18}>18</MenuItem>
+                            <MenuItem value={19}>19</MenuItem>
+                            <MenuItem value={20}>20</MenuItem>
+                            <MenuItem value={21}>21</MenuItem>
+                            <MenuItem value={22}>22</MenuItem>
+                            <MenuItem value={23}>23</MenuItem>
+                            <MenuItem value={24}>24</MenuItem>
+                            <MenuItem value={25}>25</MenuItem>
+                            <MenuItem value={26}>26</MenuItem>
+                            <MenuItem value={27}>27</MenuItem>
+                            <MenuItem value={28}>28</MenuItem>
+                            <MenuItem value={29}>29</MenuItem>
+                            <MenuItem value={30}>30</MenuItem>
+                            </Select>
+                        </FormControl>
+                        </Box>
+
                             
                     <Button onClick={ _update } >Save Profile</Button><Button onClick={ _submit } >Submit & Proceed</Button>
                     </form>
