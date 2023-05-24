@@ -61,31 +61,55 @@ const Account = ()=> {
       {
         auth.id ? (
             <div>
+              
+              <div className="progress">
+                <div className="circle active">
+                  <span className="label">1</span>
+                  <span className="title">Personal</span>
+                </div>
+                <span className="bar"></span>
+                <div className="circle">
+                  <span className="label">2</span>
+                  <span className="title">Work</span>
+                </div>
+                <span className="bar"></span>
+                <div className="circle">
+                  <span className="label">3</span>
+                  <span className="title">Financial</span>
+                </div>
+                <span className="bar"></span>
+                <div className="circle">
+                  <span className="label">4</span>
+                  <span className="title">Finalize</span>
+                </div>
+              </div>
                 <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> Personal Information </h1>
                 
                 <div>
                     
                     <form onSubmit={ _update }>
-                      <div sx={{ minWidth: 400 }}>
+                  <div >
+                    <Box sx={{ minWidth: 300 }}>
                     <div style={{ marginBottom: 8 }}/>
-                    <TextField  label="First Name" variant="outlined" value={ firstName } onChange={ev => setFirstName(ev.target.value)}/>
+                    <TextField  label="First Name" variant="outlined" value={ firstName } onChange={ev => setFirstName(ev.target.value)} sx={{ minWidth: 300 }}/>
                     <div style={{ marginBottom: 8 }}/>
-                    <TextField label="Last Name" variant="outlined" value={ lastName } onChange={ev => setLastName(ev.target.value)}/>
+                    <TextField label="Last Name" variant="outlined" value={ lastName } onChange={ev => setLastName(ev.target.value)} sx={{ minWidth: 300 }}/>
                     <div style={{ marginBottom: 8 }}/>
-                    <TextField label="Country" variant="outlined" value={ countryOfCitizenship } onChange={ev => setCountryOfCitizenship(ev.target.value)}/>
+                    <TextField label="Country" variant="outlined" value={ countryOfCitizenship } onChange={ev => setCountryOfCitizenship(ev.target.value)} sx={{ minWidth: 300 }}/>
                     <div style={{ marginBottom: 8 }}/>
-                    <TextField label="Address" variant="outlined" value={ address } onChange={ev => setAddress(ev.target.value)}/>
+                    <TextField label="Address" variant="outlined" value={ address } onChange={ev => setAddress(ev.target.value)} sx={{ minWidth: 300 }}/>
                     <div style={{ marginBottom: 8 }}/>
-                    <TextField label="City" variant="outlined" value={ city } onChange={ev => setCity(ev.target.value)}/>
+                    <TextField label="City" variant="outlined" value={ city } onChange={ev => setCity(ev.target.value)} sx={{ minWidth: 300 }}/>
                     <div style={{ marginBottom: 8 }}/>
-                    <TextField label="State" variant="outlined" value={ state } onChange={ev => setState(ev.target.value)}/>
+                    <TextField label="State" variant="outlined" value={ state } onChange={ev => setState(ev.target.value)} sx={{ minWidth: 300 }}/>
                     <div style={{ marginBottom: 8 }}/>
-                    <TextField label="Zip Code" variant="outlined" value={ zipCode } onChange={ev => setZipCode(ev.target.value)}/>
+                    <TextField label="Zip Code" variant="outlined" value={ zipCode } onChange={ev => setZipCode(ev.target.value)} sx={{ minWidth: 300 }}/>
                     <div style={{ marginBottom: 8 }}/>
-                    <TextField label="E-mail" variant="outlined"  value={ email } onChange={ev => setEmail(ev.target.value)}/>
+                    <TextField label="E-mail" variant="outlined"  value={ email } onChange={ev => setEmail(ev.target.value)} sx={{ minWidth: 300 }}/>
                     <div style={{ marginBottom: 8 }}/>
-                    <TextField label="Phone" variant="outlined" value={ phone } onChange={ev => setPhone(ev.target.value)}/>
-                    </div>
+                    <TextField label="Phone" variant="outlined" value={ phone } onChange={ev => setPhone(ev.target.value)} sx={{ minWidth: 300 }}/>
+                    </Box>
+                  </div>
                     <h6 >Date of Birth</h6>
                     <div style={{display: 'flex', justifyContent:'start', alignItems:'center'}}>
                         <Box sx={{ minWidth: 50 }}>

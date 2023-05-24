@@ -3,23 +3,16 @@ import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button';
 import { POLYGON_API_KEY, X_RapidAPI_Key } from '../../secrets';
 import TextField from '@mui/material/TextField';
-import { BasicDatePicker } from './DatePicker';
-//import * as React from 'react';
-// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { format } from 'date-fns';
-import { DayPicker } from 'react-day-picker';
-//import 'react-day-picker/dist/style.css';
-// import * as React from 'react';
+
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 //import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
+import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 
 
 const Stocks = () => {
@@ -65,7 +58,7 @@ const Stocks = () => {
         
 
         try {
-            const optionContractResponse = await axios.get(`https://api.polygon.io/v3/reference/options/contracts/O:${companyTicker}${formattedExpDate}${optionTypeLetter}${strikeNumber}?as_of=2023-06-10&apiKey=${POLYGON_API_KEY}`)
+            const optionContractResponse = await axios.get(`https://api.polygon.io/v3/reference/options/contracts/O:${companyTicker}220214${optionTypeLetter}${strikeNumber}?as_of=2023-06-10&apiKey=${POLYGON_API_KEY}`)
             console.log(optionContractResponse)
         } catch (error) {
             console.log(error)
@@ -84,10 +77,22 @@ const Stocks = () => {
       };
 
       
-      const getTop25Trending = () => {
-        setTop25Ticker(['MU: 68.17', 'ROKU: 52.61','PERI: 30.63', 'EXPE: 96.63 ', 'CPT: 106.5',  'U: 29.1',  'PATH: 15.49',  'REGN: 759.05',  'NQ=F: 13841',  'BTI: 33.16',  'EURUSD=X: 0.9252', ' NG=F: 2.593',  'RTX: 96.13',  'ZIM: 17.51',  'GBPUSD=X: 0.80353',  'CL=F: 71.67',  'ES=F: 4198.25',  'XOM: 106.26',  'SCHD: 70.59',  'NU: 6.52' ])
+      const getTop25Trending = async () => {
+       // setTop25Ticker(['MU: 68.17', 'ROKU: 52.61','PERI: 30.63', 'EXPE: 96.63 ', 'CPT: 106.5',  'U: 29.1',  'PATH: 15.49',  'REGN: 759.05',  'NQ=F: 13841',  'BTI: 33.16',  'EURUSD=X: 0.9252', ' NG=F: 2.593',  'RTX: 96.13',  'ZIM: 17.51',  'GBPUSD=X: 0.80353',  'CL=F: 71.67',  'ES=F: 4198.25',  'XOM: 106.26',  'SCHD: 70.59',  'NU: 6.52' ])
            // setTop25Ticker(' MU: 68.17  ROKU: 52.61  PERI: 30.63  EXPE: 96.63  CPT: 106.5  U: 29.1  PATH: 15.49  REGN: 759.05  NQ=F: 13841  BTI: 33.16  EURUSD=X: 0.9252  NG=F: 2.593  RTX: 96.13  ZIM: 17.51  GBPUSD=X: 0.80353  CL=F: 71.67  ES=F: 4198.25  XOM: 106.26  SCHD: 70.59  NU: 6.52 ')
+          
+            try {
+            const getTop25TrendingResponse = await axios.request(getTop25TrendingStocksOptions);
+            console.log(getTop25TrendingResponse.data);
+            const top25quotes = getTop25TrendingResponse.data.finance.result[0].quotes
+            console.log(getTop25TrendingResponse.data.finance.result[0].quotes)
+            console.log(top25quotes)
+           setTop25Ticker(top25quotes)
+
            console.log(top25Ticker)
+        } catch (error) {
+            console.error(error);
+        }
         // try {
         //     // const getTop25TrendingResponse = await axios.request(getTop25TrendingStocksOptions);
         //     // console.log(getTop25TrendingResponse.data);
@@ -109,25 +114,12 @@ const Stocks = () => {
    
     return( 
     <>
-     {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={['DatePicker']}>
-        <DatePicker label="Basic date picker" />
-      </DemoContainer>
-    </LocalizationProvider> */}
-        {/* <div className='ticker-tape'>
-            <div className='ticker'>
-                <div className='ticker__item'>MU: 68.17</div>
-                <div className='ticker__item'>ROKU: 52.61</div>
-                <div className='ticker__item'>{top25Ticker ?  top25Ticker[2] : ''}</div>
-                <div className='ticker__item'>{top25Ticker ?  top25Ticker[3] : ''}</div>
-            </div>
-        </div> */}
 
         <div className='ticker-tape'>
             <div className='ticker'>
                 { top25Ticker ? top25Ticker.map((ticker, idx) => {
                     return (
-                        <div className='ticker__item' key={idx}>{ticker}</div>
+                        <div className='ticker__item' key={idx}>{ticker.symbol}: {ticker.regularMarketPrice}</div>
                     )
                 }) : ''}
             </div>
@@ -184,12 +176,20 @@ const Stocks = () => {
                   <TextField label="Ticker" variant="outlined" value={ companyTicker } onChange={ev => setCompanyTicker(ev.target.value)} style={{ width: "30%", alignItems: 'center',  alignContent: 'center', marginLeft:'1%'}}/>
                   <div style={{alignSelf: 'center', fontSize: '24'}}>with an expiration date of </div> 
                  {/* { BasicDatePicker()} */}
-                 <DayPicker
+                 {/* <DayPicker
                     mode="single"
                     value={ expDate } 
                     onChange={ev => setExpDate(ev.target.value)} 
                     style={{ width: "30%", marginLeft:'1%', marginRight:'1%' }}
-                />
+                /> */}
+                  
+                    <DatePicker
+                        id="expDate"
+                        selected={expDate}
+                        onChange={(date) => setExpDate(date)}
+                        dateFormat="yyyy-MM-dd"
+                        placeholder="Exp. date"
+                        />
                 {/* <DatePicker label="Exp. Date" value={ expDate } onChange={ev => setExpDate(ev.target.value)} style={{ width: "30%", marginLeft:'1%', marginRight:'1%' }}/>  */}
                   <div style={{alignSelf: 'center', fontSize: '24'}}> with a strike price of </div> 
                   <TextField label="Strike Price" variant="outlined" value={ strikePrice } onChange={ev => setStrikePrice(ev.target.value)} style={{display: 'flex', alignSelf: 'start', width: "20%", marginLeft:'1%', marginRight:'1%' }} /> 

@@ -51,6 +51,27 @@ const Employment = ()=> {
       {
         auth.id ? (
             <div>
+                <div className="progress">
+                <div className="circle done">
+                  <span className="label">1</span>
+                  <span className="title">Personal</span>
+                </div>
+                <span className="bar done"></span>
+                <div className="circle active">
+                  <span className="label">2</span>
+                  <span className="title">Employment</span>
+                </div>
+                <span className="bar"></span>
+                <div className="circle">
+                  <span className="label">3</span>
+                  <span className="title">Financial</span>
+                </div>
+                <span className="bar"></span>
+                <div className="circle">
+                  <span className="label">4</span>
+                  <span className="title">Finalize</span>
+                </div>
+              </div>
                 <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> Personal Information </h1>
                 
                 <div>
