@@ -59,7 +59,7 @@ const Employment = ()=> {
                 <span className="bar done"></span>
                 <div className="circle active">
                   <span className="label">2</span>
-                  <span className="title">Employment</span>
+                  <span className="title">Work</span>
                 </div>
                 <span className="bar"></span>
                 <div className="circle">

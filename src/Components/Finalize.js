@@ -11,7 +11,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 
-const Financials = ()=> {
+const Finalize = ()=> {
 
 
   const { auth } = useSelector(state => state);
@@ -73,7 +73,12 @@ const Financials = ()=> {
                     <div>Account Funding Method: {auth.accountFundingMethod}</div>
                     <div>Years of Trading Experience: {auth.tradingYearsOfExperience}</div>
                 </div>
-                <Link to={`/financials`}>Back</Link>
+                {/* <Link to={`/financials`}>Back to Financials</Link>  */}
+                {/* <Button onClick={ () => navigate('/financials') } >Back to Financials</Button>
+                <Button onClick={ ()=> navigate('/launch') } >Create My Account</Button> */}
+
+                <Button><Link to='/financials'> Back to Financials </Link></Button>
+                <Button><Link to='/launch'>Create My Account  </Link></Button>
             </div>
         
         )  : (
@@ -90,4 +95,4 @@ const Financials = ()=> {
   );
 };
 
-export default Financials;
+export default Finalize;

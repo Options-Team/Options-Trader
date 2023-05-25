@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import { POLYGON_API_KEY, X_RapidAPI_Key } from '../../secrets';
 import TextField from '@mui/material/TextField';
 import { format } from 'date-fns';
-
+import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -37,14 +37,11 @@ const Stocks = () => {
     const getOptionContract = async () => {
        
         const strike1000 = strikePrice * 1000
-       // console.log(String(strike1000).length, strike1000)
         const zeros =  8 - Number(String(strike1000).length)
-        console.log(zeros)
         let stringOfZeroes = ''
         for(let i = 0; i < zeros; i++) {
             stringOfZeroes += '0'
         }
-        console.log(stringOfZeroes)
         const strikeNumber = stringOfZeroes + String(strikePrice * 1000)
         const optionTypeLetter = optionType[0].toUpperCase()
 
@@ -78,8 +75,7 @@ const Stocks = () => {
 
       
       const getTop25Trending = async () => {
-       // setTop25Ticker(['MU: 68.17', 'ROKU: 52.61','PERI: 30.63', 'EXPE: 96.63 ', 'CPT: 106.5',  'U: 29.1',  'PATH: 15.49',  'REGN: 759.05',  'NQ=F: 13841',  'BTI: 33.16',  'EURUSD=X: 0.9252', ' NG=F: 2.593',  'RTX: 96.13',  'ZIM: 17.51',  'GBPUSD=X: 0.80353',  'CL=F: 71.67',  'ES=F: 4198.25',  'XOM: 106.26',  'SCHD: 70.59',  'NU: 6.52' ])
-           // setTop25Ticker(' MU: 68.17  ROKU: 52.61  PERI: 30.63  EXPE: 96.63  CPT: 106.5  U: 29.1  PATH: 15.49  REGN: 759.05  NQ=F: 13841  BTI: 33.16  EURUSD=X: 0.9252  NG=F: 2.593  RTX: 96.13  ZIM: 17.51  GBPUSD=X: 0.80353  CL=F: 71.67  ES=F: 4198.25  XOM: 106.26  SCHD: 70.59  NU: 6.52 ')
+      
           
             try {
             const getTop25TrendingResponse = await axios.request(getTop25TrendingStocksOptions);
@@ -92,26 +88,9 @@ const Stocks = () => {
            console.log(top25Ticker)
         } catch (error) {
             console.error(error);
-        }
-        // try {
-        //     // const getTop25TrendingResponse = await axios.request(getTop25TrendingStocksOptions);
-        //     // console.log(getTop25TrendingResponse.data);
-        //     // const top25quotes = getTop25TrendingResponse.data.finance.result[0].quotes
-        //     // let top25SymbolsAndPrices = ''
-        //     // top25quotes.forEach(quote => {
-        //     //     top25SymbolsAndPrices += ` ${quote.symbol}: ${quote.regularMarketPrice} `
-        //     // })
-        //     setTop25Ticker(['MU: 68.17', 'ROKU: 52.61','PERI: 30.63', 'EXPE: 96.63 ' ])
-        //    // setTop25Ticker(' MU: 68.17  ROKU: 52.61  PERI: 30.63  EXPE: 96.63  CPT: 106.5  U: 29.1  PATH: 15.49  REGN: 759.05  NQ=F: 13841  BTI: 33.16  EURUSD=X: 0.9252  NG=F: 2.593  RTX: 96.13  ZIM: 17.51  GBPUSD=X: 0.80353  CL=F: 71.67  ES=F: 4198.25  XOM: 106.26  SCHD: 70.59  NU: 6.52 ')
-        //    console.log(top25Ticker)
-        // } catch (error) {
-        //     console.error(error);
-        // }
+        }   
       }
 
-      
-      
-   
     return( 
     <>
 
@@ -144,8 +123,11 @@ const Stocks = () => {
         
                 {currentTicker ? <Card sx={{ maxWidth: 345 }}>
                     <CardMedia
+                        component='picture'
                         sx={{ height: 140 }}
-                        src={currentTicker.branding.logo_url}
+                        image={currentTicker.branding.icon_url}
+                        src={currentTicker.branding.icon_url}
+                        url={currentTicker.branding.icon_url}
                         title="Ticker Logo"
                     />
                     
@@ -183,13 +165,13 @@ const Stocks = () => {
                     style={{ width: "30%", marginLeft:'1%', marginRight:'1%' }}
                 /> */}
                   
-                    <DatePicker
+                    {/* <DatePicker
                         id="expDate"
                         selected={expDate}
                         onChange={(date) => setExpDate(date)}
                         dateFormat="yyyy-MM-dd"
                         placeholder="Exp. date"
-                        />
+                        /> */}
                 {/* <DatePicker label="Exp. Date" value={ expDate } onChange={ev => setExpDate(ev.target.value)} style={{ width: "30%", marginLeft:'1%', marginRight:'1%' }}/>  */}
                   <div style={{alignSelf: 'center', fontSize: '24'}}> with a strike price of </div> 
                   <TextField label="Strike Price" variant="outlined" value={ strikePrice } onChange={ev => setStrikePrice(ev.target.value)} style={{display: 'flex', alignSelf: 'start', width: "20%", marginLeft:'1%', marginRight:'1%' }} /> 
