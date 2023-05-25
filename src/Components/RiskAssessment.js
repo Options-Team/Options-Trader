@@ -144,7 +144,26 @@ const RiskAssessment = () => {
           option5='Very important'
           callback={ promptResponse }
         />
-        <button>Submit</button>
+        <button
+          disabled={
+            (
+              !prompt1Value ||
+              !prompt2Value ||
+              !prompt3Value ||
+              !prompt4Value ||
+              !prompt5Value ||
+              !prompt6Value ||
+              !prompt7Value ||
+              !prompt8Value ||
+              !prompt9Value ||
+              !prompt10Value
+            ) ?
+            true :
+            false
+          }
+        >
+          Submit
+        </button>
       </form>
     </div>
   );
