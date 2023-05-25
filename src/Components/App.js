@@ -9,7 +9,7 @@ import Financials from './Financials';
 import Finalize from './Finalize';
 import RiskAssessment from './RiskAssessment';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginWithToken } from '../store';
+import { loginWithToken, fetchAssessments } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
 
 
@@ -18,6 +18,7 @@ const App = ()=> {
   const dispatch = useDispatch();
   useEffect(()=> {
     dispatch(loginWithToken());
+    dispatch(fetchAssessments());
   }, []);
 
   return (

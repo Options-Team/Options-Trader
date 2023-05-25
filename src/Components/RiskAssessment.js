@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
 import AssessmentPrompt from './AssessmentPrompt'
+import { submitAssessment } from '../store';
 
 const RiskAssessment = () => {
   const { auth } = useSelector(state => state);
+  const dispatch = useDispatch();
+  const id = auth.id;
+
   const [prompt1Value, setPrompt1Value] = useState('');
   const [prompt2Value, setPrompt2Value] = useState('');
   const [prompt3Value, setPrompt3Value] = useState('');
@@ -18,41 +22,21 @@ const RiskAssessment = () => {
   const submit = (ev) => {
     ev.preventDefault();
     const sum = prompt1Value + prompt2Value + prompt3Value + prompt4Value + prompt5Value + prompt6Value + prompt7Value + prompt8Value + prompt9Value + prompt10Value;
-    console.log(sum, auth.id);
+    dispatch(submitAssessment(id, sum));
   };
 
   const promptResponse = (question, promptValue) => {
     if(promptValue){
-      if(question === '1'){
-        setPrompt1Value(promptValue * 1);
-      }
-      if(question === '2'){
-        setPrompt2Value(promptValue * 1);
-      }
-      if(question === '3'){
-        setPrompt3Value(promptValue * 1);
-      }
-      if(question === '4'){
-        setPrompt4Value(promptValue * 1);
-      }
-      if(question === '5'){
-        setPrompt5Value(promptValue * 1);
-      }
-      if(question === '6'){
-        setPrompt6Value(promptValue * 1);
-      }
-      if(question === '7'){
-        setPrompt7Value(promptValue * 1);
-      }
-      if(question === '8'){
-        setPrompt8Value(promptValue * 1);
-      }
-      if(question === '9'){
-        setPrompt9Value(promptValue * 1);
-      }
-      if(question === '10'){
-        setPrompt10Value(promptValue * 1);
-      }
+      if(question === '1') setPrompt1Value(promptValue * 1);
+      if(question === '2') setPrompt2Value(promptValue * 1);
+      if(question === '3') setPrompt3Value(promptValue * 1);
+      if(question === '4') setPrompt4Value(promptValue * 1);
+      if(question === '5') setPrompt5Value(promptValue * 1);
+      if(question === '6') setPrompt6Value(promptValue * 1);
+      if(question === '7') setPrompt7Value(promptValue * 1);
+      if(question === '8') setPrompt8Value(promptValue * 1);
+      if(question === '9') setPrompt9Value(promptValue * 1);
+      if(question === '10') setPrompt10Value(promptValue * 1);
     }
   };
 
