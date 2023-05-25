@@ -1,5 +1,6 @@
 const conn = require('./conn');
 const User = require('./User');
+const Assessment = require('./Assessment');
 
 const syncAndSeed = async()=> {
   await conn.sync({ force: true });
@@ -9,6 +10,8 @@ const syncAndSeed = async()=> {
     User.create({ username: 'larry', password: '123' }),
     User.create({ username: 'ethyl', password: '123' }),
   ]);
+
+  await Assessment.create({score: 25, userId: moe.id});
 
   return {
     users: {
@@ -20,8 +23,10 @@ const syncAndSeed = async()=> {
   };
 };
 
+Assessment.belongsTo(User);
 
 module.exports = {
   syncAndSeed,
   User,
+  Assessment
 };

@@ -10,5 +10,6 @@ app.get('/', (req, res)=> res.sendFile(path.join(__dirname, '../static/index.htm
 app.get('/', (req, res)=> res.sendFile(path.join(__dirname, '../static/datepicker-css')));
 
 app.use('/api/auth', require('./api/auth'));
+app.use('/api/assessments', require('./api/assessments'));
 
 module.exports = app;
