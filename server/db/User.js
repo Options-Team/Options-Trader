@@ -146,6 +146,31 @@ const User = conn.define('user', {
   },
 });
 
+User.prototype.messagesForUser = function(){
+  return conn.models.message.findAll({
+    where: {
+      [conn.Sequelize.Op.or] : [
+        {
+          toId: this.id,
+        },
+        {
+          fromId: this.id,
+        }
+      ]
+    },
+    include: [
+      {
+        model: User, as: 'from',
+        attributes: ['username', 'id']
+      },
+      {
+        model: User, as: 'to',
+        attributes: ['username', 'id']
+      }
+    ]
+  });
+};
+
 User.addHook('beforeSave', async(user)=> {
   if(user.changed('password')){
     user.password = await bcrypt.hash(user.password, 5);

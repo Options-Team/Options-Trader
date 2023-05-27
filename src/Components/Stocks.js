@@ -55,8 +55,11 @@ const Stocks = () => {
         
 
         try {
-            const optionContractResponse = await axios.get(`https://api.polygon.io/v3/reference/options/contracts/O:${companyTicker}220214${optionTypeLetter}${strikeNumber}?as_of=2023-06-10&apiKey=${POLYGON_API_KEY}`)
+            console.log(`O:${companyTicker}220214${optionTypeLetter}${strikeNumber}?apiKey=${POLYGON_API_KEY}`)
+            const optionContractResponse = await axios.get(`https://api.polygon.io/v3/reference/options/contracts/O:${companyTicker}220214${optionTypeLetter}${strikeNumber}?apiKey=${POLYGON_API_KEY}`)
+            console.log(`O:${companyTicker}240119${optionTypeLetter}${strikeNumber}?apiKey=${POLYGON_API_KEY}`)
             console.log(optionContractResponse)
+                                                          //https://api.polygon.io/v3/reference/options/contracts/O:EVRI240119C00002500?apiKey=_tgq_S7FLpBJrpHpb5QUUxHyUygcpBOp
         } catch (error) {
             console.log(error)
         }
