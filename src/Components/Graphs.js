@@ -145,8 +145,9 @@ const Graphs = ()=> {
   const [stockTicker, setStockTicker] = useState('')
   const [data, setData] = useState([])
   const [currentTicker, setCurrentTicker] = useState('')
+  const [logo, setLogo] = useState('')
  
-const weekDates = ['2023-05-23', '2023-05-22', '2023-05-19', '2023-05-18', '2023-05-17','2023-05-16', '2023-05-15', '2023-05-12', '2023-05-11', '2023-05-10', '2023-05-09', '2023-05-08', '2023-05-05', '2023-05-04', '2023-05-03', '2023-05-02', '2023-05-01','2023-04-28','2023-04-27','2023-04-26','2023-04-25','2023-04-24','2023-04-21','2023-04-20','2023-04-19','2023-04-18','2023-04-17','2023-04-14','2023-04-13','2023-04-12','2023-04-11','2023-04-10','2023-04-06','2023-04-05','2023-04-04','2023-04-03']
+const weekDates = ['2023-05-26', '2023-05-25', '2023-05-24','2023-05-23', '2023-05-22', '2023-05-19', '2023-05-18', '2023-05-17','2023-05-16', '2023-05-15', '2023-05-12', '2023-05-11', '2023-05-10', '2023-05-09', '2023-05-08', '2023-05-05', '2023-05-04', '2023-05-03', '2023-05-02', '2023-05-01','2023-04-28','2023-04-27','2023-04-26','2023-04-25','2023-04-24','2023-04-21','2023-04-20','2023-04-19','2023-04-18','2023-04-17','2023-04-14','2023-04-13','2023-04-12','2023-04-11','2023-04-10','2023-04-06','2023-04-05','2023-04-04','2023-04-03']
 
 const options = {
     method: 'GET',
@@ -191,10 +192,12 @@ const options = {
           ]
           setData(dataForGraph)
 
-          const tickerInfoResponse = await axios.get(`https://api.polygon.io/v3/reference/tickers/${stockTicker}?apiKey=${POLYGON_API_KEY}`)
+            const tickerInfoResponse = await axios.get(`https://api.polygon.io/v3/reference/tickers/${stockTicker}?apiKey=${POLYGON_API_KEY}`)
             console.log(tickerInfoResponse)
-           setCurrentTicker(tickerInfoResponse.data.results)
-        
+            setCurrentTicker(tickerInfoResponse.data.results)
+            console.log(tickerInfoResponse.data.results.branding.icon_url)
+            setLogo(tickerInfoResponse.data.results.branding.icon_url)
+
             } catch (error) {
               console.log(error)
           }
@@ -240,15 +243,17 @@ const options = {
                 </div>
                 <div>
                 {currentTicker ? <Card sx={{ maxWidth: 345 }}>
-                    <CardMedia
+                    {/* <CardMedia
                         component='picture'
                         sx={{ height: 140 }}
-                        image={currentTicker.branding.icon_url}
-                        src={currentTicker.branding.icon_url}
-                        url={currentTicker.branding.icon_url}
+                        src={logo}
+                        // url={logo}
                         title="Ticker Logo"
-                    />
+                    /> */}
+  
                     
+                    <img style={{width: 345}} src={`${logo}?apiKey=${POLYGON_API_KEY}`} />   
+                
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                         {currentTicker.name}

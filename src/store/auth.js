@@ -16,12 +16,19 @@ export const loginWithToken = ()=> {
   return async(dispatch)=> {
     const token = window.localStorage.getItem('token');
     if(token){
+      try{
       const response = await axios.get('/api/auth', {
         headers: {
           authorization: token
         }
       });
       dispatch({ type: 'SET_AUTH', auth: response.data });
+      }
+      catch(error){
+        if(error.response && error.response.status === 401){
+          window.localStorage.removeItem('token')
+        }
+      }
     }
   };
 };
@@ -30,6 +37,14 @@ export const loginWithToken = ()=> {
 export const attemptLogin = (credentials)=> {
   return async(dispatch)=> {
     const response = await axios.post('/api/auth', credentials);
+    window.localStorage.setItem('token', response.data);
+    dispatch(loginWithToken());
+  };
+};
+
+export const attemptSignup = (credentials)=> {
+  return async(dispatch)=> {
+    const response = await axios.post('/api/auth/signup', credentials);
     window.localStorage.setItem('token', response.data);
     dispatch(loginWithToken());
   };

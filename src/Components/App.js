@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Home from './Home';
 import Login from './Login';
 import Account from './Account';
@@ -11,18 +11,49 @@ import Financials from './Financials';
 import Finalize from './Finalize';
 import RiskAssessment from './RiskAssessment';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginWithToken, fetchAssessments } from '../store';
+import { loginWithToken, fetchAssessments, fetchOnlineUsers, fetchMessages } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
 
 
 
 const App = ()=> {
-  const { auth } = useSelector(state => state);
+  const { auth, onlineUsers, messages } = useSelector(state => state);
   const dispatch = useDispatch();
+  const prevAuth = useRef(auth);
+
   useEffect(()=> {
     dispatch(loginWithToken());
     dispatch(fetchAssessments());
+    //dispatch(fetchOnlineUsers());
   }, []);
+
+  useEffect(()=>{
+    if(!prevAuth.current.id && auth.id){
+      //check messages
+      dispatch(fetchMessages())
+      console.log('you just logged in');
+      window.socket = new WebSocket(window.location.origin.replace('http', 'ws'));
+      window.socket.addEventListener('open', () => {
+        window.socket.send(JSON.stringify({ token: window.localStorage.getItem('token')}))
+      })
+      window.socket.addEventListener('message', (ev) => {
+        const message = JSON.parse(ev.data)
+        if(message.type){
+          dispatch(message)
+        }
+        console.log(message)
+      })
+      dispatch(fetchOnlineUsers());
+    }
+    if(prevAuth.current.id && !auth.id){
+      console.log('you just logged out')
+      window.socket.close()
+    }
+  }, [auth])
+
+  useEffect(()=>{
+    prevAuth.current = auth
+  })
 
   return (
     <div>
@@ -30,6 +61,7 @@ const App = ()=> {
       {/* {
         auth.id ? <Home /> : <Login />
       } */}
+      
           <div>
             <nav>
               <Link to='/'>Home</Link>
@@ -53,7 +85,44 @@ const App = ()=> {
 
             </Routes>
           </div>
-        
+          {
+        !!auth.id && (
+          <div>
+            <h1>Online Users ({onlineUsers.length})</h1>
+            <ul>
+              {onlineUsers.map(user => {
+                return(
+                  <li key={user.id}>
+                    {user.username}
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        )
+      }
+
+{
+        !!auth.id && (
+          <div>
+            <h1>Messages ({messages.length})</h1>
+            <ul>
+              {messages.filter(message => {
+                return message.toId === auth.id
+              })
+              .map(_message => {
+                return(
+                  <li key={_message.id}>
+                    From: {_message.from.username}
+                    <br />
+                    Message:{_message.txt}
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        )
+      }
       
     </div>
   );
