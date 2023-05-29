@@ -10,6 +10,7 @@ import Graphs from './Graphs'
 import Financials from './Financials';
 import Finalize from './Finalize';
 import RiskAssessment from './RiskAssessment';
+import Chats from './Chats';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginWithToken, fetchAssessments, fetchOnlineUsers, fetchMessages } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
@@ -68,6 +69,7 @@ const App = ()=> {
               <Link to='/account'>Account</Link>
               <Link to='/stocks'>Stocks</Link>
               <Link to='/graphs'>Graphs</Link>
+              <Link to='/chats'>Chats</Link>
             </nav>
             <Routes>
               <Route path='/login' element={ <Login /> } />
@@ -82,10 +84,10 @@ const App = ()=> {
               <Route path='/launch' element={ <Launch />} />
               <Route path='/graphs' element={ <Graphs />} />
               <Route path='/riskAssessment/:id' element={ <RiskAssessment />} />
-
+              <Route path='/chats' element={ <Chats />} />
             </Routes>
           </div>
-          {
+          {/* {
         !!auth.id && (
           <div>
             <h1>Online Users ({onlineUsers.length})</h1>
@@ -122,7 +124,7 @@ const App = ()=> {
             </ul>
           </div>
         )
-      }
+      } */}
       
     </div>
   );

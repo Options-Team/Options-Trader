@@ -4,10 +4,18 @@ const messages = (state = [], action)=> {
   if(action.type === 'SET_MESSAGES'){
     return action.messages;
   }
+  if(action.type === 'CREATE_MESSAGE'){
+    return [...state, action.message]
+  }
   return state;
 };
 
-
+export const createMessage = (message) => {
+    return async (dispatch) => {
+        const response = await axios.post('/api/messages/create', message)
+        dispatch({type: 'CREATE_MESSAGE', message: response.data })
+    }
+}
 
 export const fetchMessages = ()=> {
   return async(dispatch)=> {

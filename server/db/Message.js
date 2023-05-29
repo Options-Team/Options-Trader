@@ -1,5 +1,5 @@
 const conn = require('./conn');
-const { STRING, UUID, UUIDV4, TEXT, BOOLEAN} = conn.Sequelize;
+const { STRING, UUID, UUIDV4, TEXT, BOOLEAN, INTEGER} = conn.Sequelize;
 
 const Message = conn.define('message', {
     id: {
@@ -21,7 +21,11 @@ const Message = conn.define('message', {
     fromId: {
         type: UUID,
         allowNull: false
-    }
+    },
+    num: {
+        type: INTEGER,
+        autoIncrement: true,
+      },
 });
 
 module.exports = Message;
