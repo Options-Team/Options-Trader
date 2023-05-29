@@ -13,6 +13,7 @@ app.get('/', (req, res)=> res.sendFile(path.join(__dirname, '../static/datepicke
 
 app.use('/api/auth', require('./api/auth'));
 app.use('/api/assessments', require('./api/assessments'));
+app.use('/api/messages', require('./api/messages'));
 
 app.get('/api/messages', isLoggedIn, async(req, res,next)=> {
     try {
