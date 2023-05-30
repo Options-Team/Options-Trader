@@ -3,15 +3,16 @@ import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button';
 import { POLYGON_API_KEY, X_RapidAPI_Key } from '../../secrets';
 import TextField from '@mui/material/TextField';
+
 //import { format } from 'date-fns';
 //import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
+
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 //import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-//import DatePicker from "react-datepicker";
 // import "react-datepicker/dist/react-datepicker.css";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -26,6 +27,19 @@ const Stocks = () => {
     const [optionType, setOptionType] = useState('')
     const [strikePrice, setStrikePrice] = useState('')
     const [currentTicker, setCurrentTicker] = useState('')
+    const [date,setDate] = useState(null);
+
+    useEffect(()=>{
+        if(date === null){
+            console.log(date);
+            
+        }
+        else{
+            console.log(date);
+            console.log(date.$d);
+
+        }
+    },[date]);
 
     const tickerAPICall =  async () => {
         try {
@@ -98,7 +112,7 @@ const Stocks = () => {
       }
 
     return( 
-    <>
+    <div>
 
         <div className='ticker-tape'>
             <div className='ticker'>
@@ -157,6 +171,7 @@ const Stocks = () => {
 
                 <form onSubmit={ getOptionContract } style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>
                   <div style={{ marginBottom: 8 }}/>
+
                   <div style={{ display:'flex', flexDirection: 'row', justifyContent:'center', alignItems: 'center' }}>
                   <div style={{alignSelf: 'center', fontSize: '20'}}>I'm looking for a</div> 
                   <TextField label="Type" variant="outlined" value={ optionType } onChange={ev => setOptionType(ev.target.value)} style={{ width: 75, alignItems: 'center',  alignContent: 'center'}}/>
@@ -171,12 +186,21 @@ const Stocks = () => {
                 
                   <div style={{alignSelf: 'center', fontSize: '20'}}> with a strike price of </div> 
                   <TextField label="Strike Price" variant="outlined" value={ strikePrice } onChange={ev => setStrikePrice(ev.target.value)} style={{display: 'flex', alignSelf: 'start', width: "20%", marginLeft:'1%' }} /> 
+
                   
                   </div>
       
                   <Button onClick={ getOptionContract } disabled={ !optionType || !companyTicker || !strikePrice}>Make My Option Contract!</Button>
                 </form>
-    </>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+                <DatePicker
+                    label="Controlled picker"
+                    value={date}
+                    onChange={(newDate)=>setDate(newDate)}
+                />
+                </LocalizationProvider>
+    </div>
     )
 }
 
