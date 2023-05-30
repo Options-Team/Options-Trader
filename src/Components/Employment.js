@@ -101,31 +101,15 @@ const Employment = ()=> {
                         <h6 >Affiliations</h6>
                         <hr />
                         
-    {/* <FormGroup>
-    <h4 >Are You or Spouse Employed or Associated with the NYSE?</h4>
-      <FormControlLabel value={affiliationNYSE}  onChange={(ev)=> setAffiliationNYSE(ev.target.checked)}  control={<Switch defaultChecked />} label="Yes" />
-    </FormGroup> */}
-    <h4 >Are You or Spouse Employed or Associated with the NYSE?</h4>
-    <Switch value={affiliationNYSE} onChange={(ev)=> setAffiliationNYSE(ev.target.checked)}/>
-    
-    {/* <FormGroup>
-    <h4 >Are you a director, 10% shareholder, or policy making officer of a publicly owned company?</h4>
-      <FormControlLabel value={directorOrShareholder}  onChange={(ev)=> setDirectorOrShareholder(ev.target.checked)}  control={<Switch defaultChecked />} label="Yes" />
-    </FormGroup> */}
-    <h4 >Are you a director, 10% shareholder, or policy making officer of a publicly owned company?</h4>
-    <Switch value={directorOrShareholder} onChange={(ev)=> setDirectorOrShareholder(ev.target.checked)}/>
+                <h4 >Are You or Spouse Employed or Associated with the NYSE?</h4>
+                <Switch value={affiliationNYSE} onChange={(ev)=> setAffiliationNYSE(ev.target.checked)}/>
+                
+                <h4 >Are you a director, 10% shareholder, or policy making officer of a publicly owned company?</h4>
+                <Switch value={directorOrShareholder} onChange={(ev)=> setDirectorOrShareholder(ev.target.checked)}/>
 
-{/* <FormGroup>
-    <h4 >Are you a deemed a professional subscriber?</h4>
-      <FormControlLabel value={proSubcriber}  onChange={(ev)=> setProSubcriber(ev.target.checked)}  control={<Switch />} label="Yes" />
-    </FormGroup> */}
-    <h4 >Are you a deemed a professional subscriber?</h4>
-    <Switch value={proSubcriber} onChange={(ev)=> setProSubcriber(ev.target.checked)}/>
-
-    
- 
-                        
-                       
+                <h4 >Are you a deemed a professional subscriber?</h4>
+                <Switch value={proSubcriber} onChange={(ev)=> setProSubcriber(ev.target.checked)}/>
+   
                       </div>
                             
                     <Button onClick={ _update } >Save Profile</Button><Button onClick={ _submit } >Submit & Proceed</Button>

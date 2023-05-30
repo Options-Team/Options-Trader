@@ -3,21 +3,21 @@ import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button';
 import { POLYGON_API_KEY, X_RapidAPI_Key } from '../../secrets';
 import TextField from '@mui/material/TextField';
-import { format } from 'date-fns';
-// import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
+
+//import { format } from 'date-fns';
+//import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
+
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 //import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-// import DatePicker from "react-datepicker";
-import { DatePicker } from '@mui/x-date-pickers';
-import {LocalizationProvider} from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
 // import "react-datepicker/dist/react-datepicker.css";
-
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const Stocks = () => {
     const [top25Ticker, setTop25Ticker] = useState([])
@@ -62,19 +62,19 @@ const Stocks = () => {
         const strikeNumber = stringOfZeroes + String(strikePrice * 1000)
         const optionTypeLetter = optionType[0].toUpperCase()
 
-        // console.log(expDate)
-        // const mmddyy = expDate.split('/')
-        // const year = String(mmddyy[2].slice(2, 4))
-        // const day =  String(mmddyy[1])
-        // const month =  String(mmddyy[0])
-        // const formattedExpDate = year + month + day
-        console.log(companyTicker, optionTypeLetter, strikeNumber)
+        console.log(expDate)
+        const mmddyy = expDate.split('/')
+        const year = String(mmddyy[2].slice(2, 4))
+        const day =  String(mmddyy[1])
+        const month =  String(mmddyy[0].length === 1 ? '0' + mmddyy[0] : mmddyy[0])
+        const formattedExpDate = year + month + day
+        console.log(companyTicker, optionTypeLetter, strikeNumber, expDate, formattedExpDate )
         
 
         try {
-            console.log(`O:${companyTicker}220214${optionTypeLetter}${strikeNumber}?apiKey=${POLYGON_API_KEY}`)
-            const optionContractResponse = await axios.get(`https://api.polygon.io/v3/reference/options/contracts/O:${companyTicker}220214${optionTypeLetter}${strikeNumber}?apiKey=${POLYGON_API_KEY}`)
-            console.log(`O:${companyTicker}240119${optionTypeLetter}${strikeNumber}?apiKey=${POLYGON_API_KEY}`)
+            console.log(`O:${companyTicker}${formattedExpDate}${optionTypeLetter}${strikeNumber}?apiKey=${POLYGON_API_KEY}`)
+            const optionContractResponse = await axios.get(`https://api.polygon.io/v3/reference/options/contracts/O:${companyTicker}${formattedExpDate}${optionTypeLetter}${strikeNumber}?apiKey=${POLYGON_API_KEY}`)
+            console.log(`O:${companyTicker}${formattedExpDate}${optionTypeLetter}${strikeNumber}?apiKey=${POLYGON_API_KEY}`)
             console.log(optionContractResponse)
                                                           //https://api.polygon.io/v3/reference/options/contracts/O:EVRI240119C00002500?apiKey=_tgq_S7FLpBJrpHpb5QUUxHyUygcpBOp
         } catch (error) {
@@ -171,32 +171,22 @@ const Stocks = () => {
 
                 <form onSubmit={ getOptionContract } style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>
                   <div style={{ marginBottom: 8 }}/>
-                  <div style={{ display:'flex', flexDirection: 'row', justifyContent:'center' }}>
-                  <div style={{alignSelf: 'center', fontSize: '24'}}>I'm looking for a </div> 
-                  <TextField label="Type" variant="outlined" value={ optionType } onChange={ev => setOptionType(ev.target.value)} style={{ width: "30%", alignItems: 'center',  alignContent: 'center', marginLeft:'1%'}}/>
-                  <div style={{alignSelf: 'center', fontSize: '24'}}>option on </div> 
-                  <TextField label="Ticker" variant="outlined" value={ companyTicker } onChange={ev => setCompanyTicker(ev.target.value)} style={{ width: "30%", alignItems: 'center',  alignContent: 'center', marginLeft:'1%'}}/>
-                  <div style={{alignSelf: 'center', fontSize: '24'}}>with an expiration date of </div> 
-                 {/* { BasicDatePicker()} */}
-                 {/* <DayPicker
-                    mode="single"
-                    value={ expDate } 
-                    onChange={ev => setExpDate(ev.target.value)} 
-                    style={{ width: "30%", marginLeft:'1%', marginRight:'1%' }}
-                /> */}
 
+                  <div style={{ display:'flex', flexDirection: 'row', justifyContent:'center', alignItems: 'center' }}>
+                  <div style={{alignSelf: 'center', fontSize: '20'}}>I'm looking for a</div> 
+                  <TextField label="Type" variant="outlined" value={ optionType } onChange={ev => setOptionType(ev.target.value)} style={{ width: 75, alignItems: 'center',  alignContent: 'center'}}/>
+                  <div style={{alignSelf: 'center', fontSize: '20'}}>option on </div> 
+                  <TextField label="Ticker" variant="outlined" value={ companyTicker } onChange={ev => setCompanyTicker(ev.target.value)} style={{ width: 100, alignItems: 'center',  alignContent: 'center'}}/>
+                  <div style={{alignSelf: 'center', fontSize: '20'}}>with an expiration date of </div> 
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer components={['DatePicker']} style={{ width: 200}}>
+                            <DatePicker label="Basic date picker" value={expDate} onChange={(ev)=>setExpDate(`${String(ev.$M + 1)}/${ev.$D.length === 1 ? '0' + ev.$D : String(ev.$D)}/${ev.$y}`)} />
+                        </DemoContainer>
+                    </LocalizationProvider>
+                
+                  <div style={{alignSelf: 'center', fontSize: '20'}}> with a strike price of </div> 
+                  <TextField label="Strike Price" variant="outlined" value={ strikePrice } onChange={ev => setStrikePrice(ev.target.value)} style={{display: 'flex', alignSelf: 'start', width: "20%", marginLeft:'1%' }} /> 
 
-                  
-                    {/* <DatePicker
-                        id="expDate"
-                        selected={expDate}
-                        onChange={(date) => setExpDate(date)}
-                        dateFormat="yyyy-MM-dd"
-                        placeholder="Exp. date"
-                        /> */}
-                {/* <DatePicker label="Exp. Date" value={ expDate } onChange={ev => setExpDate(ev.target.value)} style={{ width: "30%", marginLeft:'1%', marginRight:'1%' }}/>  */}
-                  <div style={{alignSelf: 'center', fontSize: '24'}}> with a strike price of </div> 
-                  <TextField label="Strike Price" variant="outlined" value={ strikePrice } onChange={ev => setStrikePrice(ev.target.value)} style={{display: 'flex', alignSelf: 'start', width: "20%", marginLeft:'1%', marginRight:'1%' }} /> 
                   
                   </div>
       
@@ -216,3 +206,7 @@ const Stocks = () => {
 
 export default Stocks
 
+
+
+
+    

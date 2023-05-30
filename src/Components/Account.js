@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAuth } from '../store';
 import { useNavigate, Link } from 'react-router-dom';
@@ -363,9 +363,11 @@ const Account = ()=> {
   const [DOBDate, setDOBDate] = useState('')
   const [DOBMonth, setDOBMonth] = useState('')
   const [DOBYear, setDOBYear] = useState('')
+  const [avatar, setAvatar] = useState('')
   const { auth } = useSelector(state => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const ref = useRef();
 
   useEffect(()=> {
     if(auth.id){
@@ -380,19 +382,31 @@ const Account = ()=> {
       setPhone(auth.phone ? auth.phone : '')
       setDOBDate(auth.DOBDate ? auth.DOBDate : '')
       setDOBMonth(auth.DOBMonth ? auth.DOBMonth : '')
+      setAvatar(auth.avatar ? auth.avatar : '')
       setDOBYear(auth.DOBYear ? auth.DOBYear : '')
     }
   }, [auth]);
 
+  useEffect(() => {
+    ref.current.addEventListener('change', (ev) => {
+        const file = ev.target.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.addEventListener('load', () => {
+            setAvatar(reader.result)
+        })
+    })
+}, [ref])
+
   const _update = async(ev)=> {
     ev.preventDefault();
-    dispatch(updateAuth({ firstName, lastName, address, countryOfCitizenship, city, state, zipCode, email, phone, DOBDate, DOBMonth, DOBYear }));
+    dispatch(updateAuth({ firstName, lastName, address, countryOfCitizenship, city, state, zipCode, email, phone, DOBDate, DOBMonth, DOBYear, avatar }));
     navigate('/account')
   };
 
   const _submit = async(ev)=> {
     ev.preventDefault();
-    dispatch(updateAuth({ firstName, lastName, address, countryOfCitizenship, city, state, zipCode, email, phone, DOBDate, DOBMonth, DOBYear  }));
+    dispatch(updateAuth({ firstName, lastName, address, countryOfCitizenship, city, state, zipCode, email, phone, DOBDate, DOBMonth, DOBYear, avatar  }));
     navigate('/employment')
   };
   return (
@@ -446,6 +460,12 @@ const Account = ()=> {
                     <TextField label="E-mail" variant="outlined"  value={ email } onChange={ev => setEmail(ev.target.value)} sx={{ minWidth: 300 }}/>
                     <div style={{ marginBottom: 8 }}/>
                     <TextField label="Phone" variant="outlined" value={ phone } onChange={ev => setPhone(ev.target.value)} sx={{ minWidth: 300 }}/>
+                    <div className="input-group mb-3">
+                      <label className="input-group-text">Upload Photo</label>
+                      <input type="file" ref={ ref } className="form-control" id="inputGroupFile02" />
+                      
+                      </div>
+                    { !!avatar && <img src={ avatar } style={{ width: 100}} /> }
                     </Box>
                   </div>
                     <h6 >Date of Birth</h6>

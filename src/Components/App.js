@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Home from './Home';
 import Login from './Login';
+import Logout from './Logout';
 import Account from './Account';
 import Employment from './Employment';
 import Register from './Register';
@@ -11,6 +12,7 @@ import Financials from './Financials';
 import Finalize from './Finalize';
 import RiskAssessment from './RiskAssessment';
 import Chats from './Chats';
+import NavBar from './NavBar';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginWithToken, fetchAssessments, fetchOnlineUsers, fetchMessages } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
@@ -58,21 +60,23 @@ const App = ()=> {
 
   return (
     <div>
-      <h1>FS App Template</h1>
+      {/* <h1 style={{ display: 'flex', justifyContent: 'center'}}>Your Best Option Trader</h1> */}
       {/* {
         auth.id ? <Home /> : <Login />
       } */}
       
           <div>
-            <nav>
+            <NavBar />
+            {/* <nav>
               <Link to='/'>Home</Link>
               <Link to='/account'>Account</Link>
               <Link to='/stocks'>Stocks</Link>
               <Link to='/graphs'>Graphs</Link>
               <Link to='/chats'>Chats</Link>
-            </nav>
+            </nav> */}
             <Routes>
               <Route path='/login' element={ <Login /> } />
+              <Route path='/logout' element={ <Logout /> } />
               <Route path='/' element={ <Home /> } />
               <Route path='/home' element={ <Home /> } />
               <Route path='/account' element={ <Account /> } />
