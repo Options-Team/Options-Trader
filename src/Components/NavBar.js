@@ -121,13 +121,13 @@ function NavBar() {
               textDecoration: 'none',
             }}
           >
-            #1 Option Trader
+            #1 Option Traders
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => navigateTo(page)}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
