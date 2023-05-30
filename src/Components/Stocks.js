@@ -4,14 +4,18 @@ import Button from '@mui/material/Button';
 import { POLYGON_API_KEY, X_RapidAPI_Key } from '../../secrets';
 import TextField from '@mui/material/TextField';
 import { format } from 'date-fns';
-import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
+// import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 //import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
+import { DatePicker } from '@mui/x-date-pickers';
+import {LocalizationProvider} from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 // import "react-datepicker/dist/react-datepicker.css";
 
 
@@ -23,6 +27,19 @@ const Stocks = () => {
     const [optionType, setOptionType] = useState('')
     const [strikePrice, setStrikePrice] = useState('')
     const [currentTicker, setCurrentTicker] = useState('')
+    const [date,setDate] = useState(null);
+
+    useEffect(()=>{
+        if(date === null){
+            console.log(date);
+            
+        }
+        else{
+            console.log(date);
+            console.log(date.$d);
+
+        }
+    },[date]);
 
     const tickerAPICall =  async () => {
         try {
@@ -95,7 +112,7 @@ const Stocks = () => {
       }
 
     return( 
-    <>
+    <div>
 
         <div className='ticker-tape'>
             <div className='ticker'>
@@ -167,6 +184,8 @@ const Stocks = () => {
                     onChange={ev => setExpDate(ev.target.value)} 
                     style={{ width: "30%", marginLeft:'1%', marginRight:'1%' }}
                 /> */}
+
+
                   
                     {/* <DatePicker
                         id="expDate"
@@ -183,7 +202,15 @@ const Stocks = () => {
       
                   <Button onClick={ getOptionContract } disabled={ !optionType || !companyTicker || !strikePrice}>Make My Option Contract!</Button>
                 </form>
-    </>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+                <DatePicker
+                    label="Controlled picker"
+                    value={date}
+                    onChange={(newDate)=>setDate(newDate)}
+                />
+                </LocalizationProvider>
+    </div>
     )
 }
 
