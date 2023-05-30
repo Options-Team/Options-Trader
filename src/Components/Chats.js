@@ -16,6 +16,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
+//few buggy things... when you refresh the accounts page after I added the choose file to upload a picture it crashes because of the useRef I believe...
+
 const Chats = ()=> {
   const { auth, messages, onlineUsers } = useSelector(state => state);
   const dispatch = useDispatch();
@@ -24,7 +26,7 @@ const Chats = ()=> {
   const fromId = auth.id
 
   let sorted = messages.sort((a, b) => a.num - b.num)
-  console.log(sorted)
+ 
   
 const chats = messages.reduce((acc, message) => {
     if(message.fromId !== auth.id){
@@ -93,6 +95,7 @@ const sendMessage = async (ev)=> {
             {Object.values(chats).map((chat, idx) => {
                 return( 
                     <ul key={idx} style={{listStyle: 'none'}}>
+                        {/* trying to show the user the auth is chatting with using the fromId but need to locate the correct message first */}
                         <h3>{chat[0].from.username !== auth.id ? chat[0].from.username : chat[1].from.username}</h3>
                         {chat.map(message => {
                            
