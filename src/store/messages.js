@@ -12,7 +12,24 @@ const messages = (state = [], action)=> {
 
 export const createMessage = (message) => {
     return async (dispatch) => {
-        const response = await axios.post('/api/messages/create', message)
+        const token = window.localStorage.getItem('token');
+        const response = await axios.post('/api/messages/create', message, {
+            headers: {
+              authorization: token
+            }
+          })
+        dispatch({type: 'CREATE_MESSAGE', message: response.data })
+    }
+}
+
+export const createMessage1 = (message) => {
+    return async (dispatch) => {
+        const token = window.localStorage.getItem('token');
+        const response = await axios.post('/api/messages', message, {
+            headers: {
+              authorization: token
+            }
+          })
         dispatch({type: 'CREATE_MESSAGE', message: response.data })
     }
 }

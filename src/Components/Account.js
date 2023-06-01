@@ -350,6 +350,25 @@ const MyResponsiveLine = ({data}) => (
   />
 )
 
+const AddressAutocomplete = ({ _createAddress }) => {
+  const input = useRef();
+  useEffect(() => {
+    if(input.current){
+      const autocomplete = new google.maps.places.Autocomplete(input.current);
+      autocomplete.addListener('place changed', () => {
+        _createAddress(autocomplete.getPlace());
+      })
+    }
+
+  }, [input])
+
+  return (
+    <div>
+      <input className='addressInput' ref={ input }/>
+    </div>
+  )
+}
+
 const Account = ()=> {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('')
@@ -368,6 +387,10 @@ const Account = ()=> {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const ref = useRef();
+
+  const _createAddress = (data) => {
+    console.log(data)
+  }
 
   useEffect(()=> {
     if(auth.id){

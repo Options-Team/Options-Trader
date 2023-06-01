@@ -178,10 +178,18 @@ const Stocks = () => {
                   <div style={{alignSelf: 'center', fontSize: '20'}}>option on </div> 
                   <TextField label="Ticker" variant="outlined" value={ companyTicker } onChange={ev => setCompanyTicker(ev.target.value)} style={{ width: 100, alignItems: 'center',  alignContent: 'center'}}/>
                   <div style={{alignSelf: 'center', fontSize: '20'}}>with an expiration date of </div> 
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DatePicker']} style={{ width: 200}}>
                             <DatePicker label="Basic date picker" value={expDate} onChange={(ev)=>setExpDate(`${String(ev.$M + 1)}/${ev.$D.length === 1 ? '0' + ev.$D : String(ev.$D)}/${ev.$y}`)} />
                         </DemoContainer>
+                    </LocalizationProvider> */}
+                     <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+                    <DatePicker
+                        label="Basic date picker" 
+                        value={expDate} 
+                        onChange={(ev)=>setExpDate(`${String(ev.$M + 1)}/${ev.$D.length === 1 ? '0' + ev.$D : String(ev.$D)}/${ev.$y}`)}
+                    />
                     </LocalizationProvider>
                 
                   <div style={{alignSelf: 'center', fontSize: '20'}}> with a strike price of </div> 

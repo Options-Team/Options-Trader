@@ -50,6 +50,18 @@ nav {
   
 }
 
+.yours {
+  color: aqua;
+}
+
+.mine {
+  color: #EEE;
+}
+
+.online {
+  background-color: skyblue;
+}
+
 @keyframes ticker {
   0% {
     transform: translateX(150%);
@@ -59,6 +71,8 @@ nav {
     transform: translateX(-200%);
   }
 }
+
+
 
 /* .stockExchanges {
   animation: slide 15s linear infinite;
