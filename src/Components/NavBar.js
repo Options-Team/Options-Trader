@@ -24,7 +24,7 @@ function NavBar() {
 
   const pages = ['Home', 'Stocks', 'Graphs'];
     let settings = []
-    auth.id ? (settings = ['Account', 'Chats', 'Logout']) : (settings = ['Account', 'Cart', 'Login'])
+    auth.id ? (settings = ['Account', 'Chats', 'Logout']) : (settings = ['Account', 'Chats', 'Login'])
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -121,7 +121,7 @@ function NavBar() {
               textDecoration: 'none',
             }}
           >
-            #1 Option Traders
+            #1 Option Trader
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
