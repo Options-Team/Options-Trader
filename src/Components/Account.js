@@ -411,7 +411,7 @@ const Account = ()=> {
   }, [auth]);
 
   useEffect(() => {
-    ref.current.addEventListener('change', (ev) => {
+    ref?.current.addEventListener('change', (ev) => {
         const file = ev.target.files[0];
         const reader = new FileReader();
         reader.readAsDataURL(file);

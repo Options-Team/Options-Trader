@@ -196,6 +196,73 @@ User.prototype.sendMessage = async function (message){
   return message;
 }
 
+// User.prototype.createTransaction = async function(){
+//   const portfolio = await this.getPortfolio();
+//   portfolio.isPortfolio = false;
+//   await portfolio.save();
+//   return portfolio;
+
+// }
+
+User.prototype.getPortfolio = async function(){
+  let portfolio = await conn.models.transaction.findOne({
+    where: {
+      userId: this.id,
+      isPortfolio: true
+    }
+  });
+  if(!portfolio){
+    portfolio = await conn.models.transaction.create({
+      userId: this.id
+    });
+  }
+  portfolio = await conn.models.transaction.findByPk(
+    portfolio.id,
+    {
+      include: [
+        {
+          model: conn.models.transaction,
+          include: [
+            conn.models.stock
+          ]
+        }
+      ]
+    }
+  );
+  return portfolio;
+}
+
+User.prototype.addToPortfolio = async function({ stock, shares}){
+  const portfolio = await this.getPortfolio();
+  let transaction = portfolio.transactions.find( transaction => {
+    return transaction.stockId === stock.id; 
+  });
+  if(transaction){
+    transaction.shares += shares;
+    await transaction.save();
+  }
+  else {
+    await conn.models.transaction.create({ orderId: portfolio.id, stockId: stock.id, shares });
+  }
+  return this.getPortfolio();
+};
+
+User.prototype.removeFromPortfolio = async function({ stock, sharesToRemove}){
+  const portfolio = await this.getPortfolio();
+  const transaction = portfolio.transactions.find( transaction => {
+    return transaction.stockId === stock.id; 
+  });
+  transaction.shares = transaction.shares - sharesToRemove;
+  if(transaction.shares > 0){
+    await transaction.save();
+  }
+  else {
+    await transaction.destroy();
+  }
+  return this.getPortfolio();
+};
+
+
 User.addHook('beforeSave', async(user)=> {
   if(user.changed('password')){
     user.password = await bcrypt.hash(user.password, 5);

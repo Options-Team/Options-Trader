@@ -11,7 +11,8 @@
     "test:dev:quiet": "QUIET=true npm run test:dev",
     "start:dev": "JWT=felix nodemon server/index.js --ignore dist/ --ignore src/ & npm run build:dev",
     "start": "node server/index.js",
-    "start:windows": "cross-env JWT=felix nodemon server/index.js --ignore dist/ --ignore src/ & npm run build:dev"
+    "start:windows": "cross-env JWT=felix nodemon server/index.js --ignore dist/ --ignore src/ & npm run build:dev",
+    "seed": "node seed.js"
   },
   "keywords": [],
   "author": "",
