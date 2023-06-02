@@ -3,7 +3,7 @@ const app = express.Router();
 const { Message } = require('../db');
 const { isLoggedIn } = require('./middleware');
 
-module.exports = app;
+
 
 
 app.post('/create', async(req, res, next)=> {
@@ -26,3 +26,5 @@ app.post('/', isLoggedIn , async(req, res, next)=> {
       next(ex);
     }
   });
+  
+  module.exports = app;

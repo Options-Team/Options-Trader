@@ -14,7 +14,7 @@ import RiskAssessment from './RiskAssessment';
 import Chats from './Chats';
 import NavBar from './NavBar';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginWithToken, fetchAssessments, fetchOnlineUsers, fetchMessages } from '../store';
+import { loginWithToken, fetchAssessments, fetchOnlineUsers, fetchMessages, fetchStocks } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
 
 
@@ -27,6 +27,7 @@ const App = ()=> {
   useEffect(()=> {
     dispatch(loginWithToken());
     dispatch(fetchAssessments());
+    dispatch(fetchStocks())
     //dispatch(fetchOnlineUsers());
   }, []);
 

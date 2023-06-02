@@ -211,7 +211,9 @@ const options = {
     ev.preventDefault()
     try {
         let lastMonthArrayForGraph = []
+        let lastTwoWeeksArrayForGraph = []
         const tickerResponse = await axios.request(options)
+        console.log(tickerResponse.data)
         let times = Object.keys(tickerResponse.data["Time Series (Daily)"]).reverse()
 
         for(let i = times.length - 30; i < times.length; i++){
@@ -222,7 +224,17 @@ const options = {
               "y": tickerResponse.data['Time Series (Daily)'][`${times[i]}`]['4. close']
           }
           )
-      }
+        }
+
+        for(let i = times.length - 14; i < times.length; i++){
+          console.log(times[i])
+          lastTwoWeeksArrayForGraph.push(
+              {
+              "x": times[i].split('23-0')[1],
+              "y": tickerResponse.data['Time Series (Daily)'][`${times[i]}`]['4. close']
+          }
+          )
+        }
 
         // for(let i = 0; i <= weekDates.length - 1; i++){
         //     lastMonthArrayForGraph.push(
@@ -282,7 +294,7 @@ const options = {
         }
 
 //accordion component
-  const [expanded, setExpanded] = React.useState('panel1');
+  const [expanded, setExpanded] = React.useState('panel0');
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);

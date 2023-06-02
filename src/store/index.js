@@ -5,12 +5,16 @@ import auth from './auth';
 import assessments from './assessments';
 import onlineUsers from './onlineUsers';
 import messages from './messages';
+import portfolio from './portfolio';
+import stocks from './stocks';
 
 const reducer = combineReducers({
   auth,
   onlineUsers,
   assessments,
-  messages
+  messages,
+  portfolio,
+  stocks
 });
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
@@ -21,3 +25,5 @@ export * from './auth';
 export * from './assessments';
 export * from './onlineUsers';
 export * from './messages';
+export * from './portfolio';
+export * from './stocks';
