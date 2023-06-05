@@ -4,6 +4,7 @@ import logger from 'redux-logger';
 import auth from './auth';
 import assessments from './assessments';
 import onlineUsers from './onlineUsers';
+import users from './users';
 import messages from './messages';
 import portfolio from './portfolio';
 import stocks from './stocks';
@@ -11,6 +12,7 @@ import stocks from './stocks';
 const reducer = combineReducers({
   auth,
   onlineUsers,
+  users,
   assessments,
   messages,
   portfolio,
@@ -27,3 +29,4 @@ export * from './onlineUsers';
 export * from './messages';
 export * from './portfolio';
 export * from './stocks';
+export * from './users';

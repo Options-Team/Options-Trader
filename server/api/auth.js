@@ -44,3 +44,11 @@ app.put('/', isLoggedIn, async(req, res, next)=> {
     next(ex);
   }
 });
+
+app.get('/users',  async (req, res, next)=> {
+  try {
+      res.send( await User.findAll())
+  } catch (error) {
+      next(error)
+  }
+})

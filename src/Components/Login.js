@@ -26,11 +26,13 @@ const Login = ()=> {
   };
   return (
     <div>
-      <h2 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Login</h2>
-      <form onSubmit={ login }>
-      <TextField label="Username" name = 'username' variant="outlined" value={ credentials.username } onChange={onChange} />
+      <h2 style={{display: 'flex', justifyContent:'center'}}>Login</h2>
+      <div style={{display: 'flex', justifyContent:'center'}}>
+      <form onSubmit={ login } >
+      <TextField label="Username" name = 'username' variant="outlined" value={ credentials.username } onChange={onChange} style={{display: 'flex', justifyContent:'center', width: 300 }}/>
       <div style={{ marginBottom: 8 }}/>
-      <TextField label="Password" name = 'password' variant="outlined" value={ credentials.password } onChange={onChange} />
+
+      <TextField label="Password" name = 'password' variant="outlined" value={ credentials.password } onChange={onChange} style={{display: 'flex', justifyContent:'center', width: 300 }}/>
       <GoogleOAuthProvider clientId = "18136828756-l5ol7p0u1f928hapfa4fr3pubvclahje.apps.googleusercontent.com">
 
       <GoogleLogin
@@ -44,10 +46,12 @@ const Login = ()=> {
       }}
       />
       </GoogleOAuthProvider>
-      <Button onClick={ login } disabled={ !credentials }>Login</Button>
+      <Button style={{ width: 300 }} onClick={ login } disabled={ !credentials }>Login</Button>
+
     
-        <Link to={`/register`}>Not a Member? Register Here</Link>
+        <Link style={{ paddingLeft: 15}}to={`/register`} >Not a Member? Register Here</Link>
       </form>
+      </div>
     </div>
   );
 };

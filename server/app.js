@@ -3,7 +3,8 @@ const app = express();
 const path = require('path');
 app.use(express.json({limit: '50mb'}));
 const socketMap = require('./socketMap')
-const { isLoggedIn } = require('./api/middleware')
+const { isLoggedIn } = require('./api/middleware');
+const { User } = require('./db');
 
 app.use('/dist', express.static(path.join(__dirname, '../dist')));
 app.use('/static', express.static(path.join(__dirname, '../static')));
@@ -30,6 +31,14 @@ app.get('/api/onlineUsers', (req, res, next)=> {
         res.send(Object.values(socketMap).map(value => {
             return { id: value.user.id, username: value.user.username }
         }))
+    } catch (error) {
+        next(error)
+    }
+})
+
+app.get('/api/users',  async (req, res, next)=> {
+    try {
+        res.send( await User.findAll())
     } catch (error) {
         next(error)
     }

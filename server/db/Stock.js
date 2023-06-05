@@ -9,9 +9,7 @@ const Stock = conn.define('stock', {
     },
     currentPrice: {
         type: FLOAT,
-        validate : {
-            isFloat: true,
-        }
+        
     },
     ticker: {
         type: STRING,
