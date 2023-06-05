@@ -1,12 +1,12 @@
-// const conn = require('./conn');
-// const { STRING, BOOLEAN, UUID, UUIDV4 } = conn.Sequelize;
+const conn = require('./conn');
+const { STRING, BOOLEAN, UUID, UUIDV4 } = conn.Sequelize;
 
-// const Portfolio = conn.define('portfolio', {
-//   id: {
-//     type: UUID,
-//     primaryKey: true,
-//     defaultValue: UUIDV4
-//   },
+const Portfolio = conn.define('portfolio', {
+  id: {
+    type: UUID,
+    primaryKey: true,
+    defaultValue: UUIDV4
+  },
 //   isTransaction: {
 //     type: BOOLEAN,
 //     defaultValue: true,
@@ -16,6 +16,6 @@
 //     type: UUID,
 //     allowNull: false
 //   }
-// });
+});
 
-// module.exports = Portfolio;
+module.exports = Portfolio;
