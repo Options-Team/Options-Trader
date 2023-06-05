@@ -4,7 +4,6 @@ const portfolio = (state = { transactions: [] }, action)=> {
   if(action.type === 'SET_PORTFOLIO'){
     return action.portfolio;
   }
-  
   return state;
 };
 

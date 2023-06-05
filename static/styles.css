@@ -62,13 +62,17 @@ nav {
   background-color: skyblue;
 }
 
+.hidden {
+  display: 'none';
+}
+
 @keyframes ticker {
   0% {
-    transform: translateX(150%);
+    transform: translateX(100%);
     visibility: visible;
   }
   100% {
-    transform: translateX(-200%);
+    transform: translateX(-250%);
   }
 }
 
