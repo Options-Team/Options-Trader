@@ -33,6 +33,9 @@ const User = conn.define('user', {
       isEmail: true,
     }
   },
+  googleClientID:{
+    type: STRING
+  },
   avatar: {
     type: TEXT,
     // get: function(){
@@ -302,6 +305,14 @@ User.authenticate = async function({ username, password }){
   error.status = 401;
   throw error;
 }
+
+// User.authenticateGoogle = async function(code){
+//   let user = await User.findOne({
+//     where:{
+//       client
+//     }
+//   })
+// }
 
 module.exports = User;
 

@@ -10,7 +10,9 @@ require('dotenv').config()
 
 Message.belongsTo(User, { as: 'from' });
 Message.belongsTo(User, { as: 'to' });
-Transaction.belongsTo(User)
+Transaction.belongsTo(User);
+Transaction.belongsTo(Stock);
+
 
 
 const syncAndSeed = async()=> {
