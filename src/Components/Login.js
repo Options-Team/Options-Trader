@@ -42,7 +42,7 @@ const Login = ()=> {
         onError={() => {
         console.log('Login Failed');
       }}
-      />;
+      />
       </GoogleOAuthProvider>
       <Button onClick={ login } disabled={ !credentials }>Login</Button>
     

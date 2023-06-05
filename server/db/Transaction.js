@@ -33,10 +33,6 @@ const Transaction = conn.define('transaction', {
         type: ENUM,
         values: ['Buy', 'Sell'],
         defaultValue: 'Buy'
-    },
-    stockId: {
-        type: UUID,
-        allowNull: false
     }
 });
 
