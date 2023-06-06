@@ -125,9 +125,11 @@ const Graphs = ()=> {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [stockTicker, setStockTicker] = useState('')
-  const [data, setData] = useState([])
+  const [data1Month, setData1Month] = useState([])
+  const [data2Month, setData2Month] = useState([])
   const [data2Week, setData2Week] = useState([])
   const [data5Day, setData5Day] = useState([])
+  const [dataYTD, setDataYTD] = useState([])
   const [currentTicker, setCurrentTicker] = useState('')
   const [logo, setLogo] = useState('')
   const [outlook, setOutlook] = useState([])
@@ -135,6 +137,7 @@ const Graphs = ()=> {
   const [innovationScore, setInnovationScore] = useState(0)
   const [innovationTrend, setInnovationTrend] = useState('')
   const [top25Ticker, setTop25Ticker] = useState([])
+  const [graph, setGraph] = useState('')
 
 
   // UNCOMMENT TO ADD TICKER EVERY TIME SOMEONE GOES TO THE GRAPHS PAGE
@@ -163,14 +166,51 @@ const options = {
   const tickerAPICall =  async (ev) => {
     ev.preventDefault()
     try {
+        setGraph('fiveDay')
+        let lastTwoMonthsArrayForGraph = []
         let lastMonthArrayForGraph = []
         let lastTwoWeeksArrayForGraph = []
         let last5daysArrayForGraph = []
+        let yearToDateArrayForGraph = []
         const tickerResponse = await axios.request(options)
         console.log(tickerResponse.data)
         let times = Object.keys(tickerResponse.data["Time Series (Daily)"]).reverse()
 
-        for(let i = times.length - 30; i < times.length; i++){
+        let daysPastNYE = Number(times[times.length - 1].split('23-0')[1].split('-')[0]- 1) * 22 + Number(times[times.length - 1].split('23-0')[1].split('-')[1])
+        console.log(times)
+        // console.log(Number(times[0].split('23-0')[1].split('-')[0]- 1))
+        // console.log(Number(times[0].split('23-0')[1].split('-')))
+       // console.log(times[times.length - 1].split('23-0')[1])
+        //Object.keys(tickerResponse.data["Time Series (Daily)"])
+      
+        for(let i = 0; i < times.length; i++){
+          yearToDateArrayForGraph.push(
+              {
+              "x": times[i].split('23-0')[1],
+              "y": tickerResponse.data['Time Series (Daily)'][`${times[i]}`]['4. close']
+            }
+          )
+        }
+
+        for(let i = times.length - 44; i < times.length; i++){
+          lastTwoMonthsArrayForGraph.push(
+              {
+              "x": times[i].split('23-0')[1],
+              "y": tickerResponse.data['Time Series (Daily)'][`${times[i]}`]['4. close']
+            }
+          )
+        }
+
+        for(let i = times.length - 44; i < times.length; i++){
+          lastTwoMonthsArrayForGraph.push(
+              {
+              "x": times[i].split('23-0')[1],
+              "y": tickerResponse.data['Time Series (Daily)'][`${times[i]}`]['4. close']
+          }
+          )
+        }
+
+        for(let i = times.length - 22; i < times.length; i++){
           lastMonthArrayForGraph.push(
               {
               "x": times[i].split('23-0')[1],
@@ -190,7 +230,7 @@ const options = {
         }
 
         for(let i = times.length - 5; i < times.length; i++){
-          console.log(times[i])
+         
           last5daysArrayForGraph.push(
               {
               "x": times[i].split('23-0')[1],
@@ -230,9 +270,27 @@ const options = {
             },
           ]
 
-            setData(dataForGraph)
+          const dataFor2MonthGraph = [
+            {
+              "id": `${stockTicker ? stockTicker : ''}`,
+              "color": "hsl(55, 70%, 50%)",
+              "data": lastTwoMonthsArrayForGraph
+            },
+          ]
+
+          const dataForYTDGraph = [
+            {
+              "id": `${stockTicker ? stockTicker : ''}`,
+              "color": "hsl(55, 70%, 50%)",
+              "data": yearToDateArrayForGraph
+            },
+          ]
+
+            setData1Month(dataForGraph)
+            setData2Month(dataFor2MonthGraph)
             setData2Week(dataForTwoWeekGraph)
             setData5Day(dataFor5DayGraph)
+            setDataYTD(dataForYTDGraph)
 
             const tickerInfoResponse = await axios.get(`https://api.polygon.io/v3/reference/tickers/${stockTicker}?apiKey=${POLYGON_API_KEY}`)
             setCurrentTicker(tickerInfoResponse.data.results)
@@ -281,39 +339,32 @@ const options = {
   };
 
 
-  //Graph Components
-  const [classList5Day, setClassList5Day] = useState('hidden');
-  const [classList2Week, setClassList2Week] = useState('hidden');
-  const [classList1Month, setClassList1Month] = useState('hidden');
+
 
 
   const fiveDayClick = () => {
-    
-    // Update the classlist state
-    console.log(data5Day)
-    setClassList5Day('');
-    setClassList2Week('hidden')
-    setClassList1Month('hidden')
-    console.log(classList1Month, classList2Week, classList5Day)
+    // Update the graph state
+    setGraph('fiveDay')
   };
 
   const twoWeekClick = () => {
-  
-    // Update the classlist state
-    console.log(data2Week)
-    setClassList5Day('hidden');
-    setClassList2Week('')
-    setClassList1Month('hidden')
-    console.log(classList1Month, classList2Week, classList5Day)
+     // Update the graph state
+     setGraph('twoWeek')
   };
 
   const oneMonthClick = () => {
-    // Update the classlist state
-    console.log(data)
-    setClassList5Day('hidden');
-    setClassList2Week('hidden')
-    setClassList1Month('')
-    console.log(classList1Month, classList2Week, classList5Day)
+    // Update the graph state
+    setGraph('month')
+  };
+
+  const twoMonthClick = () => {
+    // Update the graph state
+    setGraph('twoMonth')
+  };
+
+  const yTDClick = () => {
+    // Update the graph state
+    setGraph('YTD')
   };
 
   const getTop25TrendingStocksOptions = {
@@ -386,20 +437,13 @@ const options = {
                 <Button size="small" onClick={ ()=> fiveDayClick() }>5-day</Button> 
                 <Button size="small" onClick={ ()=> twoWeekClick() }>2-week</Button>
                 <Button size="small" onClick={ ()=> oneMonthClick() }>1-month</Button>
-                    { data.length ? <MyResponsiveLine data={data}></MyResponsiveLine> : '' }  
+                <Button size="small" onClick={ ()=> twoMonthClick() }>2-month</Button>
+                <Button size="small" onClick={ ()=> yTDClick() }>YTD</Button>
+                    {/* { data.length ? <MyResponsiveLine data={data}></MyResponsiveLine> : '' }   */}
+                    { graph === 'month' ? <MyResponsiveLine data={data1Month}></MyResponsiveLine> : graph === 'twoWeek' ? <MyResponsiveLine data={data2Week}></MyResponsiveLine> : graph === 'fiveDay' ? <MyResponsiveLine data={data5Day}></MyResponsiveLine> : graph === 'twoMonth' ? <MyResponsiveLine data={data2Month}></MyResponsiveLine> : graph === 'YTD' ? <MyResponsiveLine data={dataYTD}></MyResponsiveLine> : ''} 
                 </div>
 
-                  <div className={classList5Day} id='five-day-graph'>
-                    <MyResponsiveLine className={classList5Day} data={data5Day}></MyResponsiveLine>
-                  </div>
-
-                  <div className={classList2Week} id='two-week-graph'>
-                    <MyResponsiveLine data={data2Week}></MyResponsiveLine>
-                  </div>  
-
-                  <div className={classList1Month} id='one-month-graph'>
-                    <MyResponsiveLine data={data}></MyResponsiveLine>
-                  </div>  
+                 
 
                 <div>
                 {currentTicker ? <Card sx={{ maxWidth: 345 }}>
