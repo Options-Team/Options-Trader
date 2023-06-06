@@ -245,7 +245,6 @@ const options = {
           )
         }
 
-
         const dataForGraph = [
             {
               "id": `${stockTicker ? stockTicker : ''}`,
@@ -440,7 +439,7 @@ const options = {
                 <Button size="small" onClick={ ()=> twoMonthClick() }>2-month</Button>
                 <Button size="small" onClick={ ()=> yTDClick() }>YTD</Button>
                     {/* { data.length ? <MyResponsiveLine data={data}></MyResponsiveLine> : '' }   */}
-                    { graph === 'month' ? <MyResponsiveLine data={data1Month}></MyResponsiveLine> : graph === 'twoWeek' ? <MyResponsiveLine data={data2Week}></MyResponsiveLine> : graph === 'fiveDay' ? <MyResponsiveLine data={data5Day}></MyResponsiveLine> : graph === 'twoMonth' ? <MyResponsiveLine data={data2Month}></MyResponsiveLine> : graph === 'YTD' ? <MyResponsiveLine data={dataYTD}></MyResponsiveLine> : ''} 
+                    {data1Month.length && graph === 'month' ? <MyResponsiveLine data={data1Month}></MyResponsiveLine> : data1Month.length && graph === 'twoWeek' ? <MyResponsiveLine data={data2Week}></MyResponsiveLine> : data1Month.length && graph === 'fiveDay' ? <MyResponsiveLine data={data5Day}></MyResponsiveLine> : data1Month.length && graph === 'twoMonth' ? <MyResponsiveLine data={data2Month}></MyResponsiveLine> : data1Month.length && graph === 'YTD' ? <MyResponsiveLine data={dataYTD}></MyResponsiveLine> : ''} 
                 </div>
 
                  
