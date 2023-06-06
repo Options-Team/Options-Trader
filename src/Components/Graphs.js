@@ -348,7 +348,9 @@ const options = {
     //   {/* Rest of your JSX */}
     // </div>
   
-
+  const buy = () => {
+    navigate(`/buy/${stockTicker}`);
+  };
 
   return (
     <div>
@@ -379,14 +381,19 @@ const options = {
 
                   <Button onClick={ tickerAPICall } disabled={ !stockTicker}>Get Ticker API Call!</Button>
                 </form> 
-                    
+
+                <div>
+                  <Button onClick={ () => buy() }>BUY!</Button>
+                </div>
+
                 </div>
               <div style={{display: 'flex'}}>
                 <div style={{height:800,width:1200}}>
                 <Button size="small" onClick={ ()=> fiveDayClick() }>5-day</Button> 
                 <Button size="small" onClick={ ()=> twoWeekClick() }>2-week</Button>
                 <Button size="small" onClick={ ()=> oneMonthClick() }>1-month</Button>
-                    { data.length ? <MyResponsiveLine data={data}></MyResponsiveLine> : '' }  
+                    { data.length ? <MyResponsiveLine data={data}></MyResponsiveLine> : '' }
+
                 </div>
 
                   <div className={classList5Day} id='five-day-graph'>

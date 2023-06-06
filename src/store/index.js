@@ -8,6 +8,7 @@ import users from './users';
 import messages from './messages';
 import portfolio from './portfolio';
 import stocks from './stocks';
+import transactions from './transactions';
 
 const reducer = combineReducers({
   auth,
@@ -16,7 +17,8 @@ const reducer = combineReducers({
   assessments,
   messages,
   portfolio,
-  stocks
+  stocks,
+  transactions
 });
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
@@ -30,3 +32,4 @@ export * from './messages';
 export * from './portfolio';
 export * from './stocks';
 export * from './users';
+export * from './transactions';

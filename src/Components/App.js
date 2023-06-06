@@ -11,6 +11,7 @@ import Graphs from './Graphs'
 import Financials from './Financials';
 import Finalize from './Finalize';
 import RiskAssessment from './RiskAssessment';
+import BuyStock from './BuyStock';
 import Chats from './Chats';
 import NavBar from './NavBar';
 import { useSelector, useDispatch } from 'react-redux';
@@ -89,6 +90,7 @@ const App = ()=> {
               <Route path='/finalize' element={ <Finalize />} />
               <Route path='/launch' element={ <Launch />} />
               <Route path='/graphs' element={ <Graphs />} />
+              <Route path='/buy/:ticker' element={ <BuyStock />} />
               <Route path='/riskAssessment/:id' element={ <RiskAssessment />} />
               <Route path='/chats' element={ <Chats />} />
             </Routes>
