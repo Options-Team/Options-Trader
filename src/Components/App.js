@@ -15,7 +15,7 @@ import BuyStock from './BuyStock';
 import Chats from './Chats';
 import NavBar from './NavBar';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginWithToken, fetchAssessments, fetchOnlineUsers, fetchMessages, fetchStocks, fetchUsers } from '../store';
+import { loginWithToken, fetchAssessments, fetchOnlineUsers, fetchMessages, fetchStocks, fetchUsers,fetchPortfolio } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
 
 
@@ -30,6 +30,7 @@ const App = ()=> {
     dispatch(fetchAssessments());
     dispatch(fetchStocks());
     dispatch(fetchUsers());
+    dispatch(fetchPortfolio())
     //dispatch(fetchOnlineUsers());
   }, []);
 

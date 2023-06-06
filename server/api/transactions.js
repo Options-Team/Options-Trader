@@ -16,14 +16,14 @@ const { isLoggedIn } = require('./middleware.js');
 //   }
 // });
 
-// app.get('/', isLoggedIn, async(req, res, next)=> {
-//   try {
-//     res.send(await req.user.getPortfolio());
-//   }
-//   catch(ex){
-//     next(ex);
-//   }
-// });
+app.get('/portfolio',isLoggedIn, async(req, res, next)=> {
+  try {
+    res.send(await req.user.getPortfolio())
+  }
+  catch(ex){
+    next(ex);
+  }
+});
 
 app.get('/', async(req, res, next)=> {
   try {

@@ -3,6 +3,7 @@ const { STRING, UUID, UUIDV4, TEXT, BOOLEAN, VIRTUAL, INTEGER, ENUM } = conn.Seq
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const socketMap = require('../socketMap');
+const Stock = require('./Stock');
 const JWT = process.env.JWT;
 
 const phoneValidationRegex = /\d{3}-\d{3}-\d{4}/
@@ -235,6 +236,52 @@ User.prototype.sendMessage = async function (message){
 //     }
 //   };
 // }
+
+User.prototype.getPortfolio = async function(){
+  let userTransactions = await conn.models.transaction.findAll({
+    include: [
+      User,
+      Stock
+    ],
+    where: {
+      userId: this.id
+    },
+    
+  });
+  if(!userTransactions){
+     const portfolio = {};
+     return portfolio;
+  }
+  const portfolio = (userTransactions) => {
+    const obj = {};
+    for(let i = 0; i < userTransactions.length; i++){
+      let currTransaction = userTransactions[i]
+      console.log(obj)
+      if(obj[currTransaction['stock']['ticker']]){
+        console.log(obj[currTransaction['stock']['ticker']]['Shares'])
+        obj[currTransaction['stock']['ticker']]['Shares'] = obj[currTransaction['stock']['ticker']]['Shares'] + currTransaction.shares
+        obj[currTransaction['stock']['ticker']]['Cost_Basis'] = obj[currTransaction['stock']['ticker']]['Cost_Basis'] + currTransaction.transactionValue
+        obj[currTransaction['stock']['ticker']]['Current_Value'] = (obj[currTransaction['stock']['ticker']]['Cost_Basis'] + currTransaction.transactionValue) /  (obj[currTransaction['stock']['ticker']]['Shares'] + currTransaction.shares) * currTransaction.stock.currentPrice
+      }
+      
+      obj[currTransaction['stock']['ticker']] = {
+        'Stock': currTransaction.stock.name,
+        'Ticker': currTransaction.stock.ticker,
+        'Shares': currTransaction.shares,
+        "Price": currTransaction.purchasePrice,
+        'Cost_Basis': currTransaction.transactionValue,
+        'Value': currTransaction.transactionValue,
+        'Current_Value': currTransaction.stock.currentPrice / currTransaction.shares *  currTransaction.transactionValue
+         // 'Stock Id': currTransaction.dataValues.stockId,
+      }
+    }
+    console.log(obj)
+    return obj
+  };
+  return portfolio(userTransactions)
+}
+
+
 
   // portfolio = await conn.models.transaction.findByPk(
   //   portfolio.id,

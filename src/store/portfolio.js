@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const portfolio = (state = { transactions: [] }, action)=> {
+const portfolio = (state = [], action)=> {
   if(action.type === 'SET_PORTFOLIO'){
     return action.portfolio;
   }
@@ -24,7 +24,7 @@ export const addToPortfolio = (product, quantity) => {
   return async(dispatch)=> {
     const token = window.localStorage.getItem('token');
     const response = await axios.post('/api/transactions/portfolio',{
-      product,
+      stock,
       shares
     }, {
       headers: {
@@ -35,11 +35,11 @@ export const addToPortfolio = (product, quantity) => {
   }
 }
 
-export const removeFromPortfolio = (product, quantityToRemove) => {
+export const removeFromPortfolio = (stock, quantityToRemove) => {
   return async(dispatch)=> {
     const token = window.localStorage.getItem('token');
     const response = await axios.put('/api/transactions/portfolio',{
-      product,
+      stock,
       sharesToRemove
     }, {
       headers: {
