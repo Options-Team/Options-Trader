@@ -256,24 +256,28 @@ User.prototype.getPortfolio = async function(){
     const obj = {};
     for(let i = 0; i < userTransactions.length; i++){
       let currTransaction = userTransactions[i]
-      console.log(obj)
+      //console.log(obj)
+      console.log(currTransaction['shares'], currTransaction.shares)
       if(obj[currTransaction['stock']['ticker']]){
-        console.log(obj[currTransaction['stock']['ticker']]['Shares'])
-        obj[currTransaction['stock']['ticker']]['Shares'] = obj[currTransaction['stock']['ticker']]['Shares'] + currTransaction.shares
-        obj[currTransaction['stock']['ticker']]['Cost_Basis'] = obj[currTransaction['stock']['ticker']]['Cost_Basis'] + currTransaction.transactionValue
-        obj[currTransaction['stock']['ticker']]['Current_Value'] = (obj[currTransaction['stock']['ticker']]['Cost_Basis'] + currTransaction.transactionValue) /  (obj[currTransaction['stock']['ticker']]['Shares'] + currTransaction.shares) * currTransaction.stock.currentPrice
-      }
-      
-      obj[currTransaction['stock']['ticker']] = {
+        //console.log(obj[currTransaction['stock']['ticker']]['Shares'])
+        obj[currTransaction['stock']['ticker']]['Shares'] += currTransaction.shares
+        obj[currTransaction['stock']['ticker']]['Cost_Basis'] += currTransaction.transactionValue
+        obj[currTransaction['stock']['ticker']]['Current_Value'] += currTransaction.transactionValue 
+      } else {
+        obj[currTransaction['stock']['ticker']] = {
         'Stock': currTransaction.stock.name,
         'Ticker': currTransaction.stock.ticker,
         'Shares': currTransaction.shares,
         "Price": currTransaction.purchasePrice,
         'Cost_Basis': currTransaction.transactionValue,
         'Value': currTransaction.transactionValue,
-        'Current_Value': currTransaction.stock.currentPrice / currTransaction.shares *  currTransaction.transactionValue
+        'Current_Value': currTransaction.stock.currentPrice * currTransaction.shares /  currTransaction.transactionValue / currTransaction.shares
          // 'Stock Id': currTransaction.dataValues.stockId,
       }
+    }
+     //  (obj[currTransaction['stock']['ticker']]['Shares'] + currTransaction.shares) * currTransaction.stock.currentPrice
+      
+      
     }
     console.log(obj)
     return obj
