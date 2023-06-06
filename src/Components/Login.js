@@ -36,6 +36,7 @@ const Login = ()=> {
       <GoogleOAuthProvider clientId = "18136828756-l5ol7p0u1f928hapfa4fr3pubvclahje.apps.googleusercontent.com">
 
       <GoogleLogin
+        style={{paddingLeft: 200}}
         onSuccess={credentialResponse => {
         const decoded = jwt_decode(credentialResponse.credential);
         console.log(credentialResponse);
