@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express.Router();
-const { User } = require('../db');
+const { User, Friend } = require('../db');
 const { isLoggedIn } = require('./middleware');
 
 module.exports = app;
@@ -48,6 +48,14 @@ app.put('/', isLoggedIn, async(req, res, next)=> {
 app.get('/users',  async (req, res, next)=> {
   try {
       res.send( await User.findAll())
+  } catch (error) {
+      next(error)
+  }
+})
+
+app.get('/friends',  async (req, res, next)=> {
+  try {
+      res.send( await Friend.findAll())
   } catch (error) {
       next(error)
   }

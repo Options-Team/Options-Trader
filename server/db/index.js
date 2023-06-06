@@ -3,6 +3,7 @@ const User = require('./User');
 const Assessment = require('./Assessment');
 const Message = require('./Message')
 const Stock = require('./Stock')
+const Friend = require('./Friend')
 const Transaction = require('./Transaction');
 // const { response } = require('express');
 const axios = require('axios');
@@ -13,6 +14,19 @@ Message.belongsTo(User, { as: 'to' });
 Transaction.belongsTo(User);
 Transaction.belongsTo(Stock);
 
+User.belongsToMany(User, {
+  through: Friend,
+  as: 'friender',
+  foreignKey: 'frienderId',
+  otherKey: 'friendingId'
+});
+
+User.belongsToMany(User, {
+  through: Friend,
+  as: 'friending',
+  foreignKey: 'friendingId',
+  otherKey: 'frienderId'
+});
 
 
 const syncAndSeed = async()=> {
@@ -68,7 +82,24 @@ try {
   const ethyl2 = await Message.create({ txt: "Yea that's cause you gave me bad fincancial advice!!" , fromId: ethyl.id, toId: moe.id })
   
 
+  await Friend.create({ friendingId: moe.id, frienderId: lucy.id });
+  await Friend.create({ friendingId: larry.id, frienderId: moe.id });
+
   await Assessment.create({score: 25, userId: moe.id});
+
+  const friends = await User.findByPk(moe.id, {
+    attributes: ['username'],
+    include: [{
+      model: User,
+      as: 'friender',
+      attributes: ['username']
+    },
+    {
+      model: User,
+      as: 'friending',
+      attributes: ['username']
+    }]
+  });
 
   return {
     users: {
@@ -92,5 +123,6 @@ module.exports = {
   Assessment,
   Message,
   Stock,
-  Transaction
+  Transaction,
+  Friend
 };
