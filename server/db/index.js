@@ -7,12 +7,15 @@ const Friend = require('./Friend')
 const Transaction = require('./Transaction');
 // const { response } = require('express');
 const axios = require('axios');
+const Portfolio = require('./Portfolio');
 require('dotenv').config()
 
 Message.belongsTo(User, { as: 'from' });
 Message.belongsTo(User, { as: 'to' });
 Transaction.belongsTo(User);
 Transaction.belongsTo(Stock);
+Transaction.belongsTo(Portfolio);
+Portfolio.belongsTo(User)
 
 User.belongsToMany(User, {
   through: Friend,
@@ -125,4 +128,5 @@ module.exports = {
   Stock,
   Transaction,
   Friend,
+  Portfolio
 };
