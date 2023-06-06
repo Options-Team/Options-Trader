@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const transaction = (state = { transactions: {} }, action) => {
+const transaction = (state =  [], action) => {
   if(action.type === 'ADD_TRANSACTIONS'){
     return [...state, action.transaction];
   }

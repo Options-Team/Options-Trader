@@ -135,6 +135,43 @@ function NavBar() {
             ))}
           </Box>
 
+          <Typography
+            variant="h6"
+            noWrap
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex'},
+              flexGrow: 0,
+              fontFamily: 'monospace',
+              fontWeight: 400,
+              letterSpacing: '.1rem',
+              color: 'white',
+              textDecoration: 'none',
+              justifyContent: 'center'
+            }}
+          >
+            {auth.id ? <a style={{color: 'white', textDecoration: 'none'  }}>{auth.username}</a> : ''}
+            
+          </Typography>
+
+          <Typography
+            variant="h6"
+            noWrap
+            sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'none'},
+              flexGrow: 0,
+              fontFamily: 'monospace',
+              fontWeight: 400,
+              letterSpacing: '.05rem',
+              color: 'white',
+              textDecoration: 'none',
+              justifyContent: 'center'
+            }}
+          >
+            {auth.id ? <div style={{color: 'white', textDecoration: 'none'  }}>{auth.username}</div> : ''}
+          </Typography>
+
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
