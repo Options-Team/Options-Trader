@@ -16,6 +16,7 @@ app.use('/api/auth', require('./api/auth'));
 app.use('/api/assessments', require('./api/assessments'));
 app.use('/api/messages', require('./api/messages'));
 app.use('/api/stocks', require('./api/stocks'));
+app.use('/api/transactions', require('./api/transactions'));
 
 app.get('/api/messages', isLoggedIn, async(req, res,next)=> {
     try {

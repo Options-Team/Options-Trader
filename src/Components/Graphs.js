@@ -398,7 +398,9 @@ const options = {
     //   {/* Rest of your JSX */}
     // </div>
   
-
+  const buy = () => {
+    navigate(`/buy/${stockTicker}`);
+  };
 
   return (
     <div>
@@ -429,7 +431,11 @@ const options = {
 
                   <Button onClick={ tickerAPICall } disabled={ !stockTicker}>Get Ticker API Call!</Button>
                 </form> 
-                    
+
+                <div>
+                  <Button onClick={ () => buy() }>BUY!</Button>
+                </div>
+
                 </div>
               <div style={{display: 'flex'}}>
                 <div style={{height:800,width:1200}}>
@@ -440,6 +446,7 @@ const options = {
                 <Button size="small" onClick={ ()=> yTDClick() }>YTD</Button>
                     {/* { data.length ? <MyResponsiveLine data={data}></MyResponsiveLine> : '' }   */}
                     {data1Month.length && graph === 'month' ? <MyResponsiveLine data={data1Month}></MyResponsiveLine> : data1Month.length && graph === 'twoWeek' ? <MyResponsiveLine data={data2Week}></MyResponsiveLine> : data1Month.length && graph === 'fiveDay' ? <MyResponsiveLine data={data5Day}></MyResponsiveLine> : data1Month.length && graph === 'twoMonth' ? <MyResponsiveLine data={data2Month}></MyResponsiveLine> : data1Month.length && graph === 'YTD' ? <MyResponsiveLine data={dataYTD}></MyResponsiveLine> : ''} 
+
                 </div>
 
                  

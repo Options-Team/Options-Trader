@@ -62,7 +62,7 @@ nav {
   background-color: skyblue;
 }
 
-.hidden {
+div > div > .hidden {
   display: 'none';
 }
 
