@@ -271,7 +271,7 @@ User.prototype.getPortfolio = async function(){
         "Price": currTransaction.purchasePrice,
         'Cost_Basis': currTransaction.transactionValue,
         'Value': currTransaction.transactionValue,
-        'Current_Value': currTransaction.stock.currentPrice * currTransaction.shares /  currTransaction.transactionValue / currTransaction.shares
+        'Current_Value': (currTransaction.stock.currentPrice * currTransaction.shares) /  (currTransaction.transactionValue * currTransaction.shares)
          // 'Stock Id': currTransaction.dataValues.stockId,
       }
     }

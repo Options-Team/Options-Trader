@@ -14,6 +14,7 @@ import RiskAssessment from './RiskAssessment';
 import BuyStock from './BuyStock';
 import Chats from './Chats';
 import NavBar from './NavBar';
+import Portfolio from './Portfolio';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginWithToken, fetchAssessments, fetchOnlineUsers, fetchMessages, fetchStocks, fetchUsers,fetchPortfolio } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
@@ -94,6 +95,7 @@ const App = ()=> {
               <Route path='/buy/:ticker' element={ <BuyStock />} />
               <Route path='/riskAssessment/:id' element={ <RiskAssessment />} />
               <Route path='/chats' element={ <Chats />} />
+              <Route path='/portfolio' element={ <Portfolio />} />
             </Routes>
           </div>
           {/* {

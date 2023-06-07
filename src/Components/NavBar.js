@@ -22,7 +22,7 @@ function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const pages = ['Home', 'Stocks', 'Graphs'];
+  const pages = ['Home', 'Stocks', 'Graphs', 'Portfolio'];
     let settings = []
     auth.id ? (settings = ['Account', 'Chats', 'Logout']) : (settings = ['Account', 'Chats', 'Login'])
 

@@ -9,12 +9,12 @@ const Home = ()=> {
   return (
     <div>
       <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Home</h1>
-        { auth.id ? <div> Welcome { auth.username }!!
-        <button onClick={()=> dispatch(logout())}>Logout</button>
-      </div> : <Link to='/login' style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Login</Link>}
-      <div>
-        <h1>Complete Your Risk Assessment to Begin Trading!!</h1>
-        <Link to={`/riskAssessment/${auth.id}`}>Click Here to Complete Risk Assessment</Link>
+        {/* { auth.id ? <div> Welcome { auth.username }!! */}
+        {/* <button onClick={()=> dispatch(logout())}>Logout</button> */}
+      {/* </div> : <Link to='/login' style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Login</Link>} */}
+      <div >
+        <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Need A Place To Start?</h1>
+        <Link to={`/riskAssessment/${auth.id}`} style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Click Here to Complete Risk Assessment</Link>
       </div>
     </div>
   );
