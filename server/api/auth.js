@@ -24,6 +24,17 @@ app.post('/register', async(req, res, next)=> {
   }
 });
 
+app.post('/loginGoogle', async(req, res, next)=> {
+  try {
+    // const user = await User.create(req.body);
+    // console.log(req.body);
+    res.send(await User.authenticateGoogle(req.body));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
 app.get('/', isLoggedIn, (req, res, next)=> {
   try {
     res.send(req.user); 

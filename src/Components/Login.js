@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {GoogleOAuthProvider, GoogleLogin} from '@react-oauth/google';
 import jwt_decode from 'jwt-decode';
+import { googleOAuthLogin } from '../store';
 
 const Login = ()=> {
   const dispatch = useDispatch();
@@ -41,6 +42,9 @@ const Login = ()=> {
         const decoded = jwt_decode(credentialResponse.credential);
         console.log(credentialResponse);
         console.log(decoded);
+        dispatch(googleOAuthLogin(decoded));
+        navigate('/home');
+
       }}
         onError={() => {
         console.log('Login Failed');
