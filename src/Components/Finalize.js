@@ -72,6 +72,7 @@ const Finalize = ()=> {
                     <div>Source of Income: {auth.sourceOfIncome}</div>
                     <div>Account Funding Method: {auth.accountFundingMethod}</div>
                     <div>Years of Trading Experience: {auth.tradingYearsOfExperience}</div>
+                    <div>Account Funds: {auth.tradingFunds}</div>
                 </div>
                 {/* <Link to={`/financials`}>Back to Financials</Link>  */}
                 {/* <Button onClick={ () => navigate('/financials') } >Back to Financials</Button>

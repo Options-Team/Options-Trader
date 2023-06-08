@@ -43,6 +43,11 @@ app.post('/:id', isLoggedIn, async(req, res, next)=> {
   try {
     console.log('here');
     const transaction = await Transaction.create({purchasePrice: req.body.stock.currentPrice, shares: req.body.quantity, transactionDate: '2023-06-06', transactionMethod: req.body.transactionMethod, stockId: req.body.stock.id, userId: req.body.userId});
+    //req.user.tradingFunds - (req.body.stock.currentPrice * req.body.quantity)
+    const user = req.user
+    // user.tradingFunds -= (req.body.stock.currentPrice * req.body.quantity)
+    // await user.save() TWO DIFFERENT WAYS TO UPDATE
+    await user.update({ tradingFunds:  user.tradingFunds - (req.body.stock.currentPrice * req.body.quantity)})
     console.log(transaction);
     res.send(transaction);
   }
