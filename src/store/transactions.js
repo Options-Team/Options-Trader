@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { fetchPortfolio } from './portfolio';
 
 const transaction = (state =  [], action) => {
   if(action.type === 'ADD_TRANSACTIONS'){
@@ -16,6 +17,7 @@ export const postTransaction = (transaction) => {
         authorization: token
       }
     });
+    dispatch(fetchPortfolio())
     dispatch({ type: 'ADD_TRANSACTIONS', transaction: response.data });
     //call getPortfolio method
   };

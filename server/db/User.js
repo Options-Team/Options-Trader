@@ -1,5 +1,5 @@
 const conn = require('./conn');
-const { STRING, UUID, UUIDV4, TEXT, BOOLEAN, VIRTUAL, INTEGER, ENUM } = conn.Sequelize;
+const { STRING, UUID, UUIDV4, TEXT, BOOLEAN, VIRTUAL, INTEGER, ENUM, FLOAT } = conn.Sequelize;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const socketMap = require('../socketMap');
@@ -38,18 +38,7 @@ const User = conn.define('user', {
     type: STRING
   },
   avatar: {
-    type: TEXT,
-    // get: function(){
-    //   const prefix = 'data:image/png;base64,';
-    //   const data = this.getDataValue('avatar');
-    //   if(!data){
-    //     return data;
-    //   }
-    //   if(data.startsWith(prefix)){
-    //     return data;
-    //   }
-    //   return `${prefix}${data}`;
-    // }
+    type: TEXT
   },
   firstName: {
     type: STRING
@@ -149,6 +138,9 @@ const User = conn.define('user', {
   tradingYearsOfExperience: {
     type: INTEGER 
   },
+  tradingFunds: {
+    type: FLOAT,
+}
 });
 
 User.prototype.messagesForUser = function(){
