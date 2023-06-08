@@ -70,4 +70,15 @@ export const updateAuth = (auth)=> {
   };
 };
 
+export const googleOAuthLogin = (credentials) =>{
+  return async(dispatch) =>{
+    const response = await axios.post('/api/auth/loginGoogle',credentials);
+    // const token = response.data.token;
+    // console.log(token);
+    console.log(response.data);
+    window.localStorage.setItem('token',response.data);
+    dispatch(loginWithToken());
+  }
+}
+
 export default auth;

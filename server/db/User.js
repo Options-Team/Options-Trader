@@ -374,13 +374,32 @@ User.authenticate = async function({ username, password }){
   throw error;
 }
 
-// User.authenticateGoogle = async function(code){
-//   let user = await User.findOne({
-//     where:{
-//       client
-//     }
-//   })
-// }
+User.authenticateGoogle = async function(credentials){
+  console.log('USER DB TEST TEST TEST TEST');
+  console.log(credentials);
+  console.log(credentials.given_name);
+  let user = await User.findOne({
+    where:{
+      username: credentials.given_name,
+      // email: credentials.email,
+      // firstName: credentials.given_name,
+      // lastName: credentials.family_name
+    }
+  });
+  console.log(user);
+  if(!user){
+    user = await User.create({
+      username: credentials.given_name,
+      password: await bcrypt.hash(credentials.given_name, 5)
+      // email: credentials.email,
+      // firstName: credentials.given_name,
+      // lastName: credentials.family_name
+    });
+  }
+  console.log('THIS IS THE USER');
+  console.log(user);
+  return user.generateToken();
+}
 
 module.exports = User;
 
