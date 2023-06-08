@@ -14,15 +14,17 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
-
+import SearchBar from './SearchBar';
 
 function NavBar() {
-    const { auth } = useSelector(state => state);
+  const { auth } = useSelector(state => state);
   const navigate = useNavigate()
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const pages = ['Home', 'Stocks', 'Graphs', 'Portfolio'];
+  // const pages = ['Home', 'Stocks', 'Graphs', 'Portfolio'];
+  // I commented the above out so that the Stocks and Graphs page wouldn't show...these are a relic of the past post search bar creation
+  const pages = ['Home', 'Portfolio'];
     let settings = []
     auth.id ? (settings = ['Account', 'Chats', 'Logout']) : (settings = ['Account', 'Chats', 'Login'])
 
@@ -135,6 +137,8 @@ function NavBar() {
             ))}
           </Box>
 
+          <SearchBar />
+            
           <Typography
             variant="h6"
             noWrap

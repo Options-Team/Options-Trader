@@ -91,7 +91,7 @@ const App = ()=> {
               <Route path='/financials' element={ <Financials />} />
               <Route path='/finalize' element={ <Finalize />} />
               <Route path='/launch' element={ <Launch />} />
-              <Route path='/graphs' element={ <Graphs />} />
+              <Route path='/stocks/:stockTicker' element={ <Graphs />} />
               <Route path='/buy/:ticker' element={ <BuyStock />} />
               <Route path='/riskAssessment/:id' element={ <RiskAssessment />} />
               <Route path='/chats' element={ <Chats />} />

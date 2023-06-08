@@ -1,8 +1,12 @@
+//YOU MUST UNCOMMENT THE "tickerAPI()"" CALL ON LINE 182 IN ORDER TO GET THIS COMPONENT TO FUNCTION PROPERLY
+//THIS WAS COMMENTED OUT SO THAT WE DON'T CONTINUOUSLY CALL THE API
+
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useParams } from 'react-router-dom';
 import axios from 'axios'
 import { POLYGON_API_KEY, X_RapidAPI_Key } from '../../secrets';
+import { postTransaction, loginWithToken, fetchPortfolio } from '../store';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {ResponsiveLine} from '@nivo/line';
@@ -15,7 +19,8 @@ import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
-
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -120,11 +125,22 @@ const MyResponsiveLine = ({data}) => (
   />
 )
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 const Graphs = ()=> {
-  const { auth } = useSelector(state => state);
+  const { stocks, auth, portfolio } = useSelector(state => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [stockTicker, setStockTicker] = useState('')
   const [data1Month, setData1Month] = useState([])
   const [data2Month, setData2Month] = useState([])
   const [data2Week, setData2Week] = useState([])
@@ -138,11 +154,32 @@ const Graphs = ()=> {
   const [innovationTrend, setInnovationTrend] = useState('')
   const [top25Ticker, setTop25Ticker] = useState([])
   const [graph, setGraph] = useState('')
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const { stockTicker } = useParams();
+  const stock = stocks.find(s => s.ticker === stockTicker);
+  const [quantity, setQuantity] = useState(1);
+  const [totalValue, setTotalValue] = useState(0);
+  const [tradingFunds, setTradingFunds] = useState('');
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
 
   // UNCOMMENT TO ADD TICKER EVERY TIME SOMEONE GOES TO THE GRAPHS PAGE
   useEffect(()=> {
-    getTop25Trending()
+    getTop25Trending();
+    // tickerAPICall();
   },[])
  
 const weekDates = ['2023-05-26', '2023-05-25', '2023-05-24','2023-05-23', '2023-05-22', '2023-05-19', '2023-05-18', '2023-05-17','2023-05-16', '2023-05-15', '2023-05-12', '2023-05-11', '2023-05-10', '2023-05-09', '2023-05-08', '2023-05-05', '2023-05-04', '2023-05-03', '2023-05-02', '2023-05-01','2023-04-28','2023-04-27','2023-04-26','2023-04-25','2023-04-24','2023-04-21','2023-04-20','2023-04-19','2023-04-18','2023-04-17','2023-04-14','2023-04-13','2023-04-12','2023-04-11','2023-04-10','2023-04-06','2023-04-05','2023-04-04','2023-04-03']
@@ -163,8 +200,7 @@ const options = {
   };
   
 
-  const tickerAPICall =  async (ev) => {
-    ev.preventDefault()
+  const tickerAPICall =  async () => {
     try {
         setGraph('fiveDay')
         let lastTwoMonthsArrayForGraph = []
@@ -397,9 +433,36 @@ const options = {
     //   <button onClick={handleButtonClick}>Change Class</button>
     //   {/* Rest of your JSX */}
     // </div>
-  
-  const buy = () => {
-    navigate(`/buy/${stockTicker}`);
+
+  useEffect(() => {
+    if(stock){
+      setTotalValue(stock.currentPrice * quantity)
+    }
+    
+  }, [stock, quantity]);
+
+  // useEffect(() => {
+  //   if(portfolio){
+  //     fetchPortfolio()
+  //   }
+  // }, [transaction])
+
+  if(!stock){
+    return null;
+  }
+
+  const update = (updatedQuantity) => {
+    setQuantity(+updatedQuantity);
+    setTotalValue(updatedQuantity * stock.currentPrice);
+    //setTradingFunds(auth.tradingFunds - (updatedQuantity * stock.currentPrice))
+  };
+
+  const buy =  async () => {
+    await dispatch(postTransaction({quantity, stock, transactionMethod: 'Buy', userId: auth.id}));
+    await dispatch(loginWithToken())
+    await dispatch(fetchPortfolio())
+    navigate('/portfolio')
+    
   };
 
   return (
@@ -417,11 +480,11 @@ const options = {
                     </div>
                 </div>
                 {/* <Button onClick={ getTop25Trending } >Fill The Ticker!</Button> */}
-                <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> Graphs </h1>
+                <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> { stockTicker } Page </h1>
 
                 <div>
                   
-                <form onSubmit={ tickerAPICall } style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>
+                {/* <form onSubmit={ tickerAPICall } style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>
                   <div style={{ marginBottom: 8 }}/>
                   <div style={{ display:'flex', flexDirection: 'row', justifyContent:'center' }}>           
     
@@ -430,11 +493,37 @@ const options = {
                   </div>
 
                   <Button onClick={ tickerAPICall } disabled={ !stockTicker}>Get Ticker API Call!</Button>
-                </form> 
+                </form>  */}
 
-                <div>
-                  <Button onClick={ () => buy() }>BUY!</Button>
-                </div>
+                <Button onClick={handleOpen}>Buy { stockTicker }</Button>
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="buy-stock"
+                  aria-describedby="buy-stock-description"
+                >
+                  <Box sx={style}>
+                    <form>
+                        <Typography style={{display: 'flex', justifyContent: 'center'}} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                          { stockTicker }
+                        </Typography>
+                        <Typography variant="h5" component="div">
+                          Current Price: { stock.currentPrice }
+                        </Typography>
+                          <div style={{ marginBottom: 8 }}/>
+                        <TextField style={{ width: 200}} label='Shares' onChange={ ev => update(ev.target.value) } defaultValue={ quantity } type='number'></TextField>
+                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                          Total Value: { totalValue.toFixed(2) }
+                        </Typography>
+                        <Typography variant="body2">
+                          Available Funds: { auth.tradingFunds }
+                        </Typography>
+                        <CardActions style={{display: 'flex', justifyContent: 'center'}}>
+                          <Button onClick={ buy }>Buy { stockTicker }</Button>
+                        </CardActions>
+                    </form>
+                  </Box>
+                </Modal>
 
                 </div>
               <div style={{display: 'flex'}}>
