@@ -194,7 +194,7 @@ import Select from '@mui/material/Select';
 //few buggy things... when you refresh the accounts page after I added the choose file to upload a picture it crashes because of the useRef I believe...
 
 const Chats = ()=> {
-    const { messages, auth, onlineUsers } = useSelector(state => state)
+    const { messages, auth, onlineUsers, users } = useSelector(state => state)
     const dispatch = useDispatch();
 
     const chatMap = messages.reduce((acc, message) => {
@@ -249,6 +249,33 @@ const Chats = ()=> {
         </Typography>
         <ul>
               {onlineUsers.map(user => {
+                return(
+                  <li key={user.id} style={{ display: 'flex', alignItems: 'center'}}>
+                    {user.username}
+                        <Stack direction="row" spacing={1}>
+                                     <IconButton 
+                                     onClick={()=> {
+                                        dispatch(createMessage1({ toId: user.id, txt: 'Hey!'}))
+                                     }}
+                                     color="primary" aria-label="Send Message" disabled={messages.find(message => message.fromId === user.id || message.toId === user.Id)}>
+                                        <SendTwoToneIcon />
+                                   </IconButton>
+                                 </Stack>
+                  </li>
+                )
+              })}
+            </ul>
+      </CardContent>
+     
+    </Card>   
+
+    <Card sx={{ width: 300  }}>
+      <CardContent>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          Online Users ({users.length}):
+        </Typography>
+        <ul>
+              {users.map(user => {
                 return(
                   <li key={user.id} style={{ display: 'flex', alignItems: 'center'}}>
                     {user.username}

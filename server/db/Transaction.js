@@ -1,5 +1,5 @@
 const conn = require('./conn');
-const { STRING, UUID, UUIDV4, FLOAT, TEXT, BOOLEAN, INTEGER, DATEONLY, ENUM} = conn.Sequelize;
+const { STRING, UUID, UUIDV4, FLOAT, TEXT, BOOLEAN, INTEGER, DATEONLY, ENUM, VIRTUAL} = conn.Sequelize;
 
 const Transaction = conn.define('transaction', {
     id: {
@@ -15,7 +15,7 @@ const Transaction = conn.define('transaction', {
         },
     },
     shares: {
-        type: INTEGER,
+        type: FLOAT,
         allowNull: false,
         validate: {
             notEmpty: true
@@ -26,17 +26,16 @@ const Transaction = conn.define('transaction', {
         allowNull: false,
         
     },
-    transactionValue: {
-        type: FLOAT,
-    },
     transactionMethod: {
         type: ENUM,
         values: ['Buy', 'Sell'],
         defaultValue: 'Buy'
     },
-    stockId: {
-        type: UUID,
-        allowNull: false
+    transactionValue: {
+        type: VIRTUAL,
+        get(){
+            return this.purchasePrice * this.shares;
+        }
     }
 });
 

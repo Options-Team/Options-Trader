@@ -3,6 +3,7 @@ const User = require('./User');
 const Assessment = require('./Assessment');
 const Message = require('./Message')
 const Stock = require('./Stock')
+const Friend = require('./Friend')
 const Transaction = require('./Transaction');
 // const { response } = require('express');
 const axios = require('axios');
@@ -10,7 +11,22 @@ require('dotenv').config()
 
 Message.belongsTo(User, { as: 'from' });
 Message.belongsTo(User, { as: 'to' });
-Transaction.belongsTo(User)
+Transaction.belongsTo(User);
+Transaction.belongsTo(Stock);
+
+User.belongsToMany(User, {
+  through: Friend,
+  as: 'friender',
+  foreignKey: 'frienderId',
+  otherKey: 'friendingId'
+});
+
+User.belongsToMany(User, {
+  through: Friend,
+  as: 'friending',
+  foreignKey: 'friendingId',
+  otherKey: 'frienderId'
+});
 
 
 const syncAndSeed = async()=> {
@@ -57,16 +73,33 @@ try {
   const [moe1,] = await Promise.all([
     Message.create({ txt: 'hi', fromId: moe.id, toId: lucy.id }),
   ]);
-  const moe2 = await  Message.create({ txt: 'hello', fromId: moe.id, toId: ethyl.id })
+  const moe2 = await Message.create({ txt: 'hello', fromId: moe.id, toId: ethyl.id })
   const lucy1 = await Message.create({ txt: 'hi there moe ', fromId: lucy.id, toId: moe.id })
-  const ethyl1 = await  Message.create({ txt: 'oh hey there, nice to hear from you!', fromId: ethyl.id, toId: moe.id })
-  const moe3 = await      Message.create({ txt: 'hows it going??', fromId: moe.id, toId: lucy.id })
-  const moe4 = await  Message.create({ txt: "haven't talked in a while!", fromId: moe.id, toId: ethyl.id })
-  const lucy2 = await   Message.create({ txt: 'good without your financial advice!', fromId: lucy.id, toId: moe.id })
-  const ethyl2 = await  Message.create({ txt: "Yea that's cause you gave me bad fincancial advice!!" , fromId: ethyl.id, toId: moe.id })
+  const ethyl1 = await Message.create({ txt: 'oh hey there, nice to hear from you!', fromId: ethyl.id, toId: moe.id })
+  const moe3 = await Message.create({ txt: 'hows it going??', fromId: moe.id, toId: lucy.id })
+  const moe4 = await Message.create({ txt: "haven't talked in a while!", fromId: moe.id, toId: ethyl.id })
+  const lucy2 = await Message.create({ txt: 'good without your financial advice!', fromId: lucy.id, toId: moe.id })
+  const ethyl2 = await Message.create({ txt: "Yea that's cause you gave me bad fincancial advice!!" , fromId: ethyl.id, toId: moe.id })
   
 
+  await Friend.create({ friendingId: moe.id, frienderId: lucy.id });
+  await Friend.create({ friendingId: larry.id, frienderId: moe.id });
+
   await Assessment.create({score: 25, userId: moe.id});
+
+  const friends = await User.findByPk(moe.id, {
+    attributes: ['username'],
+    include: [{
+      model: User,
+      as: 'friender',
+      attributes: ['username']
+    },
+    {
+      model: User,
+      as: 'friending',
+      attributes: ['username']
+    }]
+  });
 
   return {
     users: {
@@ -90,5 +123,6 @@ module.exports = {
   Assessment,
   Message,
   Stock,
-  Transaction
+  Transaction,
+  Friend
 };

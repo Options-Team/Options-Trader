@@ -7,15 +7,15 @@
 //     primaryKey: true,
 //     defaultValue: UUIDV4
 //   },
-//   isTransaction: {
-//     type: BOOLEAN,
-//     defaultValue: true,
-//     allowNull: false
-//   },
-//   userId: {
-//     type: UUID,
-//     allowNull: false
-//   }
+// //   isTransaction: {
+// //     type: BOOLEAN,
+// //     defaultValue: true,
+// //     allowNull: false
+// //   },
+// //   userId: {
+// //     type: UUID,
+// //     allowNull: false
+// //   }
 // });
 
 // module.exports = Portfolio;

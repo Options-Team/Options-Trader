@@ -1,6 +1,7 @@
+const { default: axios } = require('axios');
 const express = require('express');
 const app = express.Router();
-const { User } = require('../db');
+const { User, Transaction, Stock } = require('../db');
 const { isLoggedIn } = require('./middleware.js');
 
 
@@ -15,9 +16,35 @@ const { isLoggedIn } = require('./middleware.js');
 //   }
 // });
 
-app.get('/portfolio', isLoggedIn, async(req, res, next)=> {
+app.get('/portfolio',isLoggedIn, async(req, res, next)=> {
   try {
-    res.send(await req.user.getPortfolio());
+    res.send(await req.user.getPortfolio())
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+app.get('/', async(req, res, next)=> {
+  try {
+    res.send(await Transaction.findAll({
+      include: [
+        User,
+        Stock
+      ]
+    }));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+app.post('/:id', isLoggedIn, async(req, res, next)=> {
+  try {
+    console.log('here');
+    const transaction = await Transaction.create({purchasePrice: req.body.stock.currentPrice, shares: req.body.quantity, transactionDate: '2023-06-06', transactionMethod: req.body.transactionMethod, stockId: req.body.stock.id, userId: req.body.userId});
+    console.log(transaction);
+    res.send(transaction);
   }
   catch(ex){
     next(ex);

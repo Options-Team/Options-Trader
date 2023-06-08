@@ -11,23 +11,26 @@ import Graphs from './Graphs'
 import Financials from './Financials';
 import Finalize from './Finalize';
 import RiskAssessment from './RiskAssessment';
+import BuyStock from './BuyStock';
 import Chats from './Chats';
 import NavBar from './NavBar';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginWithToken, fetchAssessments, fetchOnlineUsers, fetchMessages, fetchStocks } from '../store';
+import { loginWithToken, fetchAssessments, fetchOnlineUsers, fetchMessages, fetchStocks, fetchUsers,fetchPortfolio } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
 
 
 
 const App = ()=> {
-  const { auth, onlineUsers, messages } = useSelector(state => state);
+  const { auth, onlineUsers, messages, users } = useSelector(state => state);
   const dispatch = useDispatch();
   const prevAuth = useRef(auth);
 
   useEffect(()=> {
     dispatch(loginWithToken());
     dispatch(fetchAssessments());
-    dispatch(fetchStocks())
+    dispatch(fetchStocks());
+    dispatch(fetchUsers());
+    dispatch(fetchPortfolio())
     //dispatch(fetchOnlineUsers());
   }, []);
 
@@ -88,6 +91,7 @@ const App = ()=> {
               <Route path='/finalize' element={ <Finalize />} />
               <Route path='/launch' element={ <Launch />} />
               <Route path='/graphs' element={ <Graphs />} />
+              <Route path='/buy/:ticker' element={ <BuyStock />} />
               <Route path='/riskAssessment/:id' element={ <RiskAssessment />} />
               <Route path='/chats' element={ <Chats />} />
             </Routes>

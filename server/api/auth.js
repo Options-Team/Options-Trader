@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express.Router();
-const { User } = require('../db');
+const { User, Friend } = require('../db');
 const { isLoggedIn } = require('./middleware');
 
 module.exports = app;
@@ -18,6 +18,17 @@ app.post('/register', async(req, res, next)=> {
   try {
     const user = await User.create(req.body);
     res.send(user.generateToken());
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+app.post('/loginGoogle', async(req, res, next)=> {
+  try {
+    // const user = await User.create(req.body);
+    // console.log(req.body);
+    res.send(await User.authenticateGoogle(req.body));
   }
   catch(ex){
     next(ex);
@@ -44,3 +55,19 @@ app.put('/', isLoggedIn, async(req, res, next)=> {
     next(ex);
   }
 });
+
+app.get('/users',  async (req, res, next)=> {
+  try {
+      res.send( await User.findAll())
+  } catch (error) {
+      next(error)
+  }
+})
+
+app.get('/friends',  async (req, res, next)=> {
+  try {
+      res.send( await Friend.findAll())
+  } catch (error) {
+      next(error)
+  }
+})
