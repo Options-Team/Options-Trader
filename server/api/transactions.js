@@ -52,7 +52,7 @@ app.post('/:id', isLoggedIn, async(req, res, next)=> {
     // user.tradingFunds -= (req.body.stock.currentPrice * req.body.quantity)
     // await user.save() TWO DIFFERENT WAYS TO UPDATE
     await user.update({ tradingFunds:  user.tradingFunds - (req.body.stock.currentPrice * req.body.quantity)})
-    console.log(transaction);
+    //console.log(transaction);
     res.send(transaction);
   }
   catch(ex){

@@ -48,10 +48,12 @@ const BuyStock = () => {
   useEffect(() => {
     if(stock){
       setTotalValue(stock.currentPrice * quantity)
+      
     }
+   
     
   }, [stock, quantity]);
-
+ 
   // useEffect(() => {
   //   if(stock){
   //     setQuantity(totalValue / stock.currentPrice )
@@ -73,16 +75,19 @@ const BuyStock = () => {
     setQuantity(+updatedQuantity);
     setTotalValue(updatedQuantity * stock.currentPrice);
     //setTradingFunds(auth.tradingFunds - (updatedQuantity * stock.currentPrice))
+    
   };
 
   const buy =  async () => {
-
+    console.log(auth.tradingFunds, totalValue)
     await dispatch(postTransaction({quantity, stock, transactionMethod: 'Buy', userId: auth.id}));
     await dispatch(loginWithToken())
     await dispatch(fetchPortfolio())
     navigate('/portfolio')
     
   };
+
+  
 
   return (
 
@@ -159,10 +164,13 @@ const BuyStock = () => {
                 <CardActions style={{display: 'flex', justifyContent: 'center'}}>
                   <Button onClick={ buy }>Buy { ticker }</Button>
                 </CardActions>
+                {/* { auth.tradingFunds < totalValue ?  <Alert severity="error">Not Enough Funds, Yikes!</Alert> : null} */}
             </form>
           </Box>
         </Modal>
       </div>
+     
+      {/* disabled={ auth.tradingFunds < totalValue }  */}
     </div>
 
     

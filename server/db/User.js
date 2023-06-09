@@ -249,8 +249,7 @@ User.prototype.getPortfolio = async function(){
     const obj = {};
     for(let i = 0; i < userTransactions.length; i++){
       let currTransaction = userTransactions[i]
-      //console.log(obj)
-      console.log(currTransaction['shares'], currTransaction.shares)
+      
       if(obj[currTransaction['stock']['ticker']]){
         //console.log(obj[currTransaction['stock']['ticker']]['Shares'])
         obj[currTransaction['stock']['ticker']]['Shares'] += currTransaction.shares
@@ -271,7 +270,7 @@ User.prototype.getPortfolio = async function(){
       
       
     }
-    console.log(obj)
+    //console.log(obj)
     return obj
   };
   return portfolio(userTransactions)

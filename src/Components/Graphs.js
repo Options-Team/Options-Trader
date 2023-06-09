@@ -21,6 +21,7 @@ import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import Alert from '@mui/material/Alert';
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -177,10 +178,10 @@ const Graphs = ()=> {
 
 
   // UNCOMMENT TO ADD TICKER EVERY TIME SOMEONE GOES TO THE GRAPHS PAGE
-  useEffect(()=> {
-    getTop25Trending();
-    // tickerAPICall();
-  },[])
+  // useEffect(()=> {
+  //   getTop25Trending();
+  //   tickerAPICall();
+  // },[])
  
 //const weekDates = ['2023-05-26', '2023-05-25', '2023-05-24','2023-05-23', '2023-05-22', '2023-05-19', '2023-05-18', '2023-05-17','2023-05-16', '2023-05-15', '2023-05-12', '2023-05-11', '2023-05-10', '2023-05-09', '2023-05-08', '2023-05-05', '2023-05-04', '2023-05-03', '2023-05-02', '2023-05-01','2023-04-28','2023-04-27','2023-04-26','2023-04-25','2023-04-24','2023-04-21','2023-04-20','2023-04-19','2023-04-18','2023-04-17','2023-04-14','2023-04-13','2023-04-12','2023-04-11','2023-04-10','2023-04-06','2023-04-05','2023-04-04','2023-04-03']
 
@@ -519,8 +520,9 @@ const options = {
                           Available Funds: { auth.tradingFunds }
                         </Typography>
                         <CardActions style={{display: 'flex', justifyContent: 'center'}}>
-                          <Button onClick={ buy }>Buy { stockTicker }</Button>
+                          <Button disabled={ auth.tradingFunds < totalValue }  onClick={ buy }>Buy { stockTicker }</Button>
                         </CardActions>
+                         { auth.tradingFunds < totalValue ?  <Alert severity="error">Not Enough Funds, Yikes!</Alert> : null}
                     </form>
                   </Box>
                 </Modal>

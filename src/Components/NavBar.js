@@ -67,7 +67,7 @@ function NavBar() {
               textDecoration: 'none',
             }}
           >
-            #1 Option Trader
+            C-Trade
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -123,7 +123,7 @@ function NavBar() {
               textDecoration: 'none',
             }}
           >
-            #1 Option Trader
+            C-Trade
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -154,7 +154,7 @@ function NavBar() {
               justifyContent: 'center'
             }}
           >
-            {auth.id ? <a style={{color: 'white', textDecoration: 'none'  }}>{auth.username}</a> : ''}
+            {auth.id ? <a style={{color: 'white', textDecoration: 'none'  }}>{auth.username}</a> : null}
             
           </Typography>
 
