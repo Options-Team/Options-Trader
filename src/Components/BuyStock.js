@@ -10,8 +10,12 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+
+import Alert from '@mui/material/Alert';
+
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+
 
 const BuyStock = () => {
   const dispatch = useDispatch();
@@ -49,6 +53,13 @@ const BuyStock = () => {
   }, [stock, quantity]);
 
   // useEffect(() => {
+  //   if(stock){
+  //     setQuantity(totalValue / stock.currentPrice )
+  //   }
+    
+  // }, [stock, totalValue]);
+
+  // useEffect(() => {
   //   if(portfolio){
   //     fetchPortfolio()
   //   }
@@ -65,6 +76,7 @@ const BuyStock = () => {
   };
 
   const buy =  async () => {
+
     await dispatch(postTransaction({quantity, stock, transactionMethod: 'Buy', userId: auth.id}));
     await dispatch(loginWithToken())
     await dispatch(fetchPortfolio())
@@ -73,6 +85,44 @@ const BuyStock = () => {
   };
 
   return (
+
+    // <form>
+    //   <label>Quantity:</label>
+    //   <TextField onChange={ ev => update(ev.target.value) } defaultValue={ quantity } type='number'></TextField>
+    //   <label>Current Price:</label>
+    //   <div>{ stock.currentPrice }</div>
+    //   <label>Available Cash:</label>
+    //   <div>This comes from the user's info</div>
+    //   <label>Total Value:</label>
+    //   <div>{ totalValue.toFixed(2) }</div>
+    //   <Button onClick={ buy }>Buy { ticker }</Button>
+    // </form>
+//     <form>
+
+//       <Card sx={{ width: 300 }}>
+//       <CardContent>
+//         <Typography style={{display: 'flex', justifyContent: 'center'}} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+//           { ticker }
+//         </Typography>
+//         <Typography variant="h5" component="div">
+//           Current Price: { stock.currentPrice }
+//         </Typography>
+//         <div style={{ marginBottom: 8 }}/>
+//         <TextField style={{ width: 200}} label='Shares' onChange={ ev => update(ev.target.value) } defaultValue={ quantity } type='number'></TextField>
+//         <Typography sx={{ mb: 1.5 }} color="text.secondary">
+//           Total Value: { totalValue.toFixed(2) }
+//         </Typography>
+//         <Typography variant="body2">
+//           Available Funds: { auth.tradingFunds }
+//         </Typography>
+//       </CardContent>
+//       <CardActions style={{display: 'flex', justifyContent: 'center'}}>
+//         <Button disabled={ auth.tradingFunds < totalValue} onClick={ buy }>Buy { ticker }</Button>
+//       </CardActions>
+//     </Card>
+//     { auth.tradingFunds < totalValue ?  <Alert severity="error">This is an error alert — check it out!</Alert> : null}
+//     </form>
+
     <div>
 
 
@@ -114,6 +164,7 @@ const BuyStock = () => {
         </Modal>
       </div>
     </div>
+
     
   );
 };
@@ -122,6 +173,11 @@ export default BuyStock;
 
 
 
+
+
+
+
+      <Alert severity="error">This is an error alert — check it out!</Alert>
 
 
 

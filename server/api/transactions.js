@@ -41,10 +41,14 @@ app.get('/', async(req, res, next)=> {
 
 app.post('/:id', isLoggedIn, async(req, res, next)=> {
   try {
-    console.log('here');
+    console.log('here'); 
+    const user = req.user
+    if(user.tradingFunds - (req.body.stock.currentPrice * req.body.quantity) < 0) {
+        throw new Error('Not enough juice, sorry!')
+    }
     const transaction = await Transaction.create({purchasePrice: req.body.stock.currentPrice, shares: req.body.quantity, transactionDate: '2023-06-06', transactionMethod: req.body.transactionMethod, stockId: req.body.stock.id, userId: req.body.userId});
     //req.user.tradingFunds - (req.body.stock.currentPrice * req.body.quantity)
-    const user = req.user
+   
     // user.tradingFunds -= (req.body.stock.currentPrice * req.body.quantity)
     // await user.save() TWO DIFFERENT WAYS TO UPDATE
     await user.update({ tradingFunds:  user.tradingFunds - (req.body.stock.currentPrice * req.body.quantity)})
@@ -58,7 +62,7 @@ app.post('/:id', isLoggedIn, async(req, res, next)=> {
 
 app.post('/portfolio', isLoggedIn, async(req, res, next)=> {
   try {
-    console.log(req.user, req.body)
+    // console.log(req.user, req.body)
     res.send(await req.user.addToPortfolio(req.body));
   }
   catch(ex){

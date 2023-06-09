@@ -12,6 +12,8 @@ const Friend = conn.define('friend', {
     values: ['Pending', 'Accepted'],
     defaultValue: 'Pending'
   },
+  //to & from id like for messages
+
 });
 
 module.exports = Friend;

@@ -411,17 +411,17 @@ const Account = ()=> {
   }, [auth]);
 
   useEffect(() => {
-    console.log(ref);
     if(ref.current){
       ref.current.addEventListener('change', (ev) => {
-          const file = ev.target.files[0];
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.addEventListener('load', () => {
-              setAvatar(reader.result)
-          })
-      })
-    }
+        const file = ev.target.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.addEventListener('load', () => {
+            setAvatar(reader.result)
+        })
+    })
+  }
+
 }, [ref])
 
   const _update = async(ev)=> {

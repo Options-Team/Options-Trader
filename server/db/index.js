@@ -14,19 +14,19 @@ Message.belongsTo(User, { as: 'to' });
 Transaction.belongsTo(User);
 Transaction.belongsTo(Stock);
 
-User.belongsToMany(User, {
-  through: Friend,
-  as: 'friender',
-  foreignKey: 'frienderId',
-  otherKey: 'friendingId'
-});
+// User.belongsToMany(User, {
+//   through: Friend,
+//   as: 'friender',
+//   foreignKey: 'frienderId',
+//   otherKey: 'friendingId'
+// });
 
-User.belongsToMany(User, {
-  through: Friend,
-  as: 'friending',
-  foreignKey: 'friendingId',
-  otherKey: 'frienderId'
-});
+// User.belongsToMany(User, {
+//   through: Friend,
+//   as: 'friending',
+//   foreignKey: 'friendingId',
+//   otherKey: 'frienderId'
+// }); 
 
 
 const syncAndSeed = async()=> {
@@ -36,7 +36,8 @@ const syncAndSeed = async()=> {
 
   const secondSetSP200 = 'HIG, AIV, COG, VMC, RL, CPB, BEN, RHI, XRX, CXO, GPS, CF, CTL, JWN, FLS, JEF, FL, DVN, PBCT, RLGY, NLSN, PFG, UA, PBF, HBI, MRO, AAP, LUMN, OMC, AES, HPQ, DXC, VNO, IPG, FANG, WYNN, UAA, MMM, AOS, ACN,ATVI,ADM, AFL, A, AKAM, ALK,ALLE,LNT,ALL,GOOG,MO,AEE,AAL,AEP,AXP,AIG,AMT,AMP,ABC,AME,AMGN,APH, ANTM,AON,AMAT,APTV,AJG,T,ATO,ADSK,AZO,AVB,AVY,BKR,BBWI,BAX,BDX,BRK.B,BBY,BIO,TECH,BIIB,BLK,BK,BA,BWA,BXP,BSX,BR,BRO,CHRW,CZR,CAH ,KMX'
 
-  const thirdSet = 'CTLT,CAT,CBOE,CBRE,CDW,CE,CNC,CNP,CDAY,CERN,CF,CRL,SCHW,CHTR,CVX,CMG,CB,CHD,CI,CINF,CTAS,CSCO,C,CFG,CTXS,CLX,CME,CMS,KO,CTSH,CL,CAG,ED,STZ,GLW,CTRA,CSX,CMI,CVS,DHI,DV,DE,DAL,XRAY,DXCM,DFS,DISCA,DISCK,DISH,DG,DLTR,D,DPZ,DOV,DRE,EMN,ETN,EBAY,EIX,EW,LLY,ENPH,ETR,EOG,EFX,EQR,ESS,EL,ETSY,RE,EVRG,ES,EXC,EXPD,FFIV,FB,FAST,FRT,FDX,FITB,FE,FLT,FMC,F,FTV,FBHS,FOXA,FOX,FCX,GRMN,IT,GNRC,GE,GIS,GPC,GPN,GL,GS,HAL,HCA'
+  const thirdSet = 'CTLT,CAT,CBOE,CBRE,CDW,CE,CNC,CNP,CDAY,CERN,CF,CRL,SCHW,CHTR,CVX,CMG,CB,CHD,CI,CINF,CTAS,CSCO,C,CFG,CTXS,CLX,CME,CMS,KO,CTSH,CL,CAG,ED,STZ,GLW,CTRA,CSX,CMI,CVS,DHI,DV,DE,DAL,XRAY,DXCM,DFS,DISCA,DISCK,DISH,DG,DLTR,D,DPZ,DOV,DRE,EMN,ETN,EBAY,EIX,EW,LLY,ENPH,ETR,EOG,EFX,EQR,ESS,EL,ETSY,RE,EVRG,ES,EXC,EXPD,FFIV,FB,FAST,FRT,FDX,FITB,FE,FLT,FMC,F,FTV,FBHS,FOXA,FOX,FCX,GRMN,IT,GNRC,GE,GIS,GPC,GPN,GL,GS,HAL,HCA, PEAK,HSIC,HPE,HOLX,HRL,HST,HWM,HUM,HBAN,HII,IBM,INFO,ILMN,IR,INTC,ICE,IFF,INTU,IVZ,IRM,JBHT, J'
+   
 
   
 const options = {
@@ -77,7 +78,7 @@ const options3 = {
 
 try {
 	const response = await axios.request(options);
-	console.log(response.data);
+	//console.log(response.data);
   for(let i = 0; i < response.data.length; i++) {
     let stock = response.data[i]
     await Stock.create({ currentPrice: `${stock.ask}` , ticker: `${stock.symbol}`, name: `${stock.shortName}` })
@@ -88,7 +89,7 @@ try {
 
 try {
 	const response = await axios.request(options2);
-	console.log(response.data);
+	//console.log(response.data);
   for(let i = 0; i < response.data.length; i++) {
     let stock = response.data[i]
     await Stock.create({ currentPrice: `${stock.ask}` , ticker: `${stock.symbol}`, name: `${stock.shortName}` })
@@ -99,7 +100,7 @@ try {
 
 try {
 	const response = await axios.request(options3);
-	console.log(response.data);
+	//console.log(response.data);
   for(let i = 0; i < response.data.length; i++) {
     let stock = response.data[i]
     await Stock.create({ currentPrice: `${stock.ask}` , ticker: `${stock.symbol}`, name: `${stock.shortName}` })

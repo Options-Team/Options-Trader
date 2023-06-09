@@ -140,7 +140,7 @@ const User = conn.define('user', {
     type: INTEGER 
   },
   tradingFunds: {
-    type: FLOAT,
+    type: FLOAT
 }
 });
 
@@ -264,8 +264,7 @@ User.prototype.getPortfolio = async function(){
         "Price": currTransaction.purchasePrice,
         'Cost_Basis': currTransaction.transactionValue,
         'Value': currTransaction.transactionValue,
-        'Current_Value': (currTransaction.stock.currentPrice * currTransaction.shares) /  (currTransaction.transactionValue * currTransaction.shares)
-         // 'Stock Id': currTransaction.dataValues.stockId,
+        'Current_Value': (currTransaction.stock.currentPrice * currTransaction.shares)
       }
     }
      //  (obj[currTransaction['stock']['ticker']]['Shares'] + currTransaction.shares) * currTransaction.stock.currentPrice
