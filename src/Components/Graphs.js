@@ -155,8 +155,11 @@ const Graphs = ()=> {
   const [top25Ticker, setTop25Ticker] = useState([])
   const [graph, setGraph] = useState('')
   const [open, setOpen] = useState(false);
+  const [openSell, setOpenSell] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleOpenSell = () => setOpenSell(true);
+  const handleCloseSell = () => setOpenSell(false);
   const { stockTicker } = useParams();
   const stock = stocks.find(s => s.ticker === stockTicker);
   const [quantity, setQuantity] = useState(1);
@@ -496,12 +499,14 @@ const options = {
                 </form>  */}
 
                 <Button onClick={handleOpen}>Buy { stockTicker }</Button>
+                <Button disabled = {true} onClick={handleOpenSell}>Sell { stockTicker }</Button>
                 <Modal
                   open={open}
                   onClose={handleClose}
                   aria-labelledby="buy-stock"
                   aria-describedby="buy-stock-description"
                 >
+
                   <Box sx={style}>
                     <form>
                         <Typography style={{display: 'flex', justifyContent: 'center'}} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -524,7 +529,35 @@ const options = {
                     </form>
                   </Box>
                 </Modal>
-
+                
+                <Modal
+                  open={openSell}
+                  onClose={handleCloseSell}
+                  aria-labelledby="sell-stock"
+                  aria-describedby="sell-stock-description"
+                >
+                                  <Box sx={style}>
+                    <form>
+                        <Typography style={{display: 'flex', justifyContent: 'center'}} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                          { stockTicker }
+                        </Typography>
+                        <Typography variant="h5" component="div">
+                          Current Price: { stock.currentPrice }
+                        </Typography>
+                          <div style={{ marginBottom: 8 }}/>
+                        <TextField style={{ width: 200}} label='Shares' onChange={ ev => update(ev.target.value) } defaultValue={ quantity } type='number'></TextField>
+                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                          Total Value: { totalValue.toFixed(2) }
+                        </Typography>
+                        <Typography variant="body2">
+                          Available Funds: { auth.tradingFunds }
+                        </Typography>
+                        <CardActions style={{display: 'flex', justifyContent: 'center'}}>
+                          <Button onClick={ buy }>Sell { stockTicker }</Button>
+                        </CardActions>
+                    </form>
+                  </Box>
+                </Modal>
                 </div>
               <div style={{display: 'flex'}}>
                 <div style={{height:800,width:1200}}>
