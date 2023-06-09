@@ -6,6 +6,7 @@ const socketMap = require('../socketMap');
 const Stock = require('./Stock');
 const JWT = process.env.JWT;
 
+
 const phoneValidationRegex = /\d{3}-\d{3}-\d{4}/
 const User = conn.define('user', {
   id: {
