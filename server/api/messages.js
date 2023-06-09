@@ -8,9 +8,7 @@ const { isLoggedIn } = require('./middleware');
 
 app.post('/create', async(req, res, next)=> {
   try {
-    console.log(req.body)
     const message = await Message.create(req.body);
-    console.log(message);
     res.send(message);
   }
   catch(ex){

@@ -350,24 +350,24 @@ const MyResponsiveLine = ({data}) => (
   />
 )
 
-const AddressAutocomplete = ({ _createAddress }) => {
-  const input = useRef();
-  useEffect(() => {
-    if(input.current){
-      const autocomplete = new google.maps.places.Autocomplete(input.current);
-      autocomplete.addListener('place changed', () => {
-        _createAddress(autocomplete.getPlace());
-      })
-    }
+// const AddressAutocomplete = ({ _createAddress }) => {
+//   const input = useRef();
+//   useEffect(() => {
+//     if(input.current){
+//       const autocomplete = new google.maps.places.Autocomplete(input.current);
+//       autocomplete.addListener('place changed', () => {
+//         _createAddress(autocomplete.getPlace());
+//       })
+//     }
 
-  }, [input])
+//   }, [input])
 
-  return (
-    <div>
-      <input className='addressInput' ref={ input }/>
-    </div>
-  )
-}
+//   return (
+//     <div>
+//       <input className='addressInput' ref={ input }/>
+//     </div>
+//   )
+// }
 
 const Account = ()=> {
   const [firstName, setFirstName] = useState('');
@@ -411,7 +411,8 @@ const Account = ()=> {
   }, [auth]);
 
   useEffect(() => {
-    ref?.current.addEventListener('change', (ev) => {
+    if(ref.current){
+      ref.current.addEventListener('change', (ev) => {
         const file = ev.target.files[0];
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -419,6 +420,7 @@ const Account = ()=> {
             setAvatar(reader.result)
         })
     })
+  }
 }, [ref])
 
   const _update = async(ev)=> {

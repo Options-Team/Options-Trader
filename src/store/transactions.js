@@ -2,11 +2,15 @@ import axios from 'axios';
 import { fetchPortfolio } from './portfolio';
 
 const transaction = (state =  [], action) => {
+  if(action.type === 'SET_TRANSACTIONS'){
+    return action.transactions
+  }
   if(action.type === 'ADD_TRANSACTIONS'){
     return [...state, action.transaction];
   }
   return state;
 };
+
 
 export const postTransaction = (transaction) => {
   return async(dispatch)=> {
@@ -22,6 +26,13 @@ export const postTransaction = (transaction) => {
     //call getPortfolio method
   };
 };
+
+export const fetchTransactions = () => {
+  return async (dispatch)=> {
+    const response = await axios.get('/api/transactions');
+    dispatch({type: 'SET_TRANSACTIONS', transactions: response.data})
+  }
+}
 
 export const buy = () => {};
 

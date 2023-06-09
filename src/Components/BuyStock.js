@@ -10,6 +10,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
 
 const BuyStock = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,13 @@ const BuyStock = () => {
   }, [stock, quantity]);
 
   // useEffect(() => {
+  //   if(stock){
+  //     setQuantity(totalValue / stock.currentPrice )
+  //   }
+    
+  // }, [stock, totalValue]);
+
+  // useEffect(() => {
   //   if(portfolio){
   //     fetchPortfolio()
   //   }
@@ -47,6 +55,7 @@ const BuyStock = () => {
   };
 
   const buy =  async () => {
+
     await dispatch(postTransaction({quantity, stock, transactionMethod: 'Buy', userId: auth.id}));
     await dispatch(loginWithToken())
     await dispatch(fetchPortfolio())
@@ -91,10 +100,12 @@ const BuyStock = () => {
         </Typography>
       </CardContent>
       <CardActions style={{display: 'flex', justifyContent: 'center'}}>
-        <Button onClick={ buy }>Buy { ticker }</Button>
+        <Button disabled={ auth.tradingFunds < totalValue} onClick={ buy }>Buy { ticker }</Button>
       </CardActions>
     </Card>
+    { auth.tradingFunds < totalValue ?  <Alert severity="error">This is an error alert — check it out!</Alert> : null}
     </form>
+    
   );
 };
 
@@ -102,6 +113,11 @@ export default BuyStock;
 
 
 
+
+
+
+
+      <Alert severity="error">This is an error alert — check it out!</Alert>
 
 
 
