@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import axios from 'axios'
 import { POLYGON_API_KEY, X_RapidAPI_Key } from '../../secrets';
-import { postTransaction, loginWithToken, fetchPortfolio } from '../store';
+import { postTransaction, loginWithToken, fetchPortfolio, removeFromPortfolio } from '../store';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {ResponsiveLine} from '@nivo/line';
@@ -22,6 +22,7 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Alert from '@mui/material/Alert';
+
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -165,7 +166,11 @@ const Graphs = ()=> {
   const stock = stocks.find(s => s.ticker === stockTicker);
   const [quantity, setQuantity] = useState(1);
   const [totalValue, setTotalValue] = useState(0);
-  const [tradingFunds, setTradingFunds] = useState('');
+  const[shares, setShares] = useState(0)
+
+ 
+  
+         
 
   const style = {
     position: 'absolute',
@@ -181,10 +186,13 @@ const Graphs = ()=> {
 
 
   // UNCOMMENT TO ADD TICKER EVERY TIME SOMEONE GOES TO THE GRAPHS PAGE
-  // useEffect(()=> {
-  //   getTop25Trending();
-  //   tickerAPICall();
-  // },[])
+  useEffect(()=> {
+    // getTop25Trending();
+    // tickerAPICall();
+    fetchPortfolio();
+  },[])
+
+  
  
 //const weekDates = ['2023-05-26', '2023-05-25', '2023-05-24','2023-05-23', '2023-05-22', '2023-05-19', '2023-05-18', '2023-05-17','2023-05-16', '2023-05-15', '2023-05-12', '2023-05-11', '2023-05-10', '2023-05-09', '2023-05-08', '2023-05-05', '2023-05-04', '2023-05-03', '2023-05-02', '2023-05-01','2023-04-28','2023-04-27','2023-04-26','2023-04-25','2023-04-24','2023-04-21','2023-04-20','2023-04-19','2023-04-18','2023-04-17','2023-04-14','2023-04-13','2023-04-12','2023-04-11','2023-04-10','2023-04-06','2023-04-05','2023-04-04','2023-04-03']
 
@@ -370,6 +378,14 @@ const options = {
           }
         }
 
+    
+
+           
+          
+        
+
+       
+
 //accordion component
   const [expanded, setExpanded] = React.useState('panel0');
 
@@ -451,6 +467,20 @@ const options = {
   //   }
   // }, [transaction])
 
+  useEffect(() => {
+    console.log(portfolio)
+    const portfolioArr = Object.entries(portfolio)
+    const currStock = portfolioArr.filter(stock => stock[0] === stockTicker) 
+    console.log(portfolioArr)
+    console.log(currStock[0])
+    // if(currStock[1]['Shares']){
+    //   let _shares = currStock[0][1]['Shares']
+    //   setShares(_shares)
+    // }
+    
+  }, [portfolio])
+
+
   if(!stock){
     return null;
   }
@@ -467,6 +497,13 @@ const options = {
     await dispatch(fetchPortfolio())
     navigate('/portfolio')
     
+  };
+
+  const sell =  async () => {
+    await dispatch(postTransaction({quantity, stock, transactionMethod: 'Sell', userId: auth.id}));
+    await dispatch(loginWithToken())
+    await dispatch(fetchPortfolio())
+    navigate('/portfolio')
   };
 
   return (
@@ -500,7 +537,7 @@ const options = {
                 </form>  */}
 
                 <Button onClick={handleOpen}>Buy { stockTicker }</Button>
-                <Button disabled = {true} onClick={handleOpenSell}>Sell { stockTicker }</Button>
+                <Button disabled ={portfolio[stockTicker] ? false : true} onClick={handleOpenSell}>Sell { stockTicker }</Button>
                 <Modal
                   open={open}
                   onClose={handleClose}
@@ -547,16 +584,26 @@ const options = {
                           Current Price: { stock.currentPrice }
                         </Typography>
                           <div style={{ marginBottom: 8 }}/>
-                        <TextField style={{ width: 200}} label='Shares' onChange={ ev => update(ev.target.value) } defaultValue={ quantity } type='number'></TextField>
+                        <TextField style={{ width: 200}} label='Shares' onChange={ ev => update(ev.target.value * -1) } defaultValue={ quantity } type='number'></TextField>
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                          Total Value: { totalValue.toFixed(2) }
+                          Total Value: { Math.abs(totalValue.toFixed(2)) }
+                         
                         </Typography>
                         <Typography variant="body2">
-                          Available Funds: { auth.tradingFunds }
+                          {/* Available Shares: { portfolio[stockTicker] !== undefined && shares ? shares : null } */}
+
+                          Available Shares: { shares === '0' ? shares : 0 }
+                          {/* {console.log(shares)} */}
+
+
+                          {/* { console.log(portfolio[stockTicker])} */}
+                          {/* { typeof shares !== "undefined" ? console.log(shares) : console.log('no shares')} */}
                         </Typography>
                         <CardActions style={{display: 'flex', justifyContent: 'center'}}>
-                          <Button onClick={ buy }>Sell { stockTicker }</Button>
+                          <Button  onClick={ sell }>Sell { stockTicker }</Button>
                         </CardActions>
+                        {/* { quantity > portfolio.stockTicker.Shares  ?  <Alert severity="error">Can't Sell Shares You Don't Have Buddy!</Alert> : null} */}
+                        {/* disabled={ portfolioArr.includes(stockTicker)} */}
                     </form>
                   </Box>
                 </Modal>
@@ -593,7 +640,7 @@ const options = {
                     <CardActions>
                         <Button size="small" onClick={ tickerOutlookAPICall }>Get Outlook</Button>
                     </CardActions>
-                    </Card> : ''} 
+                    </Card> : null} 
                   </div>
                   
                   </div>
@@ -616,7 +663,7 @@ const options = {
                                 
                                 </Card> 
                                 
-                                : ''}
+                                : null}
                   </div>
                   { outlook.map((story, idx) => {
                       return (

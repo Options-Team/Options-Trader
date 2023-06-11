@@ -144,6 +144,34 @@ const User = conn.define('user', {
 }
 });
 
+
+
+User.prototype.hypesForUser = function(){
+  return conn.models.hype.findAll({
+    order: [['createdAt']],
+    where: {
+      [conn.Sequelize.Op.or] : [
+        {
+          toId: this.id,
+        },
+        {
+          fromId: this.id,
+        }
+      ]
+    },
+    include: [
+      {
+        model: User, as: 'from',
+        attributes: ['username', 'id']
+      },
+      {
+        model: User, as: 'to',
+        attributes: ['username', 'id']
+      }
+    ]
+  });
+};
+
 User.prototype.messagesForUser = function(){
   return conn.models.message.findAll({
     order: [['createdAt']],
@@ -170,6 +198,29 @@ User.prototype.messagesForUser = function(){
   });
 };
 
+User.prototype.sendHype = async function (hype){
+  hype = await conn.models.hype.create({...hype, fromId: this.id})
+  console.log(hype)
+  hype = await conn.models.hype.findByPk(
+    hype.id,
+    { include: [
+        {
+          model: User, as: 'from',
+          attributes: ['username', 'id']
+        },
+        {
+          model: User, as: 'to',
+          attributes: ['username', 'id']
+        }
+      ]
+    }
+  )
+  if(socketMap[hype.toId]){
+    socketMap[hype.toId].socket.send(JSON.stringify({ type: 'CREATE_HYPE', hype}));
+  }
+  return hype;
+}
+
 User.prototype.sendMessage = async function (message){
   message = await conn.models.message.create({...message, fromId: this.id})
   
@@ -193,42 +244,82 @@ User.prototype.sendMessage = async function (message){
   return message;
 }
 
-// User.prototype.createTransaction = async function(){
-//   const portfolio = await this.getPortfolio();
-//   portfolio.isPortfolio = false;
-//   await portfolio.save();
-//   return portfolio;
+User.prototype.friendRequestsForUser = function(){
+  return conn.models.friend.findAll({
+    order: [['createdAt']],
+    where: {
+      [conn.Sequelize.Op.or] : [
+        {
+          toId: this.id,
+        },
+        {
+          fromId: this.id,
+        }
+      ]
+    },
+    include: [
+      {
+        model: User, as: 'from',
+        attributes: ['username', 'id']
+      },
+      {
+        model: User, as: 'to',
+        attributes: ['username', 'id']
+      }
+    ]
+  });
+};
 
-// }
 
-// User.prototype.getPortfolio = async function(){
-//   let userTransactions = await conn.models.transaction.findAll({
-//     where: {
-//       userId: this.id
-//     }
-//   });
-//   if(!userTransactions){
-//      const portfolio = {};
-//      return portfolio;
-//   }
-//   const portfolio = (userTransactions) => {
-//     const obj = {};
-//     for(let i = 0; i < userTransactions.length; i++){
-//       {
-//         AAPL: {
-//           shares: 10,
-//           costBasis: valuePaidTotal,
-//           value: shares * currenValue
-//         },
-//         AMZN:{
-//           shares: 2,
-//           costBasis: valuePaidTotal,
-//           value: shares * currenValue
-//         }
-//       }
-//     }
-//   };
-// }
+
+User.prototype.sendFriendRequest = async function (friend){
+  friend = await conn.models.friend.create({...friend, fromId: this.id})
+  
+  friend = await conn.models.friend.findByPk(
+    friend.id,
+    { include: [
+        {
+          model: User, as: 'from',
+          attributes: ['username', 'id']
+        },
+        {
+          model: User, as: 'to',
+          attributes: ['username', 'id']
+        }
+      ]
+    }
+  )
+  if(socketMap[friend.toId]){
+    socketMap[friend.toId].socket.send(JSON.stringify({ type: 'CREATE_FRIEND', friend}));
+  }
+  return friend;
+}
+
+User.prototype.acceptFriendRequest = async function (friend){
+  friend.status = 'Accepted'
+  friend = await conn.models.friend.update({...friend, toId: this.id})
+  
+  friend = await conn.models.friend.findByPk(
+    friend.id,
+    { include: [
+        {
+          model: User, as: 'from',
+          attributes: ['username', 'id']
+        },
+        {
+          model: User, as: 'to',
+          attributes: ['username', 'id']
+        }
+      ]
+    }
+  )
+  if(socketMap[friend.fromId]){
+    socketMap[friend.fromId].socket.send(JSON.stringify({ type: 'UPDATE_FRIEND', friend}));
+  }
+  return friend;
+}
+
+
 
 User.prototype.getPortfolio = async function(){
   let userTransactions = await conn.models.transaction.findAll({
@@ -276,53 +367,6 @@ User.prototype.getPortfolio = async function(){
   return portfolio(userTransactions)
 }
 
-
-
-  // portfolio = await conn.models.transaction.findByPk(
-  //   portfolio.id,
-  //   {
-  //     include: [
-  //       {
-  //         model: conn.models.transaction,
-  //         include: [
-  //           conn.models.stock
-  //         ]
-  //       }
-  //     ]
-  //   }
-  // );
-//   return portfolio;
-// }
-
-// User.prototype.addToPortfolio = async function({ stock, shares}){
-//   const portfolio = await this.getPortfolio();
-//   let transaction = portfolio.transactions.find( transaction => {
-//     return transaction.stockId === stock.id; 
-//   });
-//   if(transaction){
-//     transaction.shares += shares;
-//     await transaction.save();
-//   }
-//   else {
-//     await conn.models.transaction.create({ orderId: portfolio.id, stockId: stock.id, shares });
-//   }
-//   return this.getPortfolio();
-// };
-
-// User.prototype.removeFromPortfolio = async function({ stock, sharesToRemove}){
-//   const portfolio = await this.getPortfolio();
-//   const transaction = portfolio.transactions.find( transaction => {
-//     return transaction.stockId === stock.id; 
-//   });
-//   transaction.shares = transaction.shares - sharesToRemove;
-//   if(transaction.shares > 0){
-//     await transaction.save();
-//   }
-//   else {
-//     await transaction.destroy();
-//   }
-//   return this.getPortfolio();
-// };
 
 
 User.addHook('beforeSave', async(user)=> {

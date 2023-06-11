@@ -12,7 +12,15 @@ const Friend = conn.define('friend', {
     values: ['Pending', 'Accepted'],
     defaultValue: 'Pending'
   },
-  //to & from id like for messages
+  toId: {
+    type: UUID,
+    allowNull: false
+  },
+  fromId: {
+    type: UUID,
+    allowNull: false
+  },
+  
 
 });
 

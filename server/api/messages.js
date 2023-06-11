@@ -6,15 +6,15 @@ const { isLoggedIn } = require('./middleware');
 
 
 
-app.post('/create', async(req, res, next)=> {
-  try {
-    const message = await Message.create(req.body);
-    res.send(message);
-  }
-  catch(ex){
-    next(ex);
-  }
-});
+// app.post('/create', async(req, res, next)=> {
+//   try {
+//     const message = await Message.create(req.body);
+//     res.send(message);
+//   }
+//   catch(ex){
+//     next(ex);
+//   }
+// });
 
 app.post('/', isLoggedIn , async(req, res, next)=> {
     try {

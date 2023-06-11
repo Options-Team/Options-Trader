@@ -43,15 +43,29 @@ app.post('/:id', isLoggedIn, async(req, res, next)=> {
   try {
     console.log('here'); 
     const user = req.user
-    if(user.tradingFunds - (req.body.stock.currentPrice * req.body.quantity) < 0) {
+    if(req.body.transactionMethod === 'Buy'){
+      if(user.tradingFunds - (req.body.stock.currentPrice * req.body.quantity) < 0) {
         throw new Error('Not enough juice, sorry!')
     }
+    } else {
+      console.log(req.body)
+    //   if(user.tradingFunds - (req.body.stock.currentPrice * req.body.quantity) < 0) {
+    //     throw new Error('Not enough shares, sorry!')
+    // }
+    }
+    
     const transaction = await Transaction.create({purchasePrice: req.body.stock.currentPrice, shares: req.body.quantity, transactionDate: '2023-06-06', transactionMethod: req.body.transactionMethod, stockId: req.body.stock.id, userId: req.body.userId});
     //req.user.tradingFunds - (req.body.stock.currentPrice * req.body.quantity)
    
     // user.tradingFunds -= (req.body.stock.currentPrice * req.body.quantity)
     // await user.save() TWO DIFFERENT WAYS TO UPDATE
-    await user.update({ tradingFunds:  user.tradingFunds - (req.body.stock.currentPrice * req.body.quantity)})
+
+    if(req.body.transactionMethod === 'Buy'){
+      await user.update({ tradingFunds:  user.tradingFunds - (req.body.stock.currentPrice * req.body.quantity)})
+    } else if(req.body.transactionMethod === 'Sell') {
+      await user.update({ tradingFunds:  user.tradingFunds - (req.body.stock.currentPrice * req.body.quantity)})
+    }
+    
     //console.log(transaction);
     res.send(transaction);
   }

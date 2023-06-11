@@ -16,13 +16,13 @@ import Chats from './Chats';
 import NavBar from './NavBar';
 import Portfolio from './Portfolio';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginWithToken, fetchAssessments, fetchOnlineUsers, fetchMessages, fetchStocks, fetchUsers,fetchPortfolio, fetchTransactions } from '../store';
+import { loginWithToken, fetchAssessments, fetchOnlineUsers, fetchMessages, fetchStocks, fetchUsers,fetchPortfolio, fetchTransactions, fetchFriends, fetchHypes } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
 
 
 
 const App = ()=> {
-  const { auth, onlineUsers, messages, users } = useSelector(state => state);
+  const { auth, onlineUsers, messages, users, friends } = useSelector(state => state);
   const dispatch = useDispatch();
   const prevAuth = useRef(auth);
 
@@ -40,6 +40,8 @@ const App = ()=> {
     if(!prevAuth.current.id && auth.id){
       //check messages
       dispatch(fetchMessages())
+      dispatch(fetchFriends())
+      dispatch(fetchHypes())
       console.log('you just logged in');
       window.socket = new WebSocket(window.location.origin.replace('http', 'ws'));
       window.socket.addEventListener('open', () => {
@@ -94,6 +96,7 @@ const App = ()=> {
               <Route path='/launch' element={ <Launch />} />
               <Route path='/stocks/:stockTicker' element={ <Graphs />} />
               <Route path='/buy/:ticker' element={ <BuyStock />} />
+             
               <Route path='/riskAssessment/:id' element={ <RiskAssessment />} />
               <Route path='/chats' element={ <Chats />} />
               <Route path='/portfolio' element={ <Portfolio />} />

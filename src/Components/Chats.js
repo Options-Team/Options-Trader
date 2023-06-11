@@ -1,23 +1,29 @@
 import React, {useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../store';
+import { destroyFriend, logout, updateFriend } from '../store';
 import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { createMessage, createMessage1 } from '../store';
+import { createMessage, createMessage1, createFriend, createHype } from '../store';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import SendTwoToneIcon from '@mui/icons-material/SendTwoTone';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
+import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
+
 const Chats = ()=> {
-    const { messages, auth, onlineUsers, users } = useSelector(state => state)
+    const { messages, auth, onlineUsers, users, friends, hypes } = useSelector(state => state)
     const dispatch = useDispatch();
 
     const chatMap = messages.reduce((acc, message) => {
@@ -29,6 +35,24 @@ const Chats = ()=> {
         return acc
     }, {});
     const chats = Object.values(chatMap)
+
+    const friendRequestsPending = friends.filter(friend => friend.toId === auth.id && friend.status === 'Pending')
+
+    const friendsList = friends.filter(friend => friend.toId === auth.id || friend.fromId === auth.id  && friend.status === 'Accepted')
+
+    const hypeList = hypes.filter(hype => hype.toId === auth.id)
+
+    const acceptFriend = async (friend) => {
+      friend.status = 'Accepted'
+      await dispatch(updateFriend(friend))
+    }
+
+    const denyFriend = (friendId) => {
+      console.log()
+      dispatch(destroyFriend(friendId)) 
+    }
+
+
     
     return (
     <div>
@@ -52,10 +76,20 @@ const Chats = ()=> {
                                      onClick={()=> {
                                         dispatch(createMessage1({ toId: user.id, txt: 'Hey!'}))
                                      }}
-                                     color="primary" aria-label="Send Message" disabled={messages.find(message => message.fromId === user.id || message.toId === user.Id)}>
+                                     color="primary" aria-label="Send Message" disabled={messages.find(message => message.fromId === user.id || message.toId === user.Id) ? true : false}>
                                         <SendTwoToneIcon />
                                     </IconButton>
                         </Stack>
+                        <Stack direction="row" spacing={1}>
+                                    <IconButton 
+                                     onClick={()=> {
+                                        dispatch(createFriend({ toId: user.id}))
+                                     }}
+                                     color="primary" aria-label="Send Friend Request" disabled={friends.find(friend => friend.fromId === user.id || friend.toId === user.Id) || user.id === auth.id ? true : false}>
+                                        <PersonAddIcon />
+                                    </IconButton>
+                        </Stack>
+
                   </li>
                 )
               })}
@@ -67,7 +101,7 @@ const Chats = ()=> {
     <Card sx={{ width: 300  }}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Online Users ({users.length}):
+          Users ({users.length}):
         </Typography>
         <ul>
               {users.map(user => {
@@ -79,10 +113,19 @@ const Chats = ()=> {
                                      onClick={()=> {
                                         dispatch(createMessage1({ toId: user.id, txt: 'Hey!'}))
                                      }}
-                                     color="primary" aria-label="Send Message" disabled={messages.find(message => message.fromId === user.id || message.toId === user.Id)}>
+                                     color="primary" aria-label="Send Message" disabled={messages.find(message => message.fromId === user.id || message.toId === user.Id) ? true : false}>
                                         <SendTwoToneIcon />
                                    </IconButton>
                                  </Stack>
+                                  <Stack direction="row" spacing={1}>
+                                    <IconButton 
+                                     onClick={()=> {
+                                        dispatch(createFriend({ toId: user.id}))
+                                     }}
+                                     color="primary" aria-label="Send Friend Request" disabled={friends.find(friend => friend.fromId === user.id  || friend.toId === user.Id )  ? true : false}>
+                                        <PersonAddIcon />
+                                    </IconButton>
+                                  </Stack>
                   </li>
                 )
               })}
@@ -90,6 +133,91 @@ const Chats = ()=> {
       </CardContent>
      
     </Card>   
+
+{friendRequestsPending.length ? <Card sx={{ width: 300  }}>
+      <CardContent>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          Friend Requests ({friendRequestsPending.length}):
+        </Typography>
+        <ul>
+              {friendRequestsPending ? friendRequestsPending.map(user => {
+                return(
+                  <li key={user.id} style={{ display: 'flex', alignItems: 'center'}}>
+                    {user.from.username}
+                        <Stack direction="row" spacing={1}>
+                                    <IconButton 
+                                     onClick={()=> {
+                                      acceptFriend(user)
+                                     }}
+                                     color="primary" aria-label="Accept Friend Request" >
+                                        <CheckCircleIcon />
+                                    </IconButton>
+                        </Stack>
+
+                        <Stack direction="row" spacing={1}>
+                                    <IconButton 
+                                     onClick={()=> {
+                                        denyFriend(user.id)
+                                     }}
+                                     color="primary" aria-label="Deny Friend Request" >
+                                        <DoNotDisturbOnIcon />
+                                    </IconButton>
+                        </Stack>
+
+                  </li>
+                )
+              }) : null }
+
+              
+            </ul>
+      </CardContent>
+     
+    </Card> : null}
+
+    {friendsList.length ? <Card sx={{ width: 300  }}>
+      <CardContent>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          Friends ({friendsList.length}):
+        </Typography>
+        <ul>
+              {friendsList ? friendsList.map(user => {
+                return(
+                  <li key={user.id} style={{ display: 'flex', alignItems: 'center'}}>
+                    {user.from.username !== auth.username ? user.from.username : user.to.username}
+                    <Stack direction="row" spacing={1}>
+                                    <IconButton 
+                                     onClick={()=> {
+                                        user.fromId === auth.id ? dispatch(createHype({ toId: user.toId})) : dispatch(createHype({ toId: user.fromId}))
+                                     }}
+                                     color="primary" aria-label="Hype Your Friend Up">
+                                        <AccessibilityNewIcon />
+                                    </IconButton>
+                                  </Stack>
+                  </li>
+                )
+              }) : null }
+           
+            </ul>
+      </CardContent>
+     
+    </Card> : null}
+
+    {hypeList.length ? 
+      
+        <ul style={{ listStyle: 'none'}}>
+              {hypeList ? hypeList.map(hype => {
+                return(
+                  <li key={hype.id} style={{ display: 'flex', alignItems: 'center', width: 300}}>
+                    <Alert severity="success">{hype.from.username !== auth.username ? hype.from.username : hype.to.username} Hyped you up!</Alert>
+                  </li>
+                )
+              }) : null }
+           
+            </ul>
+      
+     
+    : null}
+     
       </div>
     )
   }
