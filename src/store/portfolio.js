@@ -35,7 +35,7 @@ export const addToPortfolio = (product, quantity) => {
   }
 }
 
-export const removeFromPortfolio = (stock, quantityToRemove) => {
+export const removeFromPortfolio = (stock, sharesToRemove) => {
   return async(dispatch)=> {
     const token = window.localStorage.getItem('token');
     const response = await axios.put('/api/transactions/portfolio',{

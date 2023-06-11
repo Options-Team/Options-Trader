@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express.Router();
-const { User, Friend } = require('../db');
+const { User, Friend, Hype } = require('../db');
 const { isLoggedIn } = require('./middleware');
 
 module.exports = app;
@@ -67,6 +67,14 @@ app.get('/users',  async (req, res, next)=> {
 app.get('/friends',  async (req, res, next)=> {
   try {
       res.send( await Friend.findAll())
+  } catch (error) {
+      next(error)
+  }
+})
+
+app.get('/hypes',  async (req, res, next)=> {
+  try {
+      res.send( await Hype.findAll())
   } catch (error) {
       next(error)
   }

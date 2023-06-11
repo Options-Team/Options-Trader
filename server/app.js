@@ -17,10 +17,30 @@ app.use('/api/assessments', require('./api/assessments'));
 app.use('/api/messages', require('./api/messages'));
 app.use('/api/stocks', require('./api/stocks'));
 app.use('/api/transactions', require('./api/transactions'));
+app.use('/api/friends', require('./api/friends'));
+app.use('/api/hypes', require('./api/hypes'));
 
 app.get('/api/messages', isLoggedIn, async(req, res,next)=> {
     try {
       res.send(await req.user.messagesForUser());
+    }
+    catch(ex){
+      next(ex);
+    }
+});
+
+app.get('/api/friends', isLoggedIn, async(req, res,next)=> {
+    try {
+      res.send(await req.user.friendRequestsForUser());
+    }
+    catch(ex){
+      next(ex);
+    }
+});
+
+app.get('/api/hypes', isLoggedIn, async(req, res,next)=> {
+    try {
+      res.send(await req.user.hypesForUser());
     }
     catch(ex){
       next(ex);
