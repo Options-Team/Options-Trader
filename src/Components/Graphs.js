@@ -609,21 +609,21 @@ const options = {
   //   }
   // }, [transaction])
 
-  // useEffect(() => {
-  //   console.log(portfolio)
-  //   const portfolioArr = Object.entries(portfolio)
-  //   const currStock = portfolioArr.filter(stock => stock[0] === stockTicker) 
-  //   console.log(portfolioArr);
-  //   console.log(portfolioArr[1]);
-  //   console.log(currStock[0]);
-  //   console.log(portfolio.AAPL.Shares);
-  //   setShares(portfolio.AAPL.Shares);
-  //   // if(currStock[1]['Shares']){
-  //   //   let _shares = currStock[0][1]['Shares']
-  //   //   setShares(_shares)
-  //   // }
+  useEffect(() => {
+    console.log(portfolio)
+    // const portfolioArr = Object.entries(portfolio)
+    // const currStock = portfolioArr.filter(stock => stock[0] === stockTicker) 
+    // console.log(portfolioArr);
+    // console.log(portfolioArr[1]);
+    // console.log(currStock[0]);
+    // console.log(portfolio.AAPL.Shares);
+    // setShares(portfolio.AAPL.Shares);
+    // if(currStock[1]['Shares']){
+    //   let _shares = currStock[0][1]['Shares']
+    //   setShares(_shares)
+    // }
     
-  // }, [portfolio])
+  }, [portfolio])
 
 
   if(!stock){
@@ -739,8 +739,14 @@ const options = {
                         </Typography>
                         <Typography variant="body2">
                           {/* Available Shares: { portfolio[stockTicker] !== undefined && shares ? shares : null } */}
+
                           {/* {portfolio.length ? `Available Shares: ${ portfolio[Object.keys(portfolio)[0]].Shares === 0 ? 0 : portfolio[Object.keys(portfolio)[0]].Shares }` : null} */}
                           {/* Available Shares: { portfolio[Object.keys(portfolio)[0]].Shares === 0 ? 0 : portfolio[Object.keys(portfolio)[0]].Shares } */}
+
+
+                          Available Shares: { Object.keys(portfolio).length === 0  ? 0 : portfolio[Object.keys(portfolio)[0]].Shares }
+                          {/* Available Shares: { portfolio[Object.keys(portfolio)[0]].Shares  ? 0 : portfolio[Object.keys(portfolio)[0]].Shares } */}
+
                           {/* Available Shares: { shares === '0' ? shares : 0 } */}
                           {/* {console.log(shares)} */}
                           {/* portfolio.AAPL.Shares */}
