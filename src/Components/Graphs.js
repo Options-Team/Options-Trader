@@ -148,6 +148,9 @@ const Graphs = ()=> {
   const [data2Week, setData2Week] = useState([])
   const [data5Day, setData5Day] = useState([])
   const [dataYTD, setDataYTD] = useState([])
+  const [data2Year, setData2Year] = useState([])
+  const [data3Year, setData3Year] = useState([])
+  const [data5Year, setData5Year] = useState([])
   const [currentTicker, setCurrentTicker] = useState('')
   const [logo, setLogo] = useState('')
   const [outlook, setOutlook] = useState([])
@@ -188,13 +191,10 @@ const Graphs = ()=> {
   // UNCOMMENT TO ADD TICKER EVERY TIME SOMEONE GOES TO THE GRAPHS PAGE
   useEffect(()=> {
     // getTop25Trending();
-    // tickerAPICall();
+    //tickerAPICall();
     fetchPortfolio();
   },[])
 
-  
- 
-//const weekDates = ['2023-05-26', '2023-05-25', '2023-05-24','2023-05-23', '2023-05-22', '2023-05-19', '2023-05-18', '2023-05-17','2023-05-16', '2023-05-15', '2023-05-12', '2023-05-11', '2023-05-10', '2023-05-09', '2023-05-08', '2023-05-05', '2023-05-04', '2023-05-03', '2023-05-02', '2023-05-01','2023-04-28','2023-04-27','2023-04-26','2023-04-25','2023-04-24','2023-04-21','2023-04-20','2023-04-19','2023-04-18','2023-04-17','2023-04-14','2023-04-13','2023-04-12','2023-04-11','2023-04-10','2023-04-06','2023-04-05','2023-04-04','2023-04-03']
 
 const options = {
     method: 'GET',
@@ -210,6 +210,36 @@ const options = {
       'X-RapidAPI-Host': 'alpha-vantage.p.rapidapi.com'
     }
   };
+
+  const optionsHistorical = {
+    method: 'GET',
+    url: 'https://alpha-vantage.p.rapidapi.com/query',
+    params: {
+      function: 'TIME_SERIES_WEEKLY_ADJUSTED',
+      symbol: `${stockTicker}`,
+      datatype: 'json'
+    },
+    headers: {
+      'X-RapidAPI-Key': `${X_RapidAPI_Key}`,
+      'X-RapidAPI-Host': 'alpha-vantage.p.rapidapi.com'
+    }
+  };
+
+  const optionsLong = {
+    method: 'GET',
+    url: 'https://alpha-vantage.p.rapidapi.com/query',
+    params: {
+      symbol: `${stockTicker}`,
+      function: 'TIME_SERIES_MONTHLY',
+      datatype: 'json'
+    },
+    headers: {
+      'X-RapidAPI-Key':  `${X_RapidAPI_Key}`,
+      'X-RapidAPI-Host': 'alpha-vantage.p.rapidapi.com'
+    }
+  };
+  
+ 
   
 
   const tickerAPICall =  async () => {
@@ -220,16 +250,51 @@ const options = {
         let lastTwoWeeksArrayForGraph = []
         let last5daysArrayForGraph = []
         let yearToDateArrayForGraph = []
+        let twoYearArrayForGraph = []
+        let threeYearArrayForGraph = []
+        let fiveYearArrayForGraph = []
         const tickerResponse = await axios.request(options)
-        //console.log(tickerResponse.data)
+        const historicalResponse = await axios.request(optionsHistorical)
+        const longResponse = await axios.request(optionsLong)
+        console.log(historicalResponse.data)
         let times = Object.keys(tickerResponse.data["Time Series (Daily)"]).reverse()
-
+        let timesHistorical = Object.keys(historicalResponse.data["Weekly Adjusted Time Series"]).reverse()
+        let timesLong= Object.keys(longResponse.data["Monthly Time Series"]).reverse()
+        console.log(timesHistorical[timesHistorical.length - 1])
+        console.log(timesLong[timesLong.length - 10])
         //let daysPastNYE = Number(times[times.length - 1].split('23-0')[1].split('-')[0]- 1) * 22 + Number(times[times.length - 1].split('23-0')[1].split('-')[1])
         //console.log(times)
         // console.log(Number(times[0].split('23-0')[1].split('-')[0]- 1))
         // console.log(Number(times[0].split('23-0')[1].split('-')))
        // console.log(times[times.length - 1].split('23-0')[1])
         //Object.keys(tickerResponse.data["Time Series (Daily)"])
+
+        for(let i = timesLong.length - 60; i < timesLong.length; i++){
+          fiveYearArrayForGraph.push(
+              {
+              "x": timesLong[i],
+              "y": longResponse.data['Monthly Time Series'][`${timesLong[i]}`]['4. close']
+            }
+          )
+        }
+
+        for(let i = timesHistorical.length - 40; i < timesHistorical.length; i++){
+          threeYearArrayForGraph.push(
+              {
+              "x": timesLong[i],
+              "y": longResponse.data['Monthly Time Series'][`${timesLong[i]}`]['4. close']
+            }
+          )
+        }
+
+        for(let i = timesHistorical.length - 40; i < timesHistorical.length; i++){
+          twoYearArrayForGraph.push(
+              {
+              "x": timesHistorical[i],
+              "y": historicalResponse.data['Weekly Adjusted Time Series'][`${timesHistorical[i]}`]['4. close']
+            }
+          )
+        }
       
         for(let i = 0; i < times.length; i++){
           yearToDateArrayForGraph.push(
@@ -333,11 +398,38 @@ const options = {
             },
           ]
 
+          const dataFor2YearGraph = [
+            {
+              "id": `${stockTicker ? stockTicker : ''}`,
+              "color": "hsl(55, 70%, 50%)",
+              "data": twoYearArrayForGraph
+            },
+          ]
+
+          const dataFor3YearGraph = [
+            {
+              "id": `${stockTicker ? stockTicker : ''}`,
+              "color": "hsl(55, 70%, 50%)",
+              "data": threeYearArrayForGraph
+            },
+          ]
+
+          const dataFor5YearGraph = [
+            {
+              "id": `${stockTicker ? stockTicker : ''}`,
+              "color": "hsl(55, 70%, 50%)",
+              "data": fiveYearArrayForGraph
+            },
+          ]
+
             setData1Month(dataForGraph)
             setData2Month(dataFor2MonthGraph)
             setData2Week(dataForTwoWeekGraph)
             setData5Day(dataFor5DayGraph)
             setDataYTD(dataForYTDGraph)
+            setData2Year(dataFor2YearGraph)
+            setData3Year(dataFor3YearGraph)
+            setData5Year(dataFor5YearGraph)
 
             const tickerInfoResponse = await axios.get(`https://api.polygon.io/v3/reference/tickers/${stockTicker}?apiKey=${POLYGON_API_KEY}`)
             setCurrentTicker(tickerInfoResponse.data.results)
@@ -420,6 +512,21 @@ const options = {
   const yTDClick = () => {
     // Update the graph state
     setGraph('YTD')
+  };
+
+  const twoYearClick = () => {
+    // Update the graph state
+    setGraph('twoYear')
+  };
+
+  const threeYearClick = () => {
+    // Update the graph state
+    setGraph('threeYear')
+  };
+
+  const fiveYearClick = () => {
+    // Update the graph state
+    setGraph('fiveYear')
   };
 
   const getTop25TrendingStocksOptions = {
@@ -615,8 +722,18 @@ const options = {
                 <Button size="small" onClick={ ()=> oneMonthClick() }>1-month</Button>
                 <Button size="small" onClick={ ()=> twoMonthClick() }>2-month</Button>
                 <Button size="small" onClick={ ()=> yTDClick() }>YTD</Button>
+                <Button size="small" onClick={ ()=> twoYearClick() }>2-year</Button>
+                <Button size="small" onClick={ ()=> threeYearClick() }>3-year</Button>
+                <Button size="small" onClick={ ()=> fiveYearClick() }>5-year</Button>
                     {/* { data.length ? <MyResponsiveLine data={data}></MyResponsiveLine> : '' }   */}
-                    {data1Month.length && graph === 'month' ? <MyResponsiveLine data={data1Month}></MyResponsiveLine> : data1Month.length && graph === 'twoWeek' ? <MyResponsiveLine data={data2Week}></MyResponsiveLine> : data1Month.length && graph === 'fiveDay' ? <MyResponsiveLine data={data5Day}></MyResponsiveLine> : data1Month.length && graph === 'twoMonth' ? <MyResponsiveLine data={data2Month}></MyResponsiveLine> : data1Month.length && graph === 'YTD' ? <MyResponsiveLine data={dataYTD}></MyResponsiveLine> : ''} 
+                    {data1Month.length && graph === 'month' ? <MyResponsiveLine data={data1Month}></MyResponsiveLine> : 
+                    data1Month.length && graph === 'twoWeek' ? <MyResponsiveLine data={data2Week}></MyResponsiveLine> : 
+                    data1Month.length && graph === 'fiveDay' ? <MyResponsiveLine data={data5Day}></MyResponsiveLine> : 
+                    data1Month.length && graph === 'twoMonth' ? <MyResponsiveLine data={data2Month}></MyResponsiveLine> : 
+                    data1Month.length && graph === 'YTD' ? <MyResponsiveLine data={dataYTD}></MyResponsiveLine> : 
+                    data1Month.length && graph === 'twoYear' ? <MyResponsiveLine data={data2Year}></MyResponsiveLine> : 
+                    data1Month.length && graph === 'threeYear' ? <MyResponsiveLine data={data3Year}></MyResponsiveLine> : 
+                    data5Year.length && graph === 'fiveYear' ? <MyResponsiveLine data={data5Year}></MyResponsiveLine> : ''} 
 
                 </div>
 
