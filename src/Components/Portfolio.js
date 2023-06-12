@@ -136,16 +136,14 @@ const Portfolio = ()=> {
   };
 
   const portfolioArr = Object.entries(portfolio)
-//   console.log(portfolioArr)
 let sum = 0
 
 for(let i = 0; i < transactions.length; i++){
   let currTransaction = transactions[i]
   sum += currTransaction.transactionValue
-  //console.log(currTransaction)
   transactionData.push(
       {
-      "x": currTransaction.transactionDate.split('23-0')[1] + `.${i}`,
+      "x": `#${i + 1} ` + currTransaction.transactionDate.split('23-0')[1],
       "y": sum
     }
   )
@@ -165,7 +163,6 @@ const getPortValue = () => {
   for(let i = 0; i < transactions.length; i++){
     let currTransaction = transactions[i]
     total += currTransaction.transactionValue
-    //console.log(currTransaction)
   }
   return total
 }
@@ -177,7 +174,6 @@ const portfolioGraph = [
     "data": transactionData
   },
 ]
-//console.log(portfolioGraph)
 
   return (
     <div>

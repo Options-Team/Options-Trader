@@ -38,9 +38,10 @@ const Chats = ()=> {
 
     const friendRequestsPending = friends.filter(friend => friend.toId === auth.id && friend.status === 'Pending')
 
-    const friendsList = friends.filter(friend => friend.toId === auth.id || friend.fromId === auth.id  && friend.status === 'Accepted')
+    const friendsList = friends.filter(friend =>( friend.toId === auth.id || friend.fromId === auth.id)  && friend.status === 'Accepted')
 
-    const hypeList = hypes.filter(hype => hype.toId === auth.id)
+    const hypeList = hypes.filter((hype) => hype.toId === auth.id)
+    const lastFiveHypes = hypeList.filter((hype, idx) => idx > hypeList.length - 6 )
 
     const acceptFriend = async (friend) => {
       friend.status = 'Accepted'
@@ -85,7 +86,7 @@ const Chats = ()=> {
                                      onClick={()=> {
                                         dispatch(createFriend({ toId: user.id}))
                                      }}
-                                     color="primary" aria-label="Send Friend Request" disabled={friends.find(friend => friend.fromId === user.id || friend.toId === user.Id) || user.id === auth.id ? true : false}>
+                                     color="primary" aria-label="Send Friend Request" disabled={friends.find(friend => friend.fromId === user.id || friend.toId === user.Id) ? true : user.id === auth.id ? true : false}>
                                         <PersonAddIcon />
                                     </IconButton>
                         </Stack>
@@ -180,14 +181,14 @@ const Chats = ()=> {
           Friends ({friendsList.length}):
         </Typography>
         <ul>
-              {friendsList ? friendsList.map(user => {
+              {friendsList.length ? friendsList.map(friend => {
                 return(
-                  <li key={user.id} style={{ display: 'flex', alignItems: 'center'}}>
-                    {user.from.username !== auth.username ? user.from.username : user.to.username}
+                  <li key={friend.id} style={{ display: 'flex', alignItems: 'center'}}>
+                    {friend.from.username !== auth.username ? friend.from.username : friend.to.username}
                     <Stack direction="row" spacing={1}>
                                     <IconButton 
                                      onClick={()=> {
-                                        user.fromId === auth.id ? dispatch(createHype({ toId: user.toId})) : dispatch(createHype({ toId: user.fromId}))
+                                        friend.fromId === auth.id ? dispatch(createHype({ toId: friend.toId})) : dispatch(createHype({ toId: friend.fromId}))
                                      }}
                                      color="primary" aria-label="Hype Your Friend Up">
                                         <AccessibilityNewIcon />
@@ -205,7 +206,7 @@ const Chats = ()=> {
     {hypeList.length ? 
       
         <ul style={{ listStyle: 'none'}}>
-              {hypeList ? hypeList.map(hype => {
+              {hypeList.length ? lastFiveHypes.map(hype => {
                 return(
                   <li key={hype.id} style={{ display: 'flex', alignItems: 'center', width: 300}}>
                     <Alert severity="success">{hype.from.username !== auth.username ? hype.from.username : hype.to.username} Hyped you up!</Alert>
