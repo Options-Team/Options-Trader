@@ -154,6 +154,7 @@ const Graphs = ()=> {
   const [currentTicker, setCurrentTicker] = useState('')
   const [logo, setLogo] = useState('')
   const [outlook, setOutlook] = useState([])
+  const [news, setNews] = useState([])
   const [innovationPerformance, setInnovationPerformance] = useState('')
   const [innovationScore, setInnovationScore] = useState(0)
   const [innovationTrend, setInnovationTrend] = useState('')
@@ -238,7 +239,8 @@ const options = {
       'X-RapidAPI-Host': 'alpha-vantage.p.rapidapi.com'
     }
   };
-  
+
+
  
   
 
@@ -255,13 +257,16 @@ const options = {
         let fiveYearArrayForGraph = []
         const tickerResponse = await axios.request(options)
         const historicalResponse = await axios.request(optionsHistorical)
+
+        //NEED A SET TIMEOUT ON ONE OF THESE API CALLS
         const longResponse = await axios.request(optionsLong)
-        console.log(historicalResponse.data)
+        
+        //console.log(tickerResponse.data)
         let times = Object.keys(tickerResponse.data["Time Series (Daily)"]).reverse()
         let timesHistorical = Object.keys(historicalResponse.data["Weekly Adjusted Time Series"]).reverse()
         let timesLong= Object.keys(longResponse.data["Monthly Time Series"]).reverse()
-        console.log(timesHistorical[timesHistorical.length - 1])
-        console.log(timesLong[timesLong.length - 10])
+        // console.log(timesHistorical[timesHistorical.length - 1])
+        // console.log(timesLong[timesLong.length - 10])
         //let daysPastNYE = Number(times[times.length - 1].split('23-0')[1].split('-')[0]- 1) * 22 + Number(times[times.length - 1].split('23-0')[1].split('-')[1])
         //console.log(times)
         // console.log(Number(times[0].split('23-0')[1].split('-')[0]- 1))
@@ -278,7 +283,7 @@ const options = {
           )
         }
 
-        for(let i = timesHistorical.length - 40; i < timesHistorical.length; i++){
+        for(let i = timesLong.length - 40; i < timesLong.length; i++){
           threeYearArrayForGraph.push(
               {
               "x": timesLong[i],
@@ -457,6 +462,7 @@ const options = {
             }
           };
           
+          
           try {
             const tickerOutlookResponse = await axios.request(outlookOptions);
             
@@ -464,6 +470,35 @@ const options = {
             setInnovationPerformance(tickerOutlookResponse.data.finance.result.companyOutlookSummary.innovationPerformance)
             setInnovationScore(tickerOutlookResponse.data.finance.result.companyOutlookSummary.innovationScore)
             setInnovationTrend(tickerOutlookResponse.data.finance.result.companyOutlookSummary.innovationTrend)
+
+          } catch (error) {
+            console.error(error);
+          }
+        }
+
+
+ const tickerNewsAPICall = async (ev) => {
+          ev.preventDefault();
+          
+
+          const optionsNews = {
+            method: 'GET',
+            url: 'https://real-time-finance-data.p.rapidapi.com/stock-news',
+            params: {
+              symbol: `${stockTicker}`,
+              language: 'en'
+            },
+            headers: {
+              'X-RapidAPI-Key': `${X_RapidAPI_Key}`,
+              'X-RapidAPI-Host': 'real-time-finance-data.p.rapidapi.com'
+            }
+          };
+          
+          
+          try {
+            const tickerNewsResponse = await axios.request(optionsNews);
+            console.log(tickerNewsResponse.data.news)
+            //setNews(tickerNewsResponse.data['news'])
 
           } catch (error) {
             console.error(error);
@@ -631,8 +666,11 @@ const options = {
                     </div>
                 </div>
                 {/* <Button onClick={ getTop25Trending } >Fill The Ticker!</Button> */}
-                <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> { stockTicker } Page </h1>
-
+                <Card >
+                  <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> { stock.name } </h1>
+                  <h2 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> { stockTicker } </h2>
+                  <h3 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> { stock.currentPrice } </h3>
+                </Card>
                 <div>
                   
                 {/* <form onSubmit={ tickerAPICall } style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>
@@ -701,8 +739,8 @@ const options = {
                         </Typography>
                         <Typography variant="body2">
                           {/* Available Shares: { portfolio[stockTicker] !== undefined && shares ? shares : null } */}
-
-                          Available Shares: { portfolio[Object.keys(portfolio)[0]].Shares === 0 ? 0 : portfolio[Object.keys(portfolio)[0]].Shares }
+                          {/* {portfolio.length ? `Available Shares: ${ portfolio[Object.keys(portfolio)[0]].Shares === 0 ? 0 : portfolio[Object.keys(portfolio)[0]].Shares }` : null} */}
+                          {/* Available Shares: { portfolio[Object.keys(portfolio)[0]].Shares === 0 ? 0 : portfolio[Object.keys(portfolio)[0]].Shares } */}
                           {/* Available Shares: { shares === '0' ? shares : 0 } */}
                           {/* {console.log(shares)} */}
                           {/* portfolio.AAPL.Shares */}
@@ -762,6 +800,7 @@ const options = {
 
                     <CardActions>
                         <Button size="small" onClick={ tickerOutlookAPICall }>Get Outlook</Button>
+                        <Button size="small" onClick={ tickerNewsAPICall }>Get More News</Button>
                     </CardActions>
                     </Card> : null} 
                   </div>
@@ -809,6 +848,33 @@ const options = {
                       )
                     })
                   } 
+
+                  {news.length ? <div>
+                                    { news.map((_story, idx) => {
+                                        return (
+                                        <div key={idx} style={{ width: 1200}}>
+                                        <Accordion key={idx} expanded={expanded === `panel${idx}`} onChange={handleChange(`panel${idx}`)}>
+                                            <AccordionSummary aria-controls={`panel${idx}-content`} id={`panel${idx}-header`}>
+                                              <Typography>{_story.article_title}</Typography>
+                                            </AccordionSummary>
+
+                                            <AccordionDetails>
+                                              <Typography component={'a'} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                                <a>{_story.article_url}</a>
+                                              </Typography>
+                                              <Typography>
+                                                {_story.source}
+                                              </Typography>
+                                              <img style={{width: 345}} src={_story.article_photo_url} />  
+                                            </AccordionDetails>
+                                          </Accordion>
+                                        </div> 
+                                        )
+                                      })
+                                    } 
+                                  </div> 
+                  : null}
+                  
             </div>
         
         )  : (
