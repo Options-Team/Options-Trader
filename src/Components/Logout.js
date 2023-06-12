@@ -17,20 +17,21 @@ const Logout = ()=> {
     }
 
   return (
-    <div style={{margin: 'auto', maxWidth: "80%", fontSize:"1.4rem", padding:"1rem"}}>
+    <div style={{display: 'flex', justifyContent:'center', alignItems: 'center'}}>
         {
         auth.id ? (
             <div>
-                <h1>Logout</h1>
+                <h1 style={{display: 'flex', justifyContent:'center', alignItems: 'center'}}>Logout</h1>
                 <div>
                     Are you sure you want to log out?
-                    <Button variant="contained" onClick={(user)=> (_logout(user))}>Logout</Button>
+                    
                 </div>
+                <Button style={{display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 20, backgroundColor: 'green'}} component="div" variant="contained" onClick={(user)=> (_logout(user))}>Logout</Button>
             </div>
         
         )  : (
             <div>
-                <h1>You're Not Logged In!</h1>
+                <h1 style={{display: 'flex', justifyContent:'center', alignItems: 'center'}}>You're Not Logged In!</h1>
                 <div>
                     <Link to={`/register`}>Register Here</Link> or <Link to='/login'> Login </Link>
                 </div>

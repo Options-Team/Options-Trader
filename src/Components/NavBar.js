@@ -26,7 +26,7 @@ function NavBar() {
   // I commented the above out so that the Stocks and Graphs page wouldn't show...these are a relic of the past post search bar creation
   const pages = ['Home', 'Portfolio'];
     let settings = []
-    auth.id ? (settings = ['Account', 'Chats', 'Logout']) : (settings = ['Account', 'Chats', 'Login'])
+    auth.id ? (settings = ['Account', 'Deposit', 'Chats', 'Logout']) : (settings = ['Account', 'Chats', 'Login'])
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -45,10 +45,12 @@ function NavBar() {
 
   const navigateTo = (page) => {
     navigate(`/${page.toLowerCase()}`)
+    handleCloseUserMenu()
+    handleCloseNavMenu()
   }
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ bgcolor: "green" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <ShowChartIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -67,7 +69,7 @@ function NavBar() {
               textDecoration: 'none',
             }}
           >
-            C-Trade
+            #1 Option Trader
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -123,7 +125,7 @@ function NavBar() {
               textDecoration: 'none',
             }}
           >
-            C-Trade
+            #1 Option Trader
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -154,7 +156,7 @@ function NavBar() {
               justifyContent: 'center'
             }}
           >
-            {auth.id ? <a style={{color: 'white', textDecoration: 'none'  }}>{auth.username}</a> : null}
+            {auth.id ? <a style={{color: 'white', textDecoration: 'none'  }}>{auth.username}</a> : ''}
             
           </Typography>
 

@@ -53,8 +53,8 @@ app.post('/:id', isLoggedIn, async(req, res, next)=> {
     //     throw new Error('Not enough shares, sorry!')
     // }
     }
-    
-    const transaction = await Transaction.create({purchasePrice: req.body.stock.currentPrice, shares: req.body.quantity, transactionDate: '2023-06-06', transactionMethod: req.body.transactionMethod, stockId: req.body.stock.id, userId: req.body.userId});
+    const transDate = req.body.stock.createdAt.split('T')[0]
+    const transaction = await Transaction.create({purchasePrice: req.body.stock.currentPrice, shares: req.body.quantity, transactionDate: transDate, transactionMethod: req.body.transactionMethod, stockId: req.body.stock.id, userId: req.body.userId});
     //req.user.tradingFunds - (req.body.stock.currentPrice * req.body.quantity)
    
     // user.tradingFunds -= (req.body.stock.currentPrice * req.body.quantity)
