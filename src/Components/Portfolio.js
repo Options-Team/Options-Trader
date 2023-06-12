@@ -143,7 +143,8 @@ for(let i = 0; i < transactions.length; i++){
   sum += currTransaction.transactionValue
   transactionData.push(
       {
-      "x": `#${i + 1} ` + currTransaction.transactionDate.split('23-0')[1],
+      // "x": `#${i + 1} ` + currTransaction.transactionDate.split('23-0')[1],
+      "x": `#${i + 1} ` + currTransaction.createdAt.split('T')[0].split('23-')[1],
       "y": sum
     }
   )
@@ -163,6 +164,19 @@ const getPortValue = () => {
   for(let i = 0; i < transactions.length; i++){
     let currTransaction = transactions[i]
     total += currTransaction.transactionValue
+  }
+  return total
+}
+
+const getMoneyMoved = () => {
+  let total = 0
+  // for(let stock of portfolio){
+  //   total += stock.Current_Value
+  // }
+
+  for(let i = 0; i < transactions.length; i++){
+    let currTransaction = transactions[i]
+    total += Math.abs(currTransaction.transactionValue)
   }
   return total
 }
@@ -192,7 +206,10 @@ const portfolioGraph = [
           Trades Made: {transactions.length}
         </Typography>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Money Invested: { getPortValue() }
+          Current Invested: { getPortValue() }
+        </Typography>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          Money Moved: { getMoneyMoved() }
         </Typography>
       </CardContent>
      
