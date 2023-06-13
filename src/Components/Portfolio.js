@@ -127,6 +127,7 @@ const Portfolio = ()=> {
   let transactionData = []
   const [graph, setGraph] = useState('')
 
+  const myTransactions = transactions.filter(transaction => transaction.userId === auth.id)
  
 //accordion component
   const [expanded, setExpanded] = React.useState('');
@@ -138,8 +139,8 @@ const Portfolio = ()=> {
   const portfolioArr = Object.entries(portfolio)
 let sum = 0
 
-for(let i = 0; i < transactions.length; i++){
-  let currTransaction = transactions[i]
+for(let i = 0; i < myTransactions.length; i++){
+  let currTransaction = myTransactions[i]
   sum += currTransaction.transactionValue
   transactionData.push(
       {
@@ -150,6 +151,8 @@ for(let i = 0; i < transactions.length; i++){
   )
 }
 
+
+
 const myPortfolioGraph = () => {
   // Update the graph state
   setGraph('show')
@@ -157,12 +160,11 @@ const myPortfolioGraph = () => {
 
 const getPortValue = () => {
   let total = 0
-  // for(let stock of portfolio){
-  //   total += stock.Current_Value
-  // }
 
-  for(let i = 0; i < transactions.length; i++){
-    let currTransaction = transactions[i]
+ 
+
+  for(let i = 0; i < myTransactions.length; i++){
+    let currTransaction = myTransactions[i]
     total += currTransaction.transactionValue
   }
   return total
@@ -174,8 +176,8 @@ const getMoneyMoved = () => {
   //   total += stock.Current_Value
   // }
 
-  for(let i = 0; i < transactions.length; i++){
-    let currTransaction = transactions[i]
+  for(let i = 0; i < myTransactions.length; i++){
+    let currTransaction = myTransactions[i]
     total += Math.abs(currTransaction.transactionValue)
   }
   return total
@@ -203,7 +205,7 @@ const portfolioGraph = [
           Trading Juice: {auth.tradingFunds}
         </Typography>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Trades Made: {transactions.length}
+          Trades Made: {myTransactions.length}
         </Typography>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           Current Invested: { getPortValue() }

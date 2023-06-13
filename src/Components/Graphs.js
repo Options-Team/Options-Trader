@@ -256,6 +256,7 @@ const options = {
         const historicalResponse = await axios.request(optionsHistorical)
 
         //NEED A SET TIMEOUT ON ONE OF THESE API CALLS
+        // const stockTickerTimeout = setTimeout(incDec(), 5000);
         const longResponse = await axios.request(optionsLong)
         
         //console.log(tickerResponse.data)
@@ -659,7 +660,9 @@ const options = {
   };
 
   const sell =  async () => {
-    await dispatch(postTransaction({quantity:quantity*-1, stock, transactionMethod: 'Sell', userId: auth.id}));
+
+    await dispatch(postTransaction({quantity: quantity * -1, stock, transactionMethod: 'Sell', userId: auth.id}));
+
     await dispatch(loginWithToken())
     await dispatch(fetchPortfolio())
     navigate('/portfolio')

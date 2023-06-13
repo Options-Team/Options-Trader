@@ -22,6 +22,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 
+
 const Chats = ()=> {
     const { messages, auth, onlineUsers, users, friends, hypes } = useSelector(state => state)
     const dispatch = useDispatch();
@@ -53,6 +54,7 @@ const Chats = ()=> {
       dispatch(destroyFriend(friendId)) 
     }
 
+    //CHAT NOTES... scheduler to delete data... reminder type stuff... CHEAP WAY delete pokes if too old, only show ones that are X old
 
     
     return (
@@ -71,13 +73,13 @@ const Chats = ()=> {
               {onlineUsers.map(user => {
                 return(
                   <li key={user.id} style={{ display: 'flex', alignItems: 'center'}}>
-                    {user.username}
+                    {user.username}                   
                         <Stack direction="row" spacing={1}>
                                     <IconButton 
                                      onClick={()=> {
                                         dispatch(createMessage1({ toId: user.id, txt: 'Hey!'}))
                                      }}
-                                     color="primary" aria-label="Send Message" disabled={messages.find(message => message.fromId === user.id || message.toId === user.Id) ? true : false}>
+                                     color="primary" aria-label="Send Message" disabled={messages.find(message => message.fromId === user.id || message.toId === user.id) || user.id === auth.id ? true : false}>
                                         <SendTwoToneIcon />
                                     </IconButton>
                         </Stack>
@@ -86,7 +88,7 @@ const Chats = ()=> {
                                      onClick={()=> {
                                         dispatch(createFriend({ toId: user.id}))
                                      }}
-                                     color="primary" aria-label="Send Friend Request" disabled={friends.find(friend => friend.fromId === user.id || friend.toId === user.Id) ? true : user.id === auth.id ? true : false}>
+                                     color="primary" aria-label="Send Friend Request" disabled={friends.find(friend => friend.fromId === user.id || friend.toId === user.id) ? true : user.id === auth.id ? true : false}>
                                         <PersonAddIcon />
                                     </IconButton>
                         </Stack>
@@ -109,12 +111,13 @@ const Chats = ()=> {
                 return(
                   <li key={user.id} style={{ display: 'flex', alignItems: 'center'}}>
                     {user.username}
-                        <Stack direction="row" spacing={1}>
+                    
+                     { user.id !== auth.id ? <div style={{ display: 'flex', alignItems: 'center'}}><Stack direction="row" spacing={1}>
                                      <IconButton 
                                      onClick={()=> {
                                         dispatch(createMessage1({ toId: user.id, txt: 'Hey!'}))
                                      }}
-                                     color="primary" aria-label="Send Message" disabled={messages.find(message => message.fromId === user.id || message.toId === user.Id) ? true : false}>
+                                     color="primary" aria-label="Send Message" disabled={messages.find(message => message.fromId === user.id || message.toId === user.id) || user.id === auth.id ? true : false}>
                                         <SendTwoToneIcon />
                                    </IconButton>
                                  </Stack>
@@ -123,10 +126,11 @@ const Chats = ()=> {
                                      onClick={()=> {
                                         dispatch(createFriend({ toId: user.id}))
                                      }}
-                                     color="primary" aria-label="Send Friend Request" disabled={friends.find(friend => friend.fromId === user.id  || friend.toId === user.Id )  ? true : false}>
+                                     color="primary" aria-label="Send Friend Request" disabled={friends.find(friend => friend.fromId === user.id || friend.toId === user.id) ? true : user.id === auth.id ? true : false}>
                                         <PersonAddIcon />
                                     </IconButton>
-                                  </Stack>
+                                  </Stack></div> : null}
+                                  
                   </li>
                 )
               })}
