@@ -645,7 +645,7 @@ const options = {
   };
 
   const sell =  async () => {
-    await dispatch(postTransaction({quantity, stock, transactionMethod: 'Sell', userId: auth.id}));
+    await dispatch(postTransaction({quantity:quantity*-1, stock, transactionMethod: 'Sell', userId: auth.id}));
     await dispatch(loginWithToken())
     await dispatch(fetchPortfolio())
     navigate('/portfolio')
@@ -732,7 +732,7 @@ const options = {
                           Current Price: { stock.currentPrice }
                         </Typography>
                           <div style={{ marginBottom: 8 }}/>
-                        <TextField style={{ width: 200}} label='Shares' onChange={ ev => update(ev.target.value * -1) } defaultValue={ quantity } type='number'></TextField>
+                        <TextField style={{ width: 200}} label='Shares' onChange={ ev => update(ev.target.value) } defaultValue={ quantity } type='number'></TextField>
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
                           Total Value: { Math.abs(totalValue.toFixed(2)) }
                          
