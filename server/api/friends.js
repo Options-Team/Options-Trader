@@ -1,13 +1,25 @@
 const express = require('express');
 const app = express.Router();
-const { Friend } = require('../db');
+const { Friend, User } = require('../db');
 const { isLoggedIn } = require('./middleware');
 
 
 app.put('/:id', isLoggedIn, async(req, res, next) => {
     try {
         const friend = await Friend.findByPk(req.params.id)
-        res.send(await friend.update(req.body))
+        await friend.update(req.body)
+        res.send(await Friend.findByPk(friend.id, { 
+            include: [
+            {
+              model: User, as: 'from',
+              attributes: ['username', 'id']
+            },
+            {
+              model: User, as: 'to',
+              attributes: ['username', 'id']
+            }
+          ]
+        }))
     } catch (error) {
         next(error)
     }
