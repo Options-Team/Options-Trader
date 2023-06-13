@@ -105,7 +105,7 @@ const Chats = ()=> {
           Users ({users.length}):
         </Typography>
         <ul>
-              {users.map(user => {
+              {users.filter(_u => _u.id !== auth.id).map(user => {
                 return(
                   <li key={user.id} style={{ display: 'flex', alignItems: 'center'}}>
                     {user.username}
