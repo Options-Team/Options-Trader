@@ -171,10 +171,7 @@ const Graphs = ()=> {
   const [quantity, setQuantity] = useState(1);
   const [totalValue, setTotalValue] = useState(0);
   const[shares, setShares] = useState(0);
-
- 
-  
-         
+  const [stockPrice, setStockPrice] = useState(0);
 
   const style = {
     position: 'absolute',
@@ -626,10 +623,27 @@ const options = {
     
   }, [portfolio])
 
+  useEffect(() => {
+    if(stock){
+      setStockPrice(stock.currentPrice);
+    }
+  },[stock]);
+
+  useEffect(() => {
+    if(stockPrice !== 0){
+      setTimeout(() => {
+        setStockPrice(stockPrice + (Math.random() * 2 - 1) / 50);
+      }, 5000)
+    }
+  }, [stockPrice]);
 
   if(!stock){
     return null;
   }
+
+  // setTimeout((stockPrice) => {
+  //   setStockPrice(stockPrice + Math.random());
+  // }, 5000);
 
   const update = (updatedQuantity) => {
     setQuantity(+updatedQuantity);
@@ -646,7 +660,9 @@ const options = {
   };
 
   const sell =  async () => {
+
     await dispatch(postTransaction({quantity: quantity * -1, stock, transactionMethod: 'Sell', userId: auth.id}));
+
     await dispatch(loginWithToken())
     await dispatch(fetchPortfolio())
     navigate('/portfolio')
@@ -670,7 +686,7 @@ const options = {
                 <Card >
                   <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> { stock.name } </h1>
                   <h2 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> { stockTicker } </h2>
-                  <h3 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> { stock.currentPrice } </h3>
+                  <h3 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> { stockPrice.toFixed(2) } </h3>
                 </Card>
                 <div>
                   
