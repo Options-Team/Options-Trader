@@ -189,7 +189,7 @@ const Graphs = ()=> {
   // UNCOMMENT TO ADD TICKER EVERY TIME SOMEONE GOES TO THE GRAPHS PAGE
   useEffect(()=> {
     // getTop25Trending();
-    //tickerAPICall();
+    tickerAPICall();
     fetchPortfolio();
   },[])
 
@@ -253,10 +253,15 @@ const options = {
         let threeYearArrayForGraph = []
         let fiveYearArrayForGraph = []
         const tickerResponse = await axios.request(options)
+        
         const historicalResponse = await axios.request(optionsHistorical)
 
         //NEED A SET TIMEOUT ON ONE OF THESE API CALLS
         // const stockTickerTimeout = setTimeout(incDec(), 5000);
+        setTimeout(() => {
+          
+        }, 1000)
+
         const longResponse = await axios.request(optionsLong)
         
         //console.log(tickerResponse.data)
@@ -495,8 +500,9 @@ const options = {
           
           try {
             const tickerNewsResponse = await axios.request(optionsNews);
-            console.log(tickerNewsResponse.data.news)
-            //setNews(tickerNewsResponse.data['news'])
+            //console.log(tickerNewsResponse.data.news)
+           
+            setNews(tickerNewsResponse.data.data['news'])
 
           } catch (error) {
             console.error(error);
@@ -662,7 +668,6 @@ const options = {
   const sell =  async () => {
 
     await dispatch(postTransaction({quantity: quantity * -1, stock, transactionMethod: 'Sell', userId: auth.id}));
-
     await dispatch(loginWithToken())
     await dispatch(fetchPortfolio())
     navigate('/portfolio')
@@ -882,10 +887,12 @@ const options = {
                                             </AccordionSummary>
 
                                             <AccordionDetails>
-                                              <Typography component={'a'} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                              {/* <Typography  sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                                 <a>{_story.article_url}</a>
-                                              </Typography>
-                                              <Typography>
+                                              </Typography> */}
+                                              <Typography
+                                              href={_story.article_url}
+                                              >
                                                 {_story.source}
                                               </Typography>
                                               <img style={{width: 345}} src={_story.article_photo_url} />  

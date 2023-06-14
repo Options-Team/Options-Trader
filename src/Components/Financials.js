@@ -18,7 +18,7 @@ const Financials = ()=> {
   const [sourceOfIncome, setSourceOfIncome] = useState('')
   const [accountFundingMethod, setAccountFundingMethod] = useState('')
   const [tradingYearsOfExperience, setTradingYearsOfExperience] = useState('')
-  const [tradingFunds, setTradingFunds] = useState('')
+ 
 
   const { auth } = useSelector(state => state);
   const dispatch = useDispatch();
@@ -32,19 +32,19 @@ const Financials = ()=> {
         setSourceOfIncome(auth.sourceOfIncome ? auth.sourceOfIncome : '')
         setAccountFundingMethod(auth.accountFundingMethod ? auth.accountFundingMethod : '')
         setTradingYearsOfExperience(auth.tradingYearsOfExperience ? auth.tradingYearsOfExperience : '')
-        setTradingFunds(auth.tradingFunds ? auth.tradingFunds : '')
+       
     }
   }, [auth]);
 
   const _update = async(ev)=> {
     ev.preventDefault();
-    dispatch(updateAuth({ approximateAnnualIncome, approximateTotalNetWorth, approximateLiquidNetWorth, sourceOfIncome, accountFundingMethod, tradingYearsOfExperience, tradingFunds}));
+    dispatch(updateAuth({ approximateAnnualIncome, approximateTotalNetWorth, approximateLiquidNetWorth, sourceOfIncome, accountFundingMethod, tradingYearsOfExperience}));
     navigate('/financials')
   };
 
   const _submit = async(ev)=> {
     ev.preventDefault();
-    dispatch(updateAuth({ approximateAnnualIncome, approximateTotalNetWorth, approximateLiquidNetWorth, sourceOfIncome, accountFundingMethod, tradingYearsOfExperience, tradingFunds }));
+    dispatch(updateAuth({ approximateAnnualIncome, approximateTotalNetWorth, approximateLiquidNetWorth, sourceOfIncome, accountFundingMethod, tradingYearsOfExperience }));
     navigate('/finalize')
   };
   
@@ -225,7 +225,7 @@ const Financials = ()=> {
                         </FormControl>
                         </Box>
                     {/* <div style={{ marginBottom: 8 }}/> */}
-                    <TextField  label="Available Funds For Trading" variant="outlined" value={ tradingFunds } onChange={ev => setTradingFunds(ev.target.value)}  style={{width: 350}}/>
+                    {/* <TextField  label="Available Funds For Trading" variant="outlined" value={ tradingFunds } onChange={ev => setTradingFunds(ev.target.value)}  style={{width: 350}}/> */}
                             
                     <Button onClick={ _update } >Save Profile</Button><Button onClick={ _submit } >Submit & Proceed</Button>
                     </form>
