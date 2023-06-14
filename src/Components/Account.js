@@ -59,7 +59,7 @@ const Account = ()=> {
   }, [auth]);
 
   useEffect(() => {
-    if(ref.current){
+    // if(ref.current){
       ref.current.addEventListener('change', (ev) => {
         const file = ev.target.files[0];
         const reader = new FileReader();
@@ -68,7 +68,7 @@ const Account = ()=> {
             setAvatar(reader.result)
         })
     })
-  }
+  // }
 
 }, [ref])
 
@@ -145,9 +145,10 @@ const Account = ()=> {
                     </Box>
                   </div>
                     <h6 >Date of Birth</h6>
-                    {auth.DOB ? <span style={{ marginTop: 0, marginLeft: 15 }}>{auth.DOB}</span> : null}
+                    {auth.DOBYear ? <span style={{ marginTop: 0, marginLeft: 15 }}>{auth.DOB}</span> : null}
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
+                            sx={{width: 300, marginLeft: 2}}
                             label="Enter DOB"
                             value={date}
                             onChange={(newDate)=>setDate(newDate)}
