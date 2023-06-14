@@ -78,28 +78,29 @@ const Employment = ()=> {
                     
                     <form onSubmit={ _update }>
                    
-                    <h3 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Employment Information</h3>
-                    <h6 >Employer</h6>
-                    <hr />
-                    <div style={{display: 'flex', justifyContent:'start', alignItems:'start', flexDirection:'column'}}>
-                        <Box sx={{ minWidth: 50 }}>
-                        <FormControl sx={{ minWidth: 400 }}>
-                            <InputLabel>Employment Status</InputLabel>
-                            <Select
-                            value={employmentStatus}
-                            label="Employment Status"
-                            onChange={(ev) => setEmploymentStatus(ev.target.value)}
-                            >
-                            <MenuItem value={'Student'}>Student</MenuItem>
-                            <MenuItem value={'Employed Full-Time'}>Employed Full-Time</MenuItem>
-                            <MenuItem value={'Employed Part-Time'}>Employed Part-Time</MenuItem>
-                            <MenuItem value={'Not Currently Employed'}>Not Currently Employed</MenuItem>
-                            <MenuItem value={'Self Employed'}>Self Employed</MenuItem>
-                            </Select>
-                        </FormControl>
-                        </Box>
-                        <h6 >Affiliations</h6>
-                        <hr />
+                      <h3 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Employment Information</h3>
+                      <Button sx={{width: 100}}onClick={()=> navigate('/account')}>Back</Button>
+                      <h6 sx={{display: 'flex'}} >Employment</h6>
+                      <hr />
+                      <div style={{display: 'flex', justifyContent:'start', alignItems:'start', flexDirection:'column'}}>
+                          <Box sx={{ minWidth: 50 }}>
+                          <FormControl sx={{ minWidth: 400 }}>
+                              <InputLabel>Employment Status</InputLabel>
+                              <Select
+                              value={employmentStatus}
+                              label="Employment Status"
+                              onChange={(ev) => setEmploymentStatus(ev.target.value)}
+                              >
+                              <MenuItem value={'Student'}>Student</MenuItem>
+                              <MenuItem value={'Employed Full-Time'}>Employed Full-Time</MenuItem>
+                              <MenuItem value={'Employed Part-Time'}>Employed Part-Time</MenuItem>
+                              <MenuItem value={'Not Currently Employed'}>Not Currently Employed</MenuItem>
+                              <MenuItem value={'Self Employed'}>Self Employed</MenuItem>
+                              </Select>
+                          </FormControl>
+                          </Box>
+                          <h6 >Affiliations</h6>
+                          <hr />
                         
                 <h4 >Are You or Spouse Employed or Associated with the NYSE?</h4>
                 <Switch value={affiliationNYSE} onChange={(ev)=> setAffiliationNYSE(ev.target.checked)}/>

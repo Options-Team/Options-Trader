@@ -9,6 +9,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { Typography } from '@mui/material';
 
 
 const Launch = ()=> {
@@ -43,9 +44,9 @@ const Launch = ()=> {
                   <span className="title">Finalize</span>
                 </div>
               </div>
-                <Link to={'/stocks'}><h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> Start Trading! </h1></Link>
+                <Link to={'/home'}><h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> Start Trading! </h1></Link>
             
-                <Button><Link to='/stocks'> Options Trading </Link></Button>
+                <Typography>Go Home for market trends or search for stock by ticker</Typography>
                 
             </div>
         

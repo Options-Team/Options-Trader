@@ -9,6 +9,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { Typography, Card } from '@mui/material';
 
 
 const Finalize = ()=> {
@@ -50,30 +51,32 @@ const Finalize = ()=> {
                 <h5 >Information to go over</h5>
                 <hr />
                 <h6 >We are required to collect certain financial information for tax purposes</h6>
-                <div>
-                    <div>First Name: {auth.firstName}</div>
-                    <div>Last Name: {auth.lastName}</div>
-                    <div>Phone: {auth.phone}</div>
-                    <div>Country: {auth.countryOfCitizenship}</div>
-                    <div>Address: {auth.address}</div>
-                    <div>City: {auth.city}</div>
-                    <div>State: {auth.state}</div>
-                    <div>Zip: {auth.zipCode}</div>
-                    <div>DOB: {auth.DOB}</div>
-                    <div>Account Type: {auth.accountType}</div>
-                    <div>SSID: {auth.SSID}</div>
-                    <div>Employment Status: {auth.employmentStatus}</div>
-                    <div>NYSE Affiliations: {String(auth.affiliationNYSE) === 'true' ? 'Yes' : 'No'}</div>
-                    <div>Professional Subscriber: {String(auth.proSubcriber) === 'true' ? 'Yes' : 'No'}</div>
-                    <div>Director or Shareholder: {String(auth.directorOrShareholder) === 'true' ? 'Yes' : 'No'}</div>
-                    <div>Approximate Annual Income: ${auth.approximateAnnualIncome}</div>
-                    <div>Approximate Total Net Worth: ${auth.approximateTotalNetWorth}</div>
-                    <div>Approximate Liquid Net Worth: ${auth.approximateLiquidNetWorth}</div>
-                    <div>Source of Income: {auth.sourceOfIncome}</div>
-                    <div>Account Funding Method: {auth.accountFundingMethod}</div>
-                    <div>Years of Trading Experience: {auth.tradingYearsOfExperience}</div>
-                    <div>Account Funds: {auth.tradingFunds}</div>
-                </div>
+                <Card>
+                
+                    <Typography>First Name: {auth.firstName}</Typography>
+                    <Typography>Last Name: {auth.lastName}</Typography>
+                    <Typography>Phone: {auth.phone}</Typography>
+                    <Typography>Country: {auth.countryOfCitizenship}</Typography>
+                    <Typography>Address: {auth.address}</Typography>
+                    <Typography>City: {auth.city}</Typography>
+                    <Typography>State: {auth.state}</Typography>
+                    <Typography>Zip: {auth.zipCode}</Typography>
+                    <Typography>DOB: {auth.DOB}</Typography>
+                    <Typography>Account Type: {auth.accountType}</Typography>
+                    <Typography>SSID: {auth.SSID}</Typography>
+                    <Typography>Employment Status: {auth.employmentStatus}</Typography>
+                    <Typography>NYSE Affiliations: {String(auth.affiliationNYSE) === 'true' ? 'Yes' : 'No'}</Typography>
+                    <Typography>Professional Subscriber: {String(auth.proSubcriber) === 'true' ? 'Yes' : 'No'}</Typography>
+                    <Typography>Director or Shareholder: {String(auth.directorOrShareholder) === 'true' ? 'Yes' : 'No'}</Typography>
+                    <Typography>Approximate Annual Income: ${auth.approximateAnnualIncome}</Typography>
+                    <Typography>Approximate Total Net Worth: ${auth.approximateTotalNetWorth}</Typography>
+                    <Typography>Approximate Liquid Net Worth: ${auth.approximateLiquidNetWorth}</Typography>
+                    <Typography>Source of Income: {auth.sourceOfIncome}</Typography>
+                    <Typography>Account Funding Method: {auth.accountFundingMethod}</Typography>
+                    <Typography>Years of Trading Experience: {auth.tradingYearsOfExperience}</Typography>
+                    <Typography>Account Funds: {auth.tradingFunds}</Typography>
+               
+                </Card>
                 {/* <Link to={`/financials`}>Back to Financials</Link>  */}
                 {/* <Button onClick={ () => navigate('/financials') } >Back to Financials</Button>
                 <Button onClick={ ()=> navigate('/launch') } >Create My Account</Button> */}

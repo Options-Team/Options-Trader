@@ -75,6 +75,7 @@ const Financials = ()=> {
                 </div>
               </div>
                 <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> Financials & Trading Experience </h1>
+                <Button sx={{width: 100}}onClick={()=> navigate('/employment')}>Back</Button>
                 <h5 >Financials</h5>
                 <hr />
                 <h6 >We are required to collect certain financial information for tax purposes</h6>
