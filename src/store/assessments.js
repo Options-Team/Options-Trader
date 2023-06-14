@@ -20,8 +20,14 @@ export const fetchAssessments = () => {
 export const submitAssessment = (id, score) => {
   const params = {id, score};
   return async(dispatch) => {
-    const response = await axios.post(`/api/assessments/create`, params)
-    dispatch({type: 'CREATE_ASSESSMENT', assessment: response.data});
+    const response = await axios.get('/api/assessments');
+    const assessments = response.data;
+    if(assessments.find(assessment => id === assessment.userId)){
+      throw new Error('You have already completed your risk assessment!!');
+    } else {
+      const response = await axios.post(`/api/assessments/create`, params);
+      dispatch({type: 'CREATE_ASSESSMENT', assessment: response.data});
+    }
   };
 };
 
