@@ -20,7 +20,6 @@ app.get('/', async(req, res, next)=> {
 app.post('/create', async(req, res, next)=> {
   try {
     const assessment = await Assessment.create({score: req.body.score, userId: req.body.id});
-    console.log(assessment);
     res.send(await Assessment.findByPk(assessment.id, {
       include: [
         User

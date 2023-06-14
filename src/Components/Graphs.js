@@ -140,7 +140,7 @@ const style = {
 };
 
 const Graphs = ()=> {
-  const { stocks, auth, portfolio } = useSelector(state => state);
+  const { stocks, assessments, auth, portfolio } = useSelector(state => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [data1Month, setData1Month] = useState([])
@@ -673,6 +673,8 @@ const options = {
     navigate('/portfolio')
   };
 
+  const hasAssessment = assessments.find(assessment => assessment.userId === auth.id);
+
   return (
     <div>
       {
@@ -705,9 +707,16 @@ const options = {
 
                   <Button onClick={ tickerAPICall } disabled={ !stockTicker}>Get Ticker API Call!</Button>
                 </form>  */}
+                {
+                  !hasAssessment ?
+                  <Link to={`/riskAssessment/${auth.id}`} style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Click Here to Complete Risk Assessment</Link> 
+                  :
+                  <div>
+                    <Button onClick={handleOpen}>Buy { stockTicker }</Button>
+                    <Button disabled ={portfolio[stockTicker] ? false : true} onClick={handleOpenSell}>Sell { stockTicker }</Button>
+                  </div>
+                }
 
-                <Button onClick={handleOpen}>Buy { stockTicker }</Button>
-                <Button disabled ={portfolio[stockTicker] ? false : true} onClick={handleOpenSell}>Sell { stockTicker }</Button>
                 <Modal
                   open={open}
                   onClose={handleClose}

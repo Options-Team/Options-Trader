@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch} from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import AssessmentPrompt from './AssessmentPrompt'
 import { submitAssessment } from '../store';
 
 const RiskAssessment = () => {
   const { auth } = useSelector(state => state);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const id = auth.id;
 
   const [prompt1Value, setPrompt1Value] = useState('');
@@ -23,6 +25,7 @@ const RiskAssessment = () => {
     ev.preventDefault();
     const sum = prompt1Value + prompt2Value + prompt3Value + prompt4Value + prompt5Value + prompt6Value + prompt7Value + prompt8Value + prompt9Value + prompt10Value;
     dispatch(submitAssessment(id, sum));
+    navigate('/home');
   };
 
   const promptResponse = (question, promptValue) => {
@@ -56,7 +59,7 @@ const RiskAssessment = () => {
         />
         <AssessmentPrompt
           question='2'
-          prompt='How familiar are you with options trading strategies and their associated risks?'
+          prompt='How familiar are you with trading financial assets and their associated risks?'
           option1='Not comfortable at all'
           option2='Slightly comfortable'
           option3='Moderately comfortable'
@@ -66,17 +69,17 @@ const RiskAssessment = () => {
         />
         <AssessmentPrompt
           question='3'
-          prompt='How would you react if the value of your options investment declined by 20% within a short period?'
+          prompt='How would you react if the value of your investment portfolio declined by 20% within a short period?'
           option1='Panic and immediately sell the position'
           option2='Feel uncomfortable but hold onto the position'
           option3='Monitor the situation closely before deciding'
-          option4='Remain calm and evaluate the options'
-          option5='See it as an opportunity to buy more options'
+          option4='Remain calm and evaluate the stocks'
+          option5='See it as an opportunity to buy more equity'
           callback={ promptResponse }
         />
         <AssessmentPrompt
           question='4'
-          prompt='How much time are you willing to dedicate to monitoring your options positions?'
+          prompt='How much time are you willing to dedicate to monitoring your portfolio positions?'
           option1='Very little time'
           option2='A few minutes per week'
           option3='An hour per week'
@@ -96,12 +99,12 @@ const RiskAssessment = () => {
         />
         <AssessmentPrompt
           question='6'
-          prompt='How familiar are you with the risks associated with options trading?'
-          option1='Not familiar at all'
-          option2='Somewhat familiar'
-          option3='Moderately familiar'
-          option4='Very familiar'
-          option5='Extremely familiar'
+          prompt='Which of the below best defines your objectives in your investments?'
+          option1='Low Risk'
+          option2='Moderate Low Risk'
+          option3='Moderate Risk'
+          option4='Moderately High Risk'
+          option5='High Risk'
           callback={ promptResponse }
         />
         <AssessmentPrompt
@@ -126,7 +129,7 @@ const RiskAssessment = () => {
         />
         <AssessmentPrompt
           question='9'
-          prompt='How would you describe your financial goals for options trading?'
+          prompt='How would you describe your financial goals for stock trading?'
           option1='Preserve capital with minimal risk'
           option2='Generate modest returns with limited risk'
           option3='Seek balanced returns with moderate risk'
@@ -136,12 +139,12 @@ const RiskAssessment = () => {
         />
         <AssessmentPrompt
           question='10'
-          prompt='How important is it for you to receive guidance or advice from professionals when making options trading decisions?'
-          option1='Not important at all'
-          option2='Slightly important'
+          prompt='How important is it for you to receive guidance or advice from professionals when making trading decisions?'
+          option1='Very important'
+          option2='Quite important'
           option3='Moderately important'
-          option4='Quite important'
-          option5='Very important'
+          option4='Slightly important'
+          option5='Not important at all'
           callback={ promptResponse }
         />
         <button
