@@ -185,7 +185,7 @@ const getMoneyMoved = () => {
 
 const portfolioGraph = [
   {
-    "id": `Your Portfolio`,
+    "id": `Portfolio`,
     "color": "hsl(55, 70%, 50%)",
     "data": transactionData
   },

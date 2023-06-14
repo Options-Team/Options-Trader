@@ -54,7 +54,7 @@ const Account = ()=> {
       setDOBMonth(auth.DOBMonth ? auth.DOBMonth : '')
       setAvatar(auth.avatar ? auth.avatar : '')
       setDOBYear(auth.DOBYear ? auth.DOBYear : '')
-      // setDate(auth.DOB ? auth.DOB : null)
+      setDate(date ? date : null)
     }
   }, [auth]);
 
@@ -75,16 +75,28 @@ const Account = ()=> {
   const _update = async(ev)=> {
     ev.preventDefault();
     
-    dispatch(updateAuth({ firstName, lastName, address, countryOfCitizenship, city, state, zipCode, email, phone, DOBDate, DOBMonth, DOBYear, avatar }));
+    if(date){
+      dispatch(updateAuth({ firstName, lastName, address, countryOfCitizenship, city, state, zipCode, email, phone, DOBDate: date.$D, DOBMonth: date.$M + 1, DOBYear: date.$y, avatar }));
     navigate('/account')
+    } else {
+      dispatch(updateAuth({ firstName, lastName, address, countryOfCitizenship, city, state, zipCode, email, phone, avatar }));
+    navigate('/account')
+    }
   };
 
   const _submit = async(ev)=> {
     ev.preventDefault();
-    
-    dispatch(updateAuth({ firstName, lastName, address, countryOfCitizenship, city, state, zipCode, email, phone, DOBDate: date.$D, DOBMonth: date.$M + 1, DOBYear: date.$y, avatar  }));
+
+    if(date){
+      dispatch(updateAuth({ firstName, lastName, address, countryOfCitizenship, city, state, zipCode, email, phone, DOBDate: date.$D, DOBMonth: date.$M + 1, DOBYear: date.$y, avatar }));
     navigate('/employment')
+    } else {
+      dispatch(updateAuth({ firstName, lastName, address, countryOfCitizenship, city, state, zipCode, email, phone, avatar }));
+      navigate('/employment')
+    }
   };
+
+  
   return (
     <div>
       {
