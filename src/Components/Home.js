@@ -14,9 +14,13 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+
 import { experimentalStyled as styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+
+import Carousel from './Carousel';
+
 
 const Home = ()=> {
   const { auth } = useSelector(state => state);
@@ -87,7 +91,12 @@ const Home = ()=> {
 
           
         </div>
-
+        {
+          news.length ?
+            <Carousel news={ news } />
+            :
+            ''
+        }
         <div>
                         <form onSubmit={ marketTrendsAPICall }>
                         
@@ -113,46 +122,48 @@ const Home = ()=> {
                         </form>
                     </div>
 
-                    <div sx={{display: 'flex', flexWrap: 'wrap'}}>
-                    {news.map((article, idx) => {
-                      return(
+  //                  <div sx={{display: 'flex', flexWrap: 'wrap'}}>
 
-                        <Card sx={{display: 'flex', flexWrap: 'wrap'}} key={idx}>
-                          <CardMedia
-                            sx={{ height: 300, width: 700 }}
-                            image={article.article_photo_url}
-                            title={article.source}
-                            href={article.article_url}
-                          />
-                          <CardContent>
-                            {/* <Typography href={article.article_url} gutterBottom variant="h5" component="button">
-                              {article.source}
-                            </Typography> */}
-                            <Button href={article.article_url}>{article.source}</Button>
-                            <Typography variant="body2" color="text.secondary">
-                              {article.article_title}
-                            </Typography>
-                            <ul style={{listStyle: 'none'}}>
-                            <Typography variant="body2" color="text.secondary">
-                              Stocks:
-                              {article.stocks_in_news.map((stock, idxx) => {
-                                return (
-                                  <li key={idxx}>
-                                    {stock.name}
-                                  </li>
-                                )
-                              })}
-                            </Typography>
-                            </ul>
-                          </CardContent>
-                        </Card>
+//                     {news.map((article, idx) => {
+//                       return(
+
+//                         <Card sx={{display: 'flex', flexWrap: 'wrap'}} key={idx}>
+//                           <CardMedia
+//                             sx={{ height: 300, width: 700 }}
+//                             image={article.article_photo_url}
+//                             title={article.source}
+//                             href={article.article_url}
+//                           />
+//                           <CardContent>
+//                             {/* <Typography href={article.article_url} gutterBottom variant="h5" component="button">
+//                               {article.source}
+//                             </Typography> */}
+//                             <Button href={article.article_url}>{article.source}</Button>
+//                             <Typography variant="body2" color="text.secondary">
+//                               {article.article_title}
+//                             </Typography>
+//                             <ul style={{listStyle: 'none'}}>
+//                             <Typography variant="body2" color="text.secondary">
+//                               Stocks:
+//                               {article.stocks_in_news.map((stock, idxx) => {
+//                                 return (
+//                                   <li key={idxx}>
+//                                     {stock.name}
+//                                   </li>
+//                                 )
+//                               })}
+//                             </Typography>
+//                             </ul>
+//                           </CardContent>
+//                         </Card>
 
                        
-                      )
-                    })}
-                    </div>
+//                       )
+//                     })}
+//                     </div>
 
                     {/* <div>
+
                     {trends.map((trend, idx) => {
                       return(
                         <Box sx={{ p: 2, border: '1px dashed grey', display: 'flex', flexWrap: 'wrap', maxWidth: 300}} key={idx}>

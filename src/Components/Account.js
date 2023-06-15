@@ -28,11 +28,11 @@ const Account = ()=> {
   const [DOBDate, setDOBDate] = useState('')
   const [DOBMonth, setDOBMonth] = useState('')
   const [DOBYear, setDOBYear] = useState('')
+  const ref = useRef(null);
   const [avatar, setAvatar] = useState('')
   const { auth } = useSelector(state => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const ref = useRef();
   const [date,setDate] = useState(null);
 
   // const _createAddress = (data) => {
@@ -58,19 +58,22 @@ const Account = ()=> {
     }
   }, [auth]);
 
-  useEffect(() => {
-    // if(ref.current){
-      ref.current.addEventListener('change', (ev) => {
-        const file = ev.target.files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.addEventListener('load', () => {
-            setAvatar(reader.result)
-        })
-    })
-  // }
+//   if(!ref?.current){
+//     return null;
+//   }
 
-}, [ref])
+//   useEffect(() => {
+//     if(ref?.current){
+//       ref.current.addEventListener('change', (ev) => {
+//         const file = ev.target.files[0];
+//         const reader = new FileReader();
+//         reader.readAsDataURL(file);
+//         reader.addEventListener('load', () => {
+//           setAvatar(reader.result)
+//         })
+//     })
+//   }
+// }, [ref])
 
   const _update = async(ev)=> {
     ev.preventDefault();
@@ -79,6 +82,7 @@ const Account = ()=> {
       dispatch(updateAuth({ firstName, lastName, address, countryOfCitizenship, city, state, zipCode, email, phone, DOBDate: date.$D, DOBMonth: date.$M + 1, DOBYear: date.$y, avatar }));
     navigate('/account')
     } else {
+      console.log(avatar);
       dispatch(updateAuth({ firstName, lastName, address, countryOfCitizenship, city, state, zipCode, email, phone, avatar }));
     navigate('/account')
     }
@@ -150,10 +154,18 @@ const Account = ()=> {
                     <TextField label="Phone" variant="outlined" value={ phone } onChange={ev => setPhone(ev.target.value)} sx={{ minWidth: 300 }}/>
                     <div className="input-group mb-3">
                       <label className="input-group-text">Upload Photo</label>
-                      <input type="file" ref={ ref } className="form-control" id="inputGroupFile02" />
-                      
-                      </div>
-                    { !!avatar && <img src={ avatar } style={{ width: 100}} /> }
+                      {/* <input type="file" ref={ ref } className="form-control" id="inputGroupFile02" /> */}
+                      <input type="file" onChange={ ev => {
+                        const file = ev.target.files[0];
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.addEventListener('load', () => {
+                          setAvatar(reader.result)
+                        })
+                      } } className="form-control" id="inputGroupFile02" />
+                      { !!avatar && <img src={ avatar } style={{ width: 100}} /> }
+                    </div>
+                    
                     </Box>
                   </div>
                     <h6 >Date of Birth</h6>
