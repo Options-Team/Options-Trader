@@ -14,7 +14,13 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+
+import { experimentalStyled as styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+
 import Carousel from './Carousel';
+
 
 const Home = ()=> {
   const { auth } = useSelector(state => state);
@@ -54,6 +60,14 @@ const Home = ()=> {
         console.error(error);
       }
   }
+
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));
 
   
 
@@ -108,35 +122,103 @@ const Home = ()=> {
                         </form>
                     </div>
 
-                    <div sx={{display: 'flex', flexWrap: 'wrap'}}>
-                    {trends.map((trend, idx) => {
-                      return(
-                        
-                        <Card sx={{display: 'flex', flexWrap: 'wrap'}} key={idx} >
-                          <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                              {trend.name}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                              {trend.symbol}
-                            </Typography>
-                            <Typography gutterBottom variant="h6" component="div">
-                              Prev. Close: {trend.previous_close}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                              Change: {trend.change} ({trend.change_percent.toFixed(2)}%)
-                            </Typography>
-                            <Typography gutterBottom variant="h6" component="div">
-                              Now: {trend.price}
-                            </Typography>
-                           
-                          </CardContent>
-                        </Card>
+  //                  <div sx={{display: 'flex', flexWrap: 'wrap'}}>
+
+//                     {news.map((article, idx) => {
+//                       return(
+
+//                         <Card sx={{display: 'flex', flexWrap: 'wrap'}} key={idx}>
+//                           <CardMedia
+//                             sx={{ height: 300, width: 700 }}
+//                             image={article.article_photo_url}
+//                             title={article.source}
+//                             href={article.article_url}
+//                           />
+//                           <CardContent>
+//                             {/* <Typography href={article.article_url} gutterBottom variant="h5" component="button">
+//                               {article.source}
+//                             </Typography> */}
+//                             <Button href={article.article_url}>{article.source}</Button>
+//                             <Typography variant="body2" color="text.secondary">
+//                               {article.article_title}
+//                             </Typography>
+//                             <ul style={{listStyle: 'none'}}>
+//                             <Typography variant="body2" color="text.secondary">
+//                               Stocks:
+//                               {article.stocks_in_news.map((stock, idxx) => {
+//                                 return (
+//                                   <li key={idxx}>
+//                                     {stock.name}
+//                                   </li>
+//                                 )
+//                               })}
+//                             </Typography>
+//                             </ul>
+//                           </CardContent>
+//                         </Card>
 
                        
+//                       )
+//                     })}
+//                     </div>
+
+                    {/* <div>
+
+                    {trends.map((trend, idx) => {
+                      return(
+                        <Box sx={{ p: 2, border: '1px dashed grey', display: 'flex', flexWrap: 'wrap', maxWidth: 300}} key={idx}>
+                          <Card >
+                            <CardContent>
+                              <Typography gutterBottom variant="h5" component="div">
+                                {trend.name}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                {trend.symbol}
+                              </Typography>
+                              <Typography gutterBottom variant="h6" component="div">
+                                Prev. Close: {trend.previous_close}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                Change: {trend.change} ({trend.change_percent.toFixed(2)}%)
+                              </Typography>
+                              <Typography gutterBottom variant="h6" component="div">
+                                Now: {trend.price}
+                              </Typography>
+                            </CardContent>
+                          </Card>
+                        </Box>
                       )
                     })}
-                    </div>
+                    </div> */}
+
+
+                          <Box sx={{ flexGrow: 1 }}>
+                            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                              {trends.map((trend, index) => (
+                                <Grid item xs={2} sm={4} md={4} key={index}>
+                                  <Item>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                      {trend.name}
+                                    </Typography>
+                                    <Typography component='a' href={`/#/stocks/${trend.symbol.split(':')[0]}`} variant="body2" color="text.secondary">
+                                      {trend.symbol.split(':')[0]}
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" component="div">
+                                      Prev. Close: {trend.previous_close}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                      Change: {trend.change} ({trend.change_percent.toFixed(2)}%)
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" component="div">
+                                      Now: {trend.price}
+                                    </Typography>
+                                  </Item>
+                                </Grid>
+                              ))}
+                            </Grid>
+                            </Box>
+
+
 
 
     </>
@@ -144,6 +226,15 @@ const Home = ()=> {
 };
 
 export default Home;
+
+
+
+
+
+
+
+
+
 
 
 
