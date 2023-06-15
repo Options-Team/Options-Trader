@@ -88,8 +88,6 @@ const Home = ()=> {
           </div>
           <Button sx={{display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 2, backgroundColor: 'green'}} component="div" variant="contained" onClick={ goToDeposit }>Deposit</Button>
           </div>
-
-          
         </div>
         {
           news.length ?
@@ -162,35 +160,6 @@ const Home = ()=> {
 //                     })}
 //                     </div>
 
-                    {/* <div>
-
-                    {trends.map((trend, idx) => {
-                      return(
-                        <Box sx={{ p: 2, border: '1px dashed grey', display: 'flex', flexWrap: 'wrap', maxWidth: 300}} key={idx}>
-                          <Card >
-                            <CardContent>
-                              <Typography gutterBottom variant="h5" component="div">
-                                {trend.name}
-                              </Typography>
-                              <Typography variant="body2" color="text.secondary">
-                                {trend.symbol}
-                              </Typography>
-                              <Typography gutterBottom variant="h6" component="div">
-                                Prev. Close: {trend.previous_close}
-                              </Typography>
-                              <Typography variant="body2" color="text.secondary">
-                                Change: {trend.change} ({trend.change_percent.toFixed(2)}%)
-                              </Typography>
-                              <Typography gutterBottom variant="h6" component="div">
-                                Now: {trend.price}
-                              </Typography>
-                            </CardContent>
-                          </Card>
-                        </Box>
-                      )
-                    })}
-                    </div> */}
-
 
                           <Box sx={{ flexGrow: 1 }}>
                             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
@@ -216,11 +185,7 @@ const Home = ()=> {
                                 </Grid>
                               ))}
                             </Grid>
-                            </Box>
-
-
-
-
+                          </Box>
     </>
   );
 };
