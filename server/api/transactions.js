@@ -76,7 +76,6 @@ app.post('/:id', isLoggedIn, async(req, res, next)=> {
 
 app.post('/portfolio', isLoggedIn, async(req, res, next)=> {
   try {
-    // console.log(req.user, req.body)
     res.send(await req.user.addToPortfolio(req.body));
   }
   catch(ex){

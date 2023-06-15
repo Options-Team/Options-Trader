@@ -23,7 +23,7 @@ const Login = ()=> {
   const login = (ev)=> {
     ev.preventDefault();
     dispatch(attemptLogin(credentials));
-    navigate('/home')
+    navigate('/home');
   };
   return (
     <div>
