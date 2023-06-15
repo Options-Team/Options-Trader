@@ -26,8 +26,8 @@ function NavBar() {
   // I commented the above out so that the Stocks and Graphs page wouldn't show...these are a relic of the past post search bar creation
   const pages = ['Home', 'Portfolio'];
     let settings = []
-    auth.id ? (settings = ['Account', 'Deposit', 'Chats', 'Logout']) : (settings = ['Account', 'Chats', 'Login'])
-
+    auth.id ? (settings = ['Account', 'Deposit', 'Chats', 'Logout']) : (settings = [ 'Login' ])
+ 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
