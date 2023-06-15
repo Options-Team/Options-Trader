@@ -27,7 +27,7 @@ function NavBar() {
   const pages = ['Home', 'Portfolio'];
     let settings = []
     auth.id ? (settings = ['Account', 'Deposit', 'Chats', 'Logout']) : (settings = [ 'Login' ])
- 
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };

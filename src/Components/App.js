@@ -32,13 +32,13 @@ const App = ()=> {
     dispatch(fetchAssessments());
     dispatch(fetchStocks());
     dispatch(fetchUsers());
-    dispatch(fetchPortfolio())
     dispatch(fetchTransactions())
   }, []);
-
+  
   useEffect(()=>{
     if(!prevAuth.current.id && auth.id){
       //check messages
+      dispatch(fetchPortfolio())
       dispatch(fetchMessages())
       dispatch(fetchFriends())
       dispatch(fetchHypes())
