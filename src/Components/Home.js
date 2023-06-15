@@ -51,9 +51,6 @@ const Home = ()=> {
       
       try {
         const response = await axios.request(options);
-        console.log(response.data)
-        console.log(response.data.data.trends)
-        console.log(response.data.data.news)
         setTrends(response.data.data.trends)
         setNews(response.data.data.news)
       } catch (error) {
@@ -89,12 +86,7 @@ const Home = ()=> {
           <Button sx={{display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 2, backgroundColor: 'green'}} component="div" variant="contained" onClick={ goToDeposit }>Deposit</Button>
           </div>
         </div>
-        {
-          news.length ?
-            <Carousel news={ news } />
-            :
-            ''
-        }
+        
         <div>
                         <form onSubmit={ marketTrendsAPICall }>
                         
@@ -119,6 +111,52 @@ const Home = ()=> {
                           <Button onClick={ marketTrendsAPICall } >Tell Me More</Button>
                         </form>
                     </div>
+                    <div style={{ display: 'flex', justifyContent: 'center'}}>
+                      {
+                        news.length ?
+                            <Carousel  news={ news } />
+                          :
+                          null
+                      }
+</div>
+                      <div style={{paddingBottom: 8}} />
+                      {trends.length ? <Typography style={{ display: 'flex', justifyContent: 'center'}} variant="h6" component="div">Trending Stocks</Typography> : null}
+                      <div style={{paddingBottom: 8}} />
+
+                          <Box sx={{ flexGrow: 1 }}>
+                            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                              {trends.map((trend, index) => (
+                                <Grid item xs={2} sm={4} md={4} key={index}>
+                                  <Item>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                      {trend.name}
+                                    </Typography>
+                                    <Typography component='a' href={`/#/stocks/${trend.symbol.split(':')[0]}`} variant="body2" color="text.secondary">
+                                      {trend.symbol.split(':')[0]}
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" component="div">
+                                      Prev. Close: {trend.previous_close}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                      Change: {trend.change} ({trend.change_percent.toFixed(2)}%)
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" component="div">
+                                      Now: {trend.price}
+                                    </Typography>
+                                  </Item>
+                                </Grid>
+                              ))}
+                            </Grid>
+                          </Box>
+    </>
+  );
+};
+
+export default Home;
+
+
+
+
 
   //                  <div sx={{display: 'flex', flexWrap: 'wrap'}}>
 
@@ -159,44 +197,6 @@ const Home = ()=> {
 //                       )
 //                     })}
 //                     </div>
-
-
-                          <Box sx={{ flexGrow: 1 }}>
-                            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                              {trends.map((trend, index) => (
-                                <Grid item xs={2} sm={4} md={4} key={index}>
-                                  <Item>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                      {trend.name}
-                                    </Typography>
-                                    <Typography component='a' href={`/#/stocks/${trend.symbol.split(':')[0]}`} variant="body2" color="text.secondary">
-                                      {trend.symbol.split(':')[0]}
-                                    </Typography>
-                                    <Typography gutterBottom variant="h6" component="div">
-                                      Prev. Close: {trend.previous_close}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                      Change: {trend.change} ({trend.change_percent.toFixed(2)}%)
-                                    </Typography>
-                                    <Typography gutterBottom variant="h6" component="div">
-                                      Now: {trend.price}
-                                    </Typography>
-                                  </Item>
-                                </Grid>
-                              ))}
-                            </Grid>
-                          </Box>
-    </>
-  );
-};
-
-export default Home;
-
-
-
-
-
-
 
 
 
