@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -134,11 +135,16 @@ const Account = ()=> {
                     <form onSubmit={ _update }>
                   <div >
                     <Box sx={{ minWidth: 300 }}>
+                      <Card sx={{ display: 'flex', justifyContent: 'space-around', paddingTop: 5, paddingBottom: 5}}>
+                     
+                            <TextField sx={{flex: '1', width: 400}}  label="First Name" variant="outlined" value={ firstName } onChange={ev => setFirstName(ev.target.value)} sx={{ minWidth: 300 }}/>
+                           
+                            <TextField sx={{flex: '1', width: 400}} label="Last Name" variant="outlined" value={ lastName } onChange={ev => setLastName(ev.target.value)} sx={{ minWidth: 300 }}/>
+                           
+                      </Card>
                     <div style={{ marginBottom: 8 }}/>
-                    <TextField  label="First Name" variant="outlined" value={ firstName } onChange={ev => setFirstName(ev.target.value)} sx={{ minWidth: 300 }}/>
-                    <div style={{ marginBottom: 8 }}/>
-                    <TextField label="Last Name" variant="outlined" value={ lastName } onChange={ev => setLastName(ev.target.value)} sx={{ minWidth: 300 }}/>
-                    <div style={{ marginBottom: 8 }}/>
+                    <img style={{height: 'auto', width:400, float: 'right'}} src='static/dollabillz.jpeg'></img>
+                    
                     <TextField label="Country" variant="outlined" value={ countryOfCitizenship } onChange={ev => setCountryOfCitizenship(ev.target.value)} sx={{ minWidth: 300 }}/>
                     <div style={{ marginBottom: 8 }}/>
                     <TextField label="Address" variant="outlined" value={ address } onChange={ev => setAddress(ev.target.value)} sx={{ minWidth: 300 }}/>
