@@ -231,6 +231,9 @@ const portfolioGraph = [
                             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                               {stock[1]['Stock']} 
                             </Typography>
+                            <Typography component='a' href={`/#/stocks/${stock[1]['Ticker']}`} variant="body2" color="text.secondary">
+                              {stock[1]['Ticker']}
+                            </Typography>
                             <Typography>
                               Priced At {stock[1]['Price']} per share
                             </Typography>
@@ -244,7 +247,7 @@ const portfolioGraph = [
                     })
                   } 
                 <Button size="small" onClick={ ()=> myPortfolioGraph() }>My Performance</Button>
-                {transactions.length && graph === 'show' ? <div style={{height:500,width:1000}}><MyResponsiveLine data={portfolioGraph}></MyResponsiveLine></div> : ''} 
+                {transactions.length && graph === 'show' ? <div style={{height:500,width:1500}}><MyResponsiveLine data={portfolioGraph}></MyResponsiveLine></div> : ''} 
             </div>
         
         )  : (

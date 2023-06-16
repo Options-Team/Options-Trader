@@ -78,10 +78,8 @@ const Home = ()=> {
           {/* </div> : <Link to='/login' style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Login</Link>} */}
           <div  >
             <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Need A Place To Start?</h1>
-            <Link to={`/riskAssessment/${auth.id}`} style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Click Here to Complete Risk Assessment</Link>
-            {/* <Button component='div' style={{display: 'flex', justifyContent:'center', alignItems:'center'}} onClick={ goToDeposit } >Deposit</Button> */}
-          
-            {/* {auth.tradingFunds === 0 || null ? <><Button onClick={ goToDeposit } >Deposit</Button></> : null } */}
+            {/* <Link to={`/riskAssessment/${auth.id}`} style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Click Here to Complete Risk Assessment</Link> */}
+           
           </div>
           <Button sx={{display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 2, backgroundColor: 'green'}} component="div" variant="contained" onClick={ goToDeposit }>Deposit</Button>
           </div>
@@ -107,8 +105,8 @@ const Home = ()=> {
                                     </Select>
                                 </FormControl>
                               </Box>
-                        
-                          <Button onClick={ marketTrendsAPICall } >Tell Me More</Button>
+                              
+                          <Button  onClick={ marketTrendsAPICall } >Tell Me More</Button>
                         </form>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center'}}>

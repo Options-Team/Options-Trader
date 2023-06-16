@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Card from '@mui/material/Card';
 
 const AssessmentPrompt = ({ question, prompt, option1, option2, option3, option4, option5, callback }) => {
 
@@ -21,7 +22,11 @@ const AssessmentPrompt = ({ question, prompt, option1, option2, option3, option4
   };
 
   return (
-    <div>
+    <Card sx={{ padding: '10px',
+      ':hover':{
+        boxShadow: "10px 10px 10px green"
+      }
+    }}>
       <p>{ question }. { prompt }</p>
       <div>
         <div>
@@ -70,7 +75,7 @@ const AssessmentPrompt = ({ question, prompt, option1, option2, option3, option4
           <label>{ option5 }</label>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 

@@ -33,15 +33,13 @@ const Login = ()=> {
       <TextField label="Username" name = 'username' variant="outlined" value={ credentials.username } onChange={onChange} style={{display: 'flex', justifyContent:'center', width: 300 }}/>
       <div style={{ marginBottom: 8 }}/>
 
-      <TextField label="Password" name = 'password' variant="outlined" value={ credentials.password } onChange={onChange} style={{display: 'flex', justifyContent:'center', width: 300 }}/>
+      <TextField type='password' label="Password" name = 'password' variant="outlined" value={ credentials.password } onChange={onChange} style={{display: 'flex', justifyContent:'center', width: 300 }}/>
       <GoogleOAuthProvider clientId = "18136828756-l5ol7p0u1f928hapfa4fr3pubvclahje.apps.googleusercontent.com">
 
       <GoogleLogin
         style={{paddingLeft: 200}}
         onSuccess={credentialResponse => {
         const decoded = jwt_decode(credentialResponse.credential);
-        console.log(credentialResponse);
-        console.log(decoded);
         dispatch(googleOAuthLogin(decoded));
         navigate('/home');
 

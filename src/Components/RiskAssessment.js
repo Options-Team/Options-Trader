@@ -3,6 +3,7 @@ import { useSelector, useDispatch} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import AssessmentPrompt from './AssessmentPrompt'
 import { submitAssessment } from '../store';
+import Button from '@mui/material/Button';
 
 const RiskAssessment = () => {
   const { auth } = useSelector(state => state);
@@ -147,7 +148,9 @@ const RiskAssessment = () => {
           option5='Not important at all'
           callback={ promptResponse }
         />
-        <button
+        <Button 
+        onClick={submit}
+          
           disabled={
             (
               !prompt1Value ||
@@ -166,7 +169,7 @@ const RiskAssessment = () => {
           }
         >
           Submit
-        </button>
+        </Button>
       </form>
     </div>
   );

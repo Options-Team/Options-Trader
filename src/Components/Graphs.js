@@ -188,8 +188,8 @@ const Graphs = ()=> {
 
   // UNCOMMENT TO ADD TICKER EVERY TIME SOMEONE GOES TO THE GRAPHS PAGE
   useEffect(()=> {
-    // getTop25Trending();
-    //tickerAPICall();
+    getTop25Trending();
+    tickerAPICall();
     fetchPortfolio();
   },[])
 
@@ -788,7 +788,7 @@ const options = {
                           {/* { typeof shares !== "undefined" ? console.log(shares) : console.log('no shares')} */}
                         </Typography>
                         <CardActions style={{display: 'flex', justifyContent: 'center'}}>
-                          <Button  onClick={ sell }>Sell { stockTicker }</Button>
+                          <Button disabled={Object.keys(portfolio).length === 0  ? false : quantity > portfolio[Object.keys(portfolio)[0]].Shares} onClick={ sell }>Sell { stockTicker }</Button>
                         </CardActions>
                         {/* { quantity > portfolio.stockTicker.Shares  ?  <Alert severity="error">Can't Sell Shares You Don't Have Buddy!</Alert> : null} */}
                         {/* disabled={ portfolioArr.includes(stockTicker)} */}
