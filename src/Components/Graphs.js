@@ -188,8 +188,8 @@ const Graphs = ()=> {
 
   // UNCOMMENT TO ADD TICKER EVERY TIME SOMEONE GOES TO THE GRAPHS PAGE
   useEffect(()=> {
-    getTop25Trending();
-    tickerAPICall();
+    // getTop25Trending();
+    // tickerAPICall();
     fetchPortfolio();
   },[])
 

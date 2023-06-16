@@ -13,6 +13,7 @@ import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import StarIcon from '@mui/icons-material/Star';
 import transaction from '../store/transactions';
 
 const Accordion = styled((props) => (
@@ -79,7 +80,7 @@ const MyResponsiveLine = ({data}) => (
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: 'Price',
+          legend: 'Funds Invested',
           legendOffset: -40,
           legendPosition: 'middle'
       }}
@@ -121,7 +122,7 @@ const MyResponsiveLine = ({data}) => (
 
 
 const Portfolio = ()=> {
-  const { auth, portfolio, transactions } = useSelector(state => state);
+  const { auth, portfolio, transactions, onlineUsers } = useSelector(state => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   let transactionData = []
@@ -137,6 +138,7 @@ const Portfolio = ()=> {
   };
 
   const portfolioArr = Object.entries(portfolio)
+  //console.log(portfolioArr)
 let sum = 0
 
 for(let i = 0; i < myTransactions.length; i++){
@@ -144,7 +146,6 @@ for(let i = 0; i < myTransactions.length; i++){
   sum += currTransaction.transactionValue
   transactionData.push(
       {
-      // "x": `#${i + 1} ` + currTransaction.transactionDate.split('23-0')[1],
       "x": `#${i + 1} ` + currTransaction.createdAt.split('T')[0].split('23-')[1],
       "y": sum
     }
@@ -153,34 +154,47 @@ for(let i = 0; i < myTransactions.length; i++){
 
 
 
-const myPortfolioGraph = () => {
-  // Update the graph state
-  setGraph('show')
-};
+// const myPortfolioGraph = () => {
+//   // Update the graph state
+//   setGraph('show')
+// };
 
 const getPortValue = () => {
   let total = 0
-
- 
 
   for(let i = 0; i < myTransactions.length; i++){
     let currTransaction = myTransactions[i]
     total += currTransaction.transactionValue
   }
-  return total
+  return total.toFixed(2)
 }
 
 const getMoneyMoved = () => {
   let total = 0
-  // for(let stock of portfolio){
-  //   total += stock.Current_Value
-  // }
 
   for(let i = 0; i < myTransactions.length; i++){
     let currTransaction = myTransactions[i]
     total += Math.abs(currTransaction.transactionValue)
   }
-  return total
+  return total.toFixed(2)
+}
+
+const getMostOwned = () => {
+  let mostOwnedTotal = 0
+  let mostOwned
+
+  for(let i = 0; i < portfolioArr.length; i++){
+    let currStock = portfolioArr[i]
+    if(currStock[1]['Current_Value'] > mostOwnedTotal){
+      mostOwnedTotal = currStock[1]['Current_Value']
+      mostOwned = currStock[0]
+    }
+  }
+  return mostOwned
+}
+
+const getDateJoined = () => {
+  return auth.createdAt.split('T')[0]
 }
 
 const portfolioGraph = [
@@ -198,27 +212,39 @@ const portfolioGraph = [
             <div>
                 <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> My Portfolio </h1>
 
-                <div style={{float: 'right'}}>
-         <Card sx={{ width: 400  }}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }}  gutterBottom>
-          Trading Juice: {auth.tradingFunds}
-        </Typography>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Trades Made: {myTransactions.length}
-        </Typography>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Current Invested: { getPortValue() }
-        </Typography>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Money Moved: { getMoneyMoved() }
-        </Typography>
-      </CardContent>
-     
-    </Card>   
+                <div style={{height:500,width:'100%'}}><MyResponsiveLine data={portfolioGraph}></MyResponsiveLine></div> 
+                <div style={{display: 'flex', justifyContent: 'space-around'}}>
+        
+                  <Card sx={{ height: 200, width: 300 }}>
+                    <CardContent>
+                      <Typography sx={{ fontSize: 16, display: 'flex', justifyContent: 'center' }}  gutterBottom>
+                        {auth.username}
+                        {myTransactions.length > 15 ? <StarIcon /> : null}
+                      </Typography>
+                      <Typography sx={{ fontSize: 16 }}  gutterBottom>
+                        Trading Juice: ${auth.tradingFunds.toFixed(2)}
+                      </Typography>
+                      <Typography sx={{ fontSize: 16 }} color="text.secondary" gutterBottom>
+                        Trades Made: {myTransactions.length}
+                      </Typography>
+                      <Typography sx={{ fontSize: 16 }} color="text.secondary" gutterBottom>
+                        Current Invested: { getPortValue() }
+                      </Typography>
+                      <Typography sx={{ fontSize: 16 }} color="text.secondary" gutterBottom>
+                        Money Moved: { getMoneyMoved() }
+                      </Typography>
+                      <Typography sx={{ fontSize: 16 }} color="text.secondary" gutterBottom>
+                        Most Owned Stock: { getMostOwned() }
+                      </Typography>
+                      <Typography sx={{ fontSize: 16 }} color="text.secondary" gutterBottom>
+                        Trading Since: { getDateJoined() }
+                      </Typography>
+                    </CardContent>
+                  
+                  </Card>   
  
-      </div>
-
+      
+                <div>
                   { portfolioArr.map((stock, idx) => {
                       return (
                       <div key={idx} style={{ width: 500}}>
@@ -238,18 +264,36 @@ const portfolioGraph = [
                               Priced At {stock[1]['Price']} per share
                             </Typography>
                             <Typography sx={{ fontSize: 14 }} color="text.primary" gutterBottom>
-                              {stock[1]['Current_Value']} invested
+                              {stock[1]['Current_Value'].toFixed(2)} invested
                             </Typography>
                           </AccordionDetails>
                         </Accordion>
                       </div> 
+
                       )
                     })
                   } 
-                <Button size="small" onClick={ ()=> myPortfolioGraph() }>My Performance</Button>
-                {transactions.length && graph === 'show' ? <div style={{height:500,width:1500}}><MyResponsiveLine data={portfolioGraph}></MyResponsiveLine></div> : ''} 
-            </div>
-        
+                </div>
+                <Card sx={{ width: 300  }}>
+                  <CardContent>
+                    <Typography href='/chats' sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                      Online Users ({onlineUsers.length}):
+                    </Typography>
+                    <ul>
+                          {onlineUsers.map(user => {
+                            return(
+                              <li key={user.id} style={{ display: 'flex', alignItems: 'center'}}>
+                                {user.username}                   
+                              </li>
+                            )
+                          })}
+                        </ul>
+                  </CardContent>
+                </Card>   
+
+                <img style={{height: 400, width:'auto', float: 'right'}} src='static/upanddownman.jpeg'></img>
+                  </div>
+            </div>        
         )  : (
             <div>
                 <h1>Can't Check Out Your Portfolio If You're Not Logged In!</h1>
