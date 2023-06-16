@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { X_RapidAPI_Key } from '../../secrets';
 import { logout } from '../store';
@@ -29,6 +29,11 @@ const Home = ()=> {
   const [marketTrend, setMarketTrend] = useState('')
   const [trends, setTrends] = useState([])
   const [news, setNews] = useState([])
+  const [top25Ticker, setTop25Ticker] = useState([])
+
+  useEffect(()=> {
+     //getTop25Trending();
+  },[])
 
   const goToDeposit = ()=> {
     navigate('/deposit')
@@ -66,10 +71,48 @@ const Home = ()=> {
     color: theme.palette.text.secondary,
   }));
 
+  const getTop25TrendingStocksOptions = {
+    method: 'GET',
+    url: 'https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-trending-tickers',
+    params: {region: 'US'},
+    headers: {
+      'X-RapidAPI-Key': `${X_RapidAPI_Key}`,
+      'X-RapidAPI-Host': 'apidojo-yahoo-finance-v1.p.rapidapi.com'
+    }
+  };
+
+  
+  const getTop25Trending = async () => {
+        try {
+        const getTop25TrendingResponse = await axios.request(getTop25TrendingStocksOptions);
+        console.log(getTop25TrendingResponse.data);
+        const top25quotes = getTop25TrendingResponse.data.finance.result[0].quotes
+        console.log(getTop25TrendingResponse.data.finance.result[0].quotes)
+        console.log(top25quotes)
+       setTop25Ticker(top25quotes)
+
+       console.log(top25Ticker)
+    } catch (error) {
+        console.error(error);
+    }   
+  }
+
+ 
+
   
 
   return (
     <>
+    <div className='ticker-tape' style={{padding: 'none', margin: 'none', height: 100}}>
+                    <div className='ticker'>
+                        { top25Ticker ? top25Ticker.map((ticker, idx) => {
+                            return (
+                                <div className='ticker__item' key={idx}>{ticker.symbol}: {ticker.regularMarketPrice}</div>
+                            )
+                        }) : ''}
+                    </div>
+                </div>
+
         <div style={{display: 'flex', justifyContent:'center', alignItems: 'center'}}>
           <div>
           <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Home</h1>

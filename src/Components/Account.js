@@ -59,22 +59,6 @@ const Account = ()=> {
     }
   }, [auth]);
 
-//   if(!ref?.current){
-//     return null;
-//   }
-
-//   useEffect(() => {
-//     if(ref?.current){
-//       ref.current.addEventListener('change', (ev) => {
-//         const file = ev.target.files[0];
-//         const reader = new FileReader();
-//         reader.readAsDataURL(file);
-//         reader.addEventListener('load', () => {
-//           setAvatar(reader.result)
-//         })
-//     })
-//   }
-// }, [ref])
 
   const _update = async(ev)=> {
     ev.preventDefault();
@@ -188,9 +172,7 @@ const Account = ()=> {
                     <Button onClick={ _update } >Save Profile</Button><Button onClick={ _submit } >Submit & Proceed</Button>
                     </form>
                 </div>
-                {/* <div style={{height:500,width:1000}}>
-                  <MyResponsiveLine data={dat}></MyResponsiveLine>
-                </div> */}
+                
             </div>
         
         )  : (
