@@ -276,7 +276,7 @@ const portfolioGraph = [
                 </div>
                 <Card sx={{ width: 300  }}>
                   <CardContent>
-                    <Typography href='/chats' sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  <Typography component='a' href={`/#/chats`} variant="body2" color="text.secondary">
                       Online Users ({onlineUsers.length}):
                     </Typography>
                     <ul>
