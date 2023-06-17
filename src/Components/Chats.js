@@ -226,14 +226,14 @@ const Chats = ()=> {
       </div>
     )
   }
-        <div id='chats' style={{ width: 500 }}>
+        <div id='chats' sx={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}  style={{ minWidth: 500 }}>
 
             {
                 chats.map( (chat, idx) => {
                     return (
-                        <div key={ idx } className={ chat.online ? 'online' : ''}>
-                            <h3 style={{ marginLeft: 210}}>{ chat.withUser.username }</h3>
-                            <ul style={{listStyle: 'none'}}>
+                        <div sx={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}} key={ idx } className={ chat.online ? 'online' : ''}>
+                            <h3 style={{ marginLeft: 210 }}>{ chat.withUser.username }</h3>
+                            <ul style={{ listStyle: 'none' }}>
                                 {
                                     chat.messages.map( message => {
                                         return (
@@ -266,8 +266,8 @@ const Chats = ()=> {
                                 const txt = ev.target.querySelector('input').value;
                                 dispatch(createMessage1({ txt, toId: chat.withUser.id }));
                                 ev.target.querySelector('input').value = '';
-                            }
-                        }>
+                                }
+                            }>
                                 
                                 <TextField label="Message" variant="outlined" style={{ width: 400, marginLeft: 40 }}/>
                                   

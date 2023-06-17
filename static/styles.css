@@ -77,7 +77,10 @@ div > div > .hidden {
   }
 }
 
-
+#chats {
+  display: flex;
+  flex-wrap: wrap;
+}
 
 /* .stockExchanges {
   animation: slide 15s linear infinite;
