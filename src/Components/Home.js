@@ -39,6 +39,10 @@ const Home = ()=> {
     navigate('/deposit')
   };
 
+  const goToLogin = ()=> {
+    navigate('/login')
+  };
+
   const marketTrendsAPICall = async () => {
     const options = {
         method: 'GET',
@@ -102,7 +106,11 @@ const Home = ()=> {
   
 
   return (
+
+    
     <>
+    { auth.id ? <>
+    
     <div className='ticker-tape' style={{padding: 'none', margin: 'none', height: 100}}>
                     <div className='ticker'>
                         { top25Ticker ? top25Ticker.map((ticker, idx) => {
@@ -149,7 +157,7 @@ const Home = ()=> {
                                 </FormControl>
                               </Box>
                               
-                          <Button  onClick={ marketTrendsAPICall } >Tell Me More</Button>
+                          <Button sx={{ minWidth: 300, display: 'flex', justifyContent: 'center'  }}  onClick={ marketTrendsAPICall } >Tell Me More</Button>
                         </form>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center'}}>
@@ -189,6 +197,95 @@ const Home = ()=> {
                               ))}
                             </Grid>
                           </Box>
+                          </> :
+                          <> <div className='ticker-tape' style={{padding: 'none', margin: 'none', height: 100}}>
+                    <div className='ticker'>
+                        { top25Ticker ? top25Ticker.map((ticker, idx) => {
+                            return (
+                                <div className='ticker__item' key={idx}>{ticker.symbol}: {ticker.regularMarketPrice}</div>
+                            )
+                        }) : ''}
+                    </div>
+                </div>
+
+        <div style={{display: 'flex', justifyContent:'center', alignItems: 'center'}}>
+          <div>
+          <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Home</h1>
+            {/* { auth.id ? <div> Welcome { auth.username }!! */}
+            {/* <button onClick={()=> dispatch(logout())}>Logout</button> */}
+          {/* </div> : <Link to='/login' style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Login</Link>} */}
+          <div  >
+            <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Need A Place To Start?</h1>
+            {/* <Link to={`/riskAssessment/${auth.id}`} style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Click Here to Complete Risk Assessment</Link> */}
+           
+          </div>
+          <Button sx={{display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 2, backgroundColor: 'green'}} component="div" variant="contained" onClick={ goToLogin }>Login</Button>
+          </div>
+        </div>
+        
+        <div>
+                        <form onSubmit={ marketTrendsAPICall }>
+                        
+                              <Box sx={{ minWidth: 300, display: 'flex', justifyContent: 'center'  }}>
+                                <FormControl sx={{ minWidth: 300 }} >
+                                    <InputLabel id="demo-simple-select-label">Market Trend</InputLabel>
+                                    <Select
+                                    value={ marketTrend }
+                                    label="Years of Experience"
+                                    onChange={(ev) => setMarketTrend(ev.target.value)}
+                                    >
+                                      <MenuItem value={'MARKET_INDEXES'}>Market Indexes</MenuItem>
+                                      <MenuItem value={'MOST_ACTIVE'}>Most Active</MenuItem>
+                                      <MenuItem value={'GAINERS'}>Gainers</MenuItem>
+                                      <MenuItem value={'LOSERS'}>Losers</MenuItem>
+                                      <MenuItem value={'CLIMATE_LEADERS'}>Climate Leaders</MenuItem>
+                                    
+                                    </Select>
+                                </FormControl>
+                              </Box>
+                              
+                          <Button sx={{ minWidth: 300, display: 'flex', justifyContent: 'center'  }}  onClick={ marketTrendsAPICall } >Tell Me More</Button>
+                        </form>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'center'}}>
+                      {
+                        news.length ?
+                            <Carousel  news={ news } />
+                          :
+                          null
+                      }
+</div>
+                      <div style={{paddingBottom: 8}} />
+                      {trends.length ? <Typography style={{ display: 'flex', justifyContent: 'center'}} variant="h6" component="div">Trending Stocks</Typography> : null}
+                      <div style={{paddingBottom: 8}} />
+
+                          <Box sx={{ flexGrow: 1 }}>
+                            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                              {trends.map((trend, index) => (
+                                <Grid item xs={2} sm={4} md={4} key={index}>
+                                  <Item>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                      {trend.name}
+                                    </Typography>
+                                    <Typography component='a' href={`/#/stocks/${trend.symbol.split(':')[0]}`} variant="body2" color="text.secondary">
+                                      {trend.symbol.split(':')[0]}
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" component="div">
+                                      Prev. Close: {trend.previous_close}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                      Change: {trend.change} ({trend.change_percent.toFixed(2)}%)
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" component="div">
+                                      Now: {trend.price}
+                                    </Typography>
+                                  </Item>
+                                </Grid>
+                              ))}
+                            </Grid>
+                          </Box>
+                          </> }
+    
     </>
   );
 };
@@ -197,6 +294,98 @@ export default Home;
 
 
 
+// return (
+
+    
+//   <>
+//   <div className='ticker-tape' style={{padding: 'none', margin: 'none', height: 100}}>
+//                   <div className='ticker'>
+//                       { top25Ticker ? top25Ticker.map((ticker, idx) => {
+//                           return (
+//                               <div className='ticker__item' key={idx}>{ticker.symbol}: {ticker.regularMarketPrice}</div>
+//                           )
+//                       }) : ''}
+//                   </div>
+//               </div>
+
+//       <div style={{display: 'flex', justifyContent:'center', alignItems: 'center'}}>
+//         <div>
+//         <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Home</h1>
+//           {/* { auth.id ? <div> Welcome { auth.username }!! */}
+//           {/* <button onClick={()=> dispatch(logout())}>Logout</button> */}
+//         {/* </div> : <Link to='/login' style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Login</Link>} */}
+//         <div  >
+//           <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Need A Place To Start?</h1>
+//           {/* <Link to={`/riskAssessment/${auth.id}`} style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Click Here to Complete Risk Assessment</Link> */}
+         
+//         </div>
+//         <Button sx={{display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 2, backgroundColor: 'green'}} component="div" variant="contained" onClick={ goToDeposit }>Deposit</Button>
+//         </div>
+//       </div>
+      
+//       <div>
+//                       <form onSubmit={ marketTrendsAPICall }>
+                      
+//                             <Box sx={{ minWidth: 300, display: 'flex', justifyContent: 'center'  }}>
+//                               <FormControl sx={{ minWidth: 300 }} >
+//                                   <InputLabel id="demo-simple-select-label">Market Trend</InputLabel>
+//                                   <Select
+//                                   value={ marketTrend }
+//                                   label="Years of Experience"
+//                                   onChange={(ev) => setMarketTrend(ev.target.value)}
+//                                   >
+//                                     <MenuItem value={'MARKET_INDEXES'}>Market Indexes</MenuItem>
+//                                     <MenuItem value={'MOST_ACTIVE'}>Most Active</MenuItem>
+//                                     <MenuItem value={'GAINERS'}>Gainers</MenuItem>
+//                                     <MenuItem value={'LOSERS'}>Losers</MenuItem>
+//                                     <MenuItem value={'CLIMATE_LEADERS'}>Climate Leaders</MenuItem>
+                                  
+//                                   </Select>
+//                               </FormControl>
+//                             </Box>
+                            
+//                         <Button sx={{ minWidth: 300, display: 'flex', justifyContent: 'center'  }}  onClick={ marketTrendsAPICall } >Tell Me More</Button>
+//                       </form>
+//                   </div>
+//                   <div style={{ display: 'flex', justifyContent: 'center'}}>
+//                     {
+//                       news.length ?
+//                           <Carousel  news={ news } />
+//                         :
+//                         null
+//                     }
+// </div>
+//                     <div style={{paddingBottom: 8}} />
+//                     {trends.length ? <Typography style={{ display: 'flex', justifyContent: 'center'}} variant="h6" component="div">Trending Stocks</Typography> : null}
+//                     <div style={{paddingBottom: 8}} />
+
+//                         <Box sx={{ flexGrow: 1 }}>
+//                           <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+//                             {trends.map((trend, index) => (
+//                               <Grid item xs={2} sm={4} md={4} key={index}>
+//                                 <Item>
+//                                   <Typography gutterBottom variant="h5" component="div">
+//                                     {trend.name}
+//                                   </Typography>
+//                                   <Typography component='a' href={`/#/stocks/${trend.symbol.split(':')[0]}`} variant="body2" color="text.secondary">
+//                                     {trend.symbol.split(':')[0]}
+//                                   </Typography>
+//                                   <Typography gutterBottom variant="h6" component="div">
+//                                     Prev. Close: {trend.previous_close}
+//                                   </Typography>
+//                                   <Typography variant="body2" color="text.secondary">
+//                                     Change: {trend.change} ({trend.change_percent.toFixed(2)}%)
+//                                   </Typography>
+//                                   <Typography gutterBottom variant="h6" component="div">
+//                                     Now: {trend.price}
+//                                   </Typography>
+//                                 </Item>
+//                               </Grid>
+//                             ))}
+//                           </Grid>
+//                         </Box>
+//   </>
+// );
 
 
   //                  <div sx={{display: 'flex', flexWrap: 'wrap'}}>

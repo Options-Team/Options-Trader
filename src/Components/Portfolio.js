@@ -208,7 +208,7 @@ const portfolioGraph = [
   return (
     <div>
       {
-        auth.id ? (
+        auth.id && myTransactions.length ? (
             <div>
                 <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> My Portfolio </h1>
 
@@ -296,7 +296,8 @@ const portfolioGraph = [
             </div>        
         )  : (
             <div >
-                <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Can't Check Out Your Portfolio If You're Not Logged In!</h1>
+                <h2 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Can't See Waht's Not There!</h2>
+                <h3 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Login, Register, or Make a Trade to fill your portfolio</h3>
                 <div style={{display: 'flex', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
                 <Button sx={{width: 100}} onClick={()=> navigate('/register')}>Register</Button>
                 
