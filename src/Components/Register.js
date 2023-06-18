@@ -28,16 +28,17 @@ const Register = ()=> {
     }
   };
   return (
-
+    <div style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>
     <form onSubmit={ _register }>
         <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Registration</h1>
             <div style={{ marginBottom: 16 }}/>
-        <TextField label="Username" name = 'username' variant="outlined" value={ username } onChange={ev => setUsername(ev.target.value)} />
+        <TextField style={{ width: 300 }} label="Username" name = 'username' variant="outlined" value={ username } onChange={ev => setUsername(ev.target.value)} />
             <div style={{ marginBottom: 4 }}/>
-        <TextField label="Password" name = 'password' variant="outlined" value={ password } onChange={ev => setPassword(ev.target.value)} />
+        <TextField type='password' style={{ width: 300 }} label="Password" name = 'password' variant="outlined" value={ password } onChange={ev => setPassword(ev.target.value)} />
 
-        <Button onClick={ _register } disabled={ !username || !password}>Register</Button>
+        <Button style={{ width: 300 }} onClick={ _register } disabled={ !username || !password}>Register</Button>
     </form>
+    </div>
   );
 };
 
