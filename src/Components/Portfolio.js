@@ -215,7 +215,7 @@ const portfolioGraph = [
                 <div style={{height:500,width:'100%'}}><MyResponsiveLine data={portfolioGraph}></MyResponsiveLine></div> 
                 <div style={{display: 'flex', justifyContent: 'space-around'}}>
         
-                  <Card sx={{ height: 200, width: 300 }}>
+                  <Card sx={{ height: 400, width: 300 }}>
                     <CardContent>
                       <Typography sx={{ fontSize: 16, display: 'flex', justifyContent: 'center' }}  gutterBottom>
                         {auth.username}
@@ -295,10 +295,13 @@ const portfolioGraph = [
                   </div>
             </div>        
         )  : (
-            <div>
-                <h1>Can't Check Out Your Portfolio If You're Not Logged In!</h1>
-                <div>
-                    <Link to={`/register`}>Register Here</Link> or <Link to='/login'> Login </Link>
+            <div >
+                <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Can't Check Out Your Portfolio If You're Not Logged In!</h1>
+                <div style={{display: 'flex', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
+                <Button sx={{width: 100}} onClick={()=> navigate('/register')}>Register</Button>
+                
+                <Button sx={{width: 100}} onClick={()=> navigate('/login')}>Login</Button>
+                    {/* <Link to={`/register`}>Register Here</Link> or <Link to='/login'> Login </Link> */}
                 </div>
             </div>
           )
