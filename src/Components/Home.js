@@ -156,8 +156,11 @@ const Home = ()=> {
                                     </Select>
                                 </FormControl>
                               </Box>
-                              
-                          <Button sx={{ minWidth: 300, display: 'flex', justifyContent: 'center'  }}  onClick={ marketTrendsAPICall } >Tell Me More</Button>
+                              <div style={{display: 'flex', justifyContent:'center', alignItems: 'center'}}>
+                           <div >
+                          <Button sx={{ display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 2, backgroundColor: 'green'}} component="div" variant="contained"  onClick={ marketTrendsAPICall } >Tell Me More</Button>
+                          </div>
+                          </div>
                         </form>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center'}}>

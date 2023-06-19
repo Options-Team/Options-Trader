@@ -30,12 +30,18 @@ const Logout = ()=> {
             </div>
         
         )  : (
-            <div>
-                <h1 style={{display: 'flex', justifyContent:'center', alignItems: 'center'}}>You're Not Logged In!</h1>
-                <div>
-                    <Link to={`/register`}>Register Here</Link> or <Link to='/login'> Login </Link>
+
+            <div >
+                <h2 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>You're Not Logged In!</h2>
+                
+                <div style={{display: 'flex', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
+                <Button sx={{width: 100}} onClick={()=> navigate('/register')}>Register</Button>
+                
+                <Button sx={{width: 100}} onClick={()=> navigate('/login')}>Login</Button>
+                    {/* <Link to={`/register`}>Register Here</Link> or <Link to='/login'> Login </Link> */}
                 </div>
             </div>
+           
         )
         } 
     
