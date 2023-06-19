@@ -711,7 +711,7 @@ const options = {
                   !hasAssessment ?
                   <Link to={`/riskAssessment/${auth.id}`} style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Click Here to Complete Risk Assessment</Link> 
                   :
-                  <div>
+                  <div style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>
                     <Button onClick={handleOpen}>Buy { stockTicker }</Button>
                     <Button disabled ={portfolio[stockTicker] ? false : true} onClick={handleOpenSell}>Sell { stockTicker }</Button>
                   </div>
