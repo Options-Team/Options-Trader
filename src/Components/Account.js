@@ -9,6 +9,7 @@ import Card from '@mui/material/Card';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import Typography from '@mui/material/Typography';
 
 
 const Account = ()=> {
@@ -104,66 +105,59 @@ const Account = ()=> {
                   <span className="title">Finalize</span>
                 </div>
               </div>
+              <div style={{}}>
+                <form onSubmit={ _update }>
                 <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> Personal Information </h1>
-                <div>
-                    
-                    <form onSubmit={ _update }>
-                  <div >
-                    <Box sx={{ minWidth: 300 }}>
-                      <Card sx={{ display: 'flex', justifyContent: 'space-around', paddingTop: 5, paddingBottom: 5}}>
-                     
-                            <TextField sx={{flex: '1', width: 400}}  label="First Name" variant="outlined" value={ firstName } onChange={ev => setFirstName(ev.target.value)} sx={{ minWidth: 300 }}/>
-                           
-                            <TextField sx={{flex: '1', width: 400}} label="Last Name" variant="outlined" value={ lastName } onChange={ev => setLastName(ev.target.value)} sx={{ minWidth: 300 }}/>
-                           
-                      </Card>
-                    <div style={{ marginBottom: 8 }}/>
-                    <img style={{height: 'auto', width:400, float: 'right'}} src='static/dollabillz.jpeg'></img>
-                    
-                    <TextField label="Country" variant="outlined" value={ countryOfCitizenship } onChange={ev => setCountryOfCitizenship(ev.target.value)} sx={{ minWidth: 300 }}/>
-                    <div style={{ marginBottom: 8 }}/>
-                    <TextField label="Address" variant="outlined" value={ address } onChange={ev => setAddress(ev.target.value)} sx={{ minWidth: 300 }}/>
-                    <div style={{ marginBottom: 8 }}/>
-                    <TextField label="City" variant="outlined" value={ city } onChange={ev => setCity(ev.target.value)} sx={{ minWidth: 300 }}/>
-                    <div style={{ marginBottom: 8 }}/>
-                    <TextField label="State" variant="outlined" value={ state } onChange={ev => setState(ev.target.value)} sx={{ minWidth: 300 }}/>
-                    <div style={{ marginBottom: 8 }}/>
-                    <TextField label="Zip Code" variant="outlined" value={ zipCode } onChange={ev => setZipCode(ev.target.value)} sx={{ minWidth: 300 }}/>
-                    <div style={{ marginBottom: 8 }}/>
-                    <TextField label="E-mail" variant="outlined"  value={ email } onChange={ev => setEmail(ev.target.value)} sx={{ minWidth: 300 }}/>
-                    <div style={{ marginBottom: 8 }}/>
-                    <TextField label="Phone" variant="outlined" value={ phone } onChange={ev => setPhone(ev.target.value)} sx={{ minWidth: 300 }}/>
-                    <div className="input-group mb-3">
-                      <label className="input-group-text">Upload Photo</label>
-                      {/* <input type="file" ref={ ref } className="form-control" id="inputGroupFile02" /> */}
-                      <input type="file" onChange={ ev => {
-                        const file = ev.target.files[0];
-                        const reader = new FileReader();
-                        reader.readAsDataURL(file);
-                        reader.addEventListener('load', () => {
-                          setAvatar(reader.result)
-                        })
-                      } } className="form-control" id="inputGroupFile02" />
-                      { !!avatar && <img src={ avatar } style={{ width: 100}} /> }
-                    </div>
-                    
-                    </Box>
-                  </div>
-                    <h6 >Date of Birth</h6>
-                    {auth.DOBYear ? <span style={{ marginTop: 0, marginLeft: 15 }}>{auth.DOB}</span> : null}
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            sx={{width: 300, marginLeft: 2}}
-                            label="Enter DOB"
-                            value={date}
-                            onChange={(newDate)=>setDate(newDate)}
-                        />
-                      </LocalizationProvider>
+                <Typography sx={{display: 'flex', justifyContent: 'center'}} variant="h6" component="div">Please enter your first and last name as they appear on your government issued identification</Typography>
+                  <div>
+                    <Card sx={{padding: 2, display: 'flex', flexDirection: 'column'}}>
+                      <div style={{display: 'flex', flex: 1, justifyContent: 'space-around', flexDirection: 'row'}}>
+                        <div style={{flex: 1, margin: 1}}>
+                          <Typography sx={{display: 'flex', justifyContent: 'center', fontWeight: 'bold', paddingBottom: '8px'}} variant="h7" component="div">Identification</Typography>
+                          <TextField sx={{flex: '1', width: '100%', padding: .5}}  label="First Name" variant="outlined" value={ firstName } onChange={ev => setFirstName(ev.target.value)}/>
+                          <TextField sx={{flex: '1', width: '100%', padding: .5}} label="Last Name" variant="outlined" value={ lastName } onChange={ev => setLastName(ev.target.value)}/>
+                          <TextField label="E-mail" variant="outlined"  value={ email } onChange={ev => setEmail(ev.target.value)} sx={{flex: '1', width: '100%', padding: .5}}/>
+                          <TextField sx={{flex: '1', width: '100%', padding: .5}} label="Phone" variant="outlined" value={ phone } onChange={ev => setPhone(ev.target.value)}/>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                sx={{flex: '1', width: '100%', padding: .5}}
+                                label="Date of Birth"
+                                value={date}
+                                onChange={(newDate)=>setDate(newDate)}
+                            />
+                          </LocalizationProvider>
+                        </div>
 
-                    <Button onClick={ _update } >Save Profile</Button><Button onClick={ _submit } >Submit & Proceed</Button>
-                    </form>
-                </div>
-                
+                        <div style={{flex: 1, margin: 1}}>
+                          <Typography sx={{display: 'flex', justifyContent: 'center', fontWeight: 'bold', paddingBottom: '8px'}} variant="h7" component="div">Location</Typography>
+                          <TextField sx={{flex: '1', width: '100%', padding: .5}} label="Country" variant="outlined" value={ countryOfCitizenship } onChange={ev => setCountryOfCitizenship(ev.target.value)}/>
+                          <TextField sx={{flex: '1', width: '100%', padding: .5}} label="Address" variant="outlined" value={ address } onChange={ev => setAddress(ev.target.value)}/>
+                          <TextField sx={{flex: '1', width: '100%', padding: .5}} label="City" variant="outlined" value={ city } onChange={ev => setCity(ev.target.value)}/>
+                          <TextField sx={{flex: '1', width: '100%', padding: .5}} label="State" variant="outlined" value={ state } onChange={ev => setState(ev.target.value)}/>
+                          <TextField sx={{flex: '1', width: '100%', padding: .5}} label="Zip Code" variant="outlined" value={ zipCode } onChange={ev => setZipCode(ev.target.value)}/>
+                        </div>
+                      </div>
+
+                      <div style={{flex: 1, margin: 10}}>
+                        <Typography sx={{fontWeight: 'bold', paddingBottom: '8px'}} variant="h7" component="div">Upload Profile Picture: </Typography>
+                        <div style={{margin: 2}} className="input-group mb-3">
+                          <input type="file" onChange={ ev => {
+                            const file = ev.target.files[0];
+                            const reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.addEventListener('load', () => {
+                              setAvatar(reader.result)
+                            })
+                            } } className="form-control" id="inputGroupFile02"
+                          />
+                        </div>
+                        { !!avatar && <img src={ avatar } style={{ width: 100}} /> }
+                      </div>
+                    </Card>
+                  </div>
+                  <Button sx={{ display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 2, backgroundColor: 'darkgray', ":hover": {backgroundColor: 'green', color: "white"}}} component="div" variant="contained"  onClick={ _submit } >Submit & Proceed</Button>
+                </form>
+              </div>
             </div>
         
         )  : (

@@ -3,6 +3,7 @@ import Home from './Home';
 import Login from './Login';
 import Logout from './Logout';
 import Account from './Account';
+import Profile from './Profile';
 import Employment from './Employment';
 import Register from './Register';
 import Stocks from './Stocks';
@@ -77,7 +78,8 @@ const App = ()=> {
               <Route path='/logout' element={ <Logout /> } />
               <Route path='/' element={ <Home /> } />
               <Route path='/home' element={ <Home /> } />
-              <Route path='/account' element={ <Account /> } />
+              <Route path='/account' element={ <Profile /> } />
+              <Route path='/accountSetup' element={ <Account /> } />
               <Route path='/employment' element={ <Employment /> } />
               <Route path='/register' element={ <Register /> } />
               <Route path='/stocks' element={ <Stocks /> } />

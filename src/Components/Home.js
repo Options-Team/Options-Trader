@@ -129,10 +129,13 @@ const Home = ()=> {
           {/* </div> : <Link to='/login' style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Login</Link>} */}
           <div  >
             <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Need A Place To Start?</h1>
-            {/* <Link to={`/riskAssessment/${auth.id}`} style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Click Here to Complete Risk Assessment</Link> */}
            
           </div>
           <Button sx={{display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 2, backgroundColor: 'green'}} component="div" variant="contained" onClick={ goToDeposit }>Deposit</Button>
+          <Typography style={{ display: 'flex', justifyContent: 'center'}} variant="h6" component="div">
+            or register&nbsp;
+            <Link to='/register'>here</Link>
+          </Typography>
           </div>
         </div>
         
