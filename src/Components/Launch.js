@@ -44,7 +44,7 @@ const Launch = ()=> {
                   <span className="title">Finalize</span>
                 </div>
               </div>
-                <Link to={'/home'}><h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> Start Trading! </h1></Link>
+                <Link to={'/home'}><h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> You did it! You created your account</h1></Link>
             
                 <Typography>Go Home for market trends or search for stock by ticker</Typography>
                 

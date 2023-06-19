@@ -10,10 +10,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
-
+import Typography from '@mui/material/Typography';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import Card from '@mui/material/Card';
 
 const Employment = ()=> {
   const [employmentStatus, setEmploymentStatus] = useState('');
@@ -72,50 +73,52 @@ const Employment = ()=> {
                   <span className="title">Finalize</span>
                 </div>
               </div>
-                <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> Personal Information </h1>
                 
-                <div>
-                    
-                    <form onSubmit={ _update }>
-                   
-                      <h3 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Employment Information</h3>
-                      <Button sx={{width: 100}}onClick={()=> navigate('/account')}>Back</Button>
-                      <h6 sx={{display: 'flex'}} >Employment</h6>
-                      <hr />
-                      <div style={{display: 'flex', justifyContent:'start', alignItems:'start', flexDirection:'column'}}>
-                          <Box sx={{ minWidth: 50 }}>
-                          <FormControl sx={{ minWidth: 400 }}>
+              <div style={{}}>
+                <form onSubmit={ _update }>
+                <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}> Employment Information </h1>
+                <Typography sx={{display: 'flex', justifyContent: 'center'}} variant="h6" component="div">Please answer the below truthfully</Typography>
+                  <div>
+                    <Card sx={{padding: 2, display: 'flex', flexDirection: 'column'}}>
+                      <div style={{display: 'flex', flex: 1, justifyContent: 'space-around', flexDirection: 'row'}}>
+                        <div style={{flex: 1, margin: 1}}>
+                          <Typography sx={{display: 'flex', justifyContent: 'center', fontWeight: 'bold', paddingBottom: '8px'}} variant="h7" component="div">Employment Status</Typography>
+                          <FormControl sx={{width: '100%'}}>
                               <InputLabel>Employment Status</InputLabel>
                               <Select
-                              value={employmentStatus}
-                              label="Employment Status"
-                              onChange={(ev) => setEmploymentStatus(ev.target.value)}
+                                value={employmentStatus}
+                                label="Employment Status"
+                                onChange={(ev) => setEmploymentStatus(ev.target.value)}
                               >
-                              <MenuItem value={'Student'}>Student</MenuItem>
-                              <MenuItem value={'Employed Full-Time'}>Employed Full-Time</MenuItem>
-                              <MenuItem value={'Employed Part-Time'}>Employed Part-Time</MenuItem>
-                              <MenuItem value={'Not Currently Employed'}>Not Currently Employed</MenuItem>
-                              <MenuItem value={'Self Employed'}>Self Employed</MenuItem>
+                                <MenuItem value={'Student'}>Student</MenuItem>
+                                <MenuItem value={'Employed Full-Time'}>Employed Full-Time</MenuItem>
+                                <MenuItem value={'Employed Part-Time'}>Employed Part-Time</MenuItem>
+                                <MenuItem value={'Not Currently Employed'}>Not Currently Employed</MenuItem>
+                                <MenuItem value={'Self Employed'}>Self Employed</MenuItem>
                               </Select>
                           </FormControl>
-                          </Box>
-                          <h6 >Affiliations</h6>
-                          <hr />
-                        
-                <h4 >Are You or Spouse Employed or Associated with the NYSE?</h4>
-                <Switch value={affiliationNYSE} onChange={(ev)=> setAffiliationNYSE(ev.target.checked)}/>
-                
-                <h4 >Are you a director, 10% shareholder, or policy making officer of a publicly owned company?</h4>
-                <Switch value={directorOrShareholder} onChange={(ev)=> setDirectorOrShareholder(ev.target.checked)}/>
-
-                <h4 >Are you a deemed a professional subscriber?</h4>
-                <Switch value={proSubcriber} onChange={(ev)=> setProSubcriber(ev.target.checked)}/>
-   
+                        </div>
                       </div>
-                            
-                    <Button onClick={ _update } >Save Profile</Button><Button onClick={ _submit } >Submit & Proceed</Button>
-                    </form>
-                </div>
+
+                      <div style={{flex: 1, margin: 10}}>
+                        <Typography sx={{display: 'flex', justifyContent: 'center', fontWeight: 'bold', paddingBottom: '8px'}} variant="h7" component="div">Affiliations</Typography>
+                        <div style={{textAlign: 'center'}}>
+                          <Typography sx={{display: 'flex', justifyContent: 'center', paddingBottom: '2px'}} variant="h9" component="div">Are You or Spouse Employed or Associated with the NYSE?</Typography>
+                          <Switch sx={{"& .MuiSwitch-switchBase.Mui-checked": {color: "green"}, "& .MuiSwitch-switchBase.Mui-checked+.MuiSwitch-track": {backgroundColor: 'lightgreen'}}} value={affiliationNYSE} onChange={(ev)=> setAffiliationNYSE(ev.target.checked)}/>
+                          
+                          <Typography sx={{display: 'flex', justifyContent: 'center', paddingBottom: '2px'}} variant="h9" component="div">Are you a director, 10% shareholder, or policy making officer of a publicly owned company?</Typography>
+                          <Switch sx={{"& .MuiSwitch-switchBase.Mui-checked": {color: "green"}, "& .MuiSwitch-switchBase.Mui-checked+.MuiSwitch-track": {backgroundColor: 'lightgreen'}}}  value={directorOrShareholder} onChange={(ev)=> setDirectorOrShareholder(ev.target.checked)}/>
+
+                          <Typography sx={{display: 'flex', justifyContent: 'center', paddingBottom: '2px'}} variant="h9" component="div">Are you a deemed a professional subscriber?</Typography>
+                          <Switch sx={{"& .MuiSwitch-switchBase.Mui-checked": {color: "green"}, "& .MuiSwitch-switchBase.Mui-checked+.MuiSwitch-track": {backgroundColor: 'lightgreen'}}}  value={proSubcriber} onChange={(ev)=> setProSubcriber(ev.target.checked)}/>
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+                  <Button sx={{ display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 2, backgroundColor: 'darkgray', ":hover": {backgroundColor: 'green', color: "white"}}} component="div" variant="contained" onClick={ _submit } >Submit & Proceed</Button>
+                </form>
+                <Button sx={{ display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 2, backgroundColor: 'darkgray', ":hover": {backgroundColor: 'green', color: "white"}}} component="div" variant="contained" onClick={()=> navigate('/accountSetup')}>Back to Personal Information</Button>
+              </div>
             </div>
         
         )  : (

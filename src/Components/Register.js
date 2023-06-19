@@ -21,7 +21,7 @@ const Register = ()=> {
 
     try {
       dispatch(register(credentials));
-      navigate('/account');
+      navigate('/accountSetup');
     }
     catch(ex){
       console.log(ex)
