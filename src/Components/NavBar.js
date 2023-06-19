@@ -15,6 +15,10 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import SearchBar from './SearchBar';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import MailIcon from '@mui/icons-material/Mail';
+import Badge from '@mui/material/Badge';
+
 
 function NavBar() {
   const { auth } = useSelector(state => state);
@@ -73,6 +77,7 @@ function NavBar() {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -137,10 +142,28 @@ function NavBar() {
                 {page}
               </Button>
             ))}
+
           </Box>
 
           <SearchBar />
-            
+          {/* <Box sx={{ flexGrow: 1}}> */}
+
+          <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={4} color="error">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+          <IconButton
+              size="large"
+              aria-label="show 7 new notifications"
+              color="inherit"
+            >
+              <Badge badgeContent={7} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+          {/* </Box> */}
+
           <Typography
             variant="h6"
             noWrap
@@ -179,6 +202,7 @@ function NavBar() {
           </Typography>
 
           <Box sx={{ flexGrow: 0 }}>
+
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src={auth.avatar} />
