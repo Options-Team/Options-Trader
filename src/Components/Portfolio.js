@@ -296,7 +296,7 @@ const portfolioGraph = [
             </div>        
         )  : (
             <div >
-                <h2 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Can't See Waht's Not There!</h2>
+                <h2 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Can't See What's Not There!</h2>
                 <h3 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Login, Register, or Make a Trade to fill your portfolio</h3>
                 <div style={{display: 'flex', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
                 <Button sx={{width: 100}} onClick={()=> navigate('/register')}>Register</Button>
