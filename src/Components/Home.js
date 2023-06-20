@@ -20,20 +20,39 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
 import Carousel from './Carousel';
+import assessments from '../store/assessments';
+import users from '../store/users';
 
 
 const Home = ()=> {
-  const { auth } = useSelector(state => state);
+  const { auth, assessments } = useSelector(state => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [marketTrend, setMarketTrend] = useState('')
   const [trends, setTrends] = useState([])
   const [news, setNews] = useState([])
   const [top25Ticker, setTop25Ticker] = useState([])
+  const [userRiskProfile, setUserRiskProfile] = useState('')
+  const [userRiskDescription, setUserRiskDescription] = useState('')
+
+  const usersRisk = assessments.filter(assessment => assessment.userId === auth.id)[0]
 
   useEffect(()=> {
-     //getTop25Trending();
+    //  getTop25Trending();
+     if (usersRisk){
+      console.log(usersRisk)
+      setUserRiskProfile(usersRisk.riskProfile.title)
+      setUserRiskDescription(usersRisk.riskProfile.description)
+      console.log(usersRisk.riskProfile.title)
+     }
   },[])
+
+  useEffect(()=> {
+    if(usersRisk){
+      setUserRiskProfile(usersRisk.riskProfile.title)
+      setUserRiskDescription(usersRisk.riskProfile.description)
+    }
+  }, [assessments]);
 
   const goToDeposit = ()=> {
     navigate('/deposit')
@@ -101,8 +120,6 @@ const Home = ()=> {
     }   
   }
 
- 
-
   
 
   return (
@@ -121,9 +138,11 @@ const Home = ()=> {
                     </div>
                 </div>
 
+           
+
         <div style={{display: 'flex', justifyContent:'center', alignItems: 'center'}}>
           <div>
-          <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Home</h1>
+          {/* <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Home</h1> */}
             {/* { auth.id ? <div> Welcome { auth.username }!! */}
             {/* <button onClick={()=> dispatch(logout())}>Logout</button> */}
           {/* </div> : <Link to='/login' style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Login</Link>} */}
@@ -131,11 +150,37 @@ const Home = ()=> {
             <h1 style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Need A Place To Start?</h1>
            
           </div>
+
+          {/* <div style={{display: 'flex', justifyContent:'center', alignItems: 'center', flexDirection: 'column'}}>
+           
+            <h3>Risk Assessment Results</h3>
+              {
+                userRiskProfile ? userRiskProfile : null
+              }
+              {
+                userRiskDescription ? userRiskDescription : null
+              }
+            </div> */}
+
+            <Card sx={{ width: 500, display: 'flex', justifyContent:'center', alignItems: 'center', flexDirection: 'column'  }}>
+                  <CardContent sx={{display: 'flex', justifyContent:'center', alignItems: 'center', flexDirection: 'column'  }}>
+                  <Typography component='div' variant="header2">
+                    Risk Assessment Results
+                    </Typography>
+                    <Typography>{
+                      userRiskProfile ? userRiskProfile : null
+                    }</Typography>
+                    <Typography>{
+                      userRiskDescription ? userRiskDescription : null
+                    }</Typography>
+                  </CardContent>
+                </Card> 
+
           <Button sx={{display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 2, backgroundColor: 'green'}} component="div" variant="contained" onClick={ goToDeposit }>Deposit</Button>
-          <Typography style={{ display: 'flex', justifyContent: 'center'}} variant="h6" component="div">
+          {/* <Typography style={{ display: 'flex', justifyContent: 'center'}} variant="h6" component="div">
             or register&nbsp;
             <Link to='/register'>here</Link>
-          </Typography>
+          </Typography> */}
           </div>
         </div>
         
@@ -226,6 +271,10 @@ const Home = ()=> {
            
           </div>
           <Button sx={{display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 2, backgroundColor: 'green'}} component="div" variant="contained" onClick={ goToLogin }>Login</Button>
+           <Typography style={{ display: 'flex', justifyContent: 'center'}} variant="h6" component="div">
+            or register&nbsp;
+            <Link to='/register'>here</Link>
+          </Typography>
           </div>
         </div>
         

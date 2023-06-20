@@ -189,7 +189,7 @@ const Graphs = ()=> {
   // UNCOMMENT TO ADD TICKER EVERY TIME SOMEONE GOES TO THE GRAPHS PAGE
   useEffect(()=> {
     // getTop25Trending();
-    // tickerAPICall();
+    //tickerAPICall();
     fetchPortfolio();
   },[])
 
@@ -730,15 +730,15 @@ const options = {
                           { stockTicker }
                         </Typography>
                         <Typography variant="h5" component="div">
-                          Current Price: { stock.currentPrice }
+                          Current Price: ${ stock.currentPrice }
                         </Typography>
                           <div style={{ marginBottom: 8 }}/>
                         <TextField style={{ width: 200}} label='Shares' onChange={ ev => update(ev.target.value) } defaultValue={ quantity } type='number'></TextField>
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                          Total Value: { totalValue.toFixed(2) }
+                          Total Value: ${ totalValue.toFixed(2) }
                         </Typography>
                         <Typography variant="body2">
-                          Available Funds: { auth.tradingFunds }
+                          Available Funds: ${ auth.tradingFunds.toFixed(2) }
                         </Typography>
                         <CardActions style={{display: 'flex', justifyContent: 'center'}}>
                           <Button disabled={ auth.tradingFunds < totalValue }  onClick={ buy }>Buy { stockTicker }</Button>

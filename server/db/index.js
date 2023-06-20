@@ -130,7 +130,7 @@ try {
   const moe3 = await Message.create({ txt: 'hows it going??', fromId: moe.id, toId: lucy.id })
   const moe4 = await Message.create({ txt: "haven't talked in a while!", fromId: moe.id, toId: ethyl.id })
   const lucy2 = await Message.create({ txt: 'good without your financial advice!', fromId: lucy.id, toId: moe.id })
-  const ethyl2 = await Message.create({ txt: "Yea that's cause you gave me bad fincancial advice!!" , fromId: ethyl.id, toId: moe.id })
+  const ethyl2 = await Message.create({ txt: "Yea that's cause you gave me bad financial advice!!" , fromId: ethyl.id, toId: moe.id })
   
 
   // await Friend.create({ friendingId: moe.id, frienderId: lucy.id });
