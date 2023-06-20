@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
@@ -21,10 +21,11 @@ import Badge from '@mui/material/Badge';
 
 
 function NavBar() {
-  const { auth } = useSelector(state => state);
+  const { auth, messages } = useSelector(state => state);
   const navigate = useNavigate()
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [date, setDate] = useState('')
 
   // const pages = ['Home', 'Stocks', 'Graphs', 'Portfolio'];
   // I commented the above out so that the Stocks and Graphs page wouldn't show...these are a relic of the past post search bar creation
@@ -51,6 +52,12 @@ function NavBar() {
     navigate(`/${page.toLowerCase()}`)
     handleCloseUserMenu()
     handleCloseNavMenu()
+  }
+
+  const messagesUnread = (ev) => {
+    console.log(ev)
+    let unread =  messages.filter(message => message.toId === auth.id)
+    return unread.length
   }
 
   return (
@@ -148,20 +155,20 @@ function NavBar() {
           <SearchBar />
           {/* <Box sx={{ flexGrow: 1}}> */}
 
-          <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
+          <IconButton size="large" aria-label="show new messages" color="inherit">
+              <Badge  badgeContent={ messagesUnread() } color="error">
+                <MailIcon onClick={() => navigateTo('chats')} />
               </Badge>
             </IconButton>
-          <IconButton
+          {/* <IconButton
               size="large"
               aria-label="show 7 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={7} color="error">
+              <Badge badgeContent={ messagesUnread() } color="error">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
           {/* </Box> */}
 
           <Typography

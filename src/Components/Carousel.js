@@ -30,7 +30,7 @@ function Carousel({ news }) {
   };
 
   return (
-    <Box sx={{ maxWidth: 500, flexGrow: 1 }}>
+    <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
       <Paper
         square
         elevation={0}

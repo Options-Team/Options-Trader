@@ -89,10 +89,11 @@ const Finalize = ()=> {
                       </div>
                     </Card>
                   </div>
-                <Button sx={{ display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 2, backgroundColor: 'darkgray', ":hover": {backgroundColor: 'green', color: "white"}}} component="div" variant="contained" onClick={()=> navigate('/account')}>Create My Account</Button>
+                <Button sx={{ display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 2, backgroundColor: 'darkgray', ":hover": {backgroundColor: 'green', color: "white"}}} component="div" variant="contained" onClick={()=> navigate(`/riskAssessment/${auth.id}`)}>Create My Account & Assess Risk</Button>
+                {/* <Button sx={{ display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 2, backgroundColor: 'darkgray', ":hover": {backgroundColor: 'green', color: "white"}}} component="div" variant="contained" onClick={()=> navigate('/home')}>Create Account & Risk Assessment</Button> */}
                 <Button sx={{ display: 'flex', justifyContent:'center', alignItems: 'center', marginTop: 2, backgroundColor: 'darkgray', ":hover": {backgroundColor: 'green', color: "white"}}} component="div" variant="contained" onClick={()=> navigate('/financials')}>Back to Financial Information</Button>
               </div>
-
+              {/* <Link to={`/riskAssessment/${auth.id}`} style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>Click Here to Complete Risk Assessment</Link>  */}
             </div>
         
         )  : (
